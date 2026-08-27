@@ -1,0 +1,45 @@
+{
+    // Build-only tsconfig for ng-packagr. The admin app compiles these same
+    // sources through ITS tsconfig (source consumption via a path mapping), so
+    // this file exists purely to produce a distributable.
+    //
+    // No `extends`: the package has no toolchain of its own, and its
+    // `node_modules` is a relative symlink to the admin's so exactly one
+    // @angular tree is in play.
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ES2022",
+        "moduleResolution": "bundler",
+        "lib": ["ES2022", "dom"],
+        "strict": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": false,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "declaration": true,
+        "sourceMap": true,
+        "paths": {
+            // Peers, as BUILT output rather than sources: compiling a peer's
+            // sources into this bundle would ship a second copy of it to any
+            // application that installs both.
+            "@coolms/core-angular": ["../core-angular/dist"],
+            // Its BUILT output, not `src/index.ts`. Pointing at sources drags
+            // every engine file into this package's program, where they fall
+            // outside `rootDir` (TS6059) -- and would compile a second copy of
+            // the engine into this bundle. Build it first:
+            //   npm --prefix ../document-engine run build
+            "@coolms/document-engine": ["../document-engine/dist/index.d.ts"]
+        }
+    },
+    "angularCompilerOptions": {
+        "compilationMode": "partial",
+        "strictInjectionParameters": true,
+        "strictTemplates": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/*.spec.ts"]
+}
