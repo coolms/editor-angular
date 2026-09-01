@@ -518,7 +518,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
         .cms-editor__source {
             border: none;
             outline: none;
-            font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+            font-family: var(--cms-font-mono, monospace);
             background: var(--cms-surface);
             color: var(--cms-text);
             /* Match the visual mount: scroll inside, no manual resize handle
@@ -908,7 +908,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             justify-content: center;
             color: var(--cms-text-muted);
             cursor: grab;
-            border-radius: 4px;
+            border-radius: var(--cms-radius-sm, 4px);
             opacity: .5;
             user-select: none;
             z-index: 3;
@@ -1003,8 +1003,15 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             h2 { font-size: 15pt; font-weight: 700; margin: .8em 0 .4em; line-height: normal; }
             h3 { font-size: 13.5pt; font-weight: 600; margin: .8em 0 .4em; line-height: normal; }
             ul, ol { padding-left: 1.5em; margin: 0 0 .75em; }
-            blockquote { border-left: 3px solid var(--cms-border); margin: 0 0 .75em; padding-left: 1em; color: var(--cms-text-muted); }
-            a { color: var(--cms-accent); text-decoration: underline; }
+            /* ⚠️ These sit on --cms-paper, which is #ffffff in BOTH themes, so
+               they take the paper family's inks and not the chrome's. The link
+               was --cms-accent: theme-invariant amber, and therefore 2.03 on
+               this paper in both themes -- below even the 3:1 for non-text.
+               The quote was --cms-text-muted, which DOES vary, drawing ~3.3
+               light and ~4.2 dark on the same white. An invariant surface
+               needs invariant ink. Now 7.20 and 4.83. */
+            blockquote { border-left: 3px solid var(--cms-border); margin: 0 0 .75em; padding-left: 1em; color: var(--cms-paper-muted); }
+            a { color: var(--cms-paper-link); text-decoration: underline; }
 
             /* gridLayout editor visuals. Self-contained so the editor renders
              * correctly regardless of the host theme's Bootstrap state
@@ -1023,7 +1030,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 padding: 6px;
                 margin: .5em 0 .75em;
                 border: 1px solid rgba(0, 0, 0, .08);
-                border-radius: 4px;
+                border-radius: var(--cms-radius-sm, 4px);
                 background: rgba(0, 0, 0, .01);
             }
 
@@ -1105,7 +1112,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 margin: .5em 0 .75em;
                 padding: .5rem .75rem;
                 border-left: 4px solid rgba(0, 0, 0, .2);
-                border-radius: 4px;
+                border-radius: var(--cms-radius-sm, 4px);
                 background: rgba(0, 0, 0, .03);
             }
             .callout > :first-child { margin-top: 0; }
@@ -1134,7 +1141,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 font-size: .75rem;
                 padding: 1px 4px;
                 border: 1px solid rgba(0, 0, 0, .15);
-                border-radius: 4px;
+                border-radius: var(--cms-radius-sm, 4px);
                 background: rgba(255, 255, 255, .7);
                 color: inherit;
                 cursor: pointer;
@@ -1166,7 +1173,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             }
             .cms-math--display { display: block; text-align: center; margin: .5em 0; }
             .cms-math--empty, .cms-math--error {
-                font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+                font-family: var(--cms-font-mono, monospace);
                 font-size: .85em;
                 color: #b07014;
             }
@@ -1267,7 +1274,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 margin: 0 1px;
                 background: color-mix(in srgb, var(--cms-accent) 15%, transparent);
                 border: 1px dashed color-mix(in srgb, var(--cms-accent) 50%, transparent);
-                border-radius: 4px;
+                border-radius: var(--cms-radius-sm, 4px);
                 cursor: pointer;
                 user-select: none;
                 font-size: .9em;
@@ -1393,7 +1400,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 color: #abb2bf;
                 background: rgba(255, 255, 255, .08);
                 border: 1px solid rgba(255, 255, 255, .18);
-                border-radius: 4px;
+                border-radius: var(--cms-radius-sm, 4px);
                 cursor: pointer;
             }
             .cms-code-block__lang:hover { background: rgba(255, 255, 255, .16); }
@@ -1402,9 +1409,9 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 background: #282c34;
                 color: #abb2bf;
                 padding: 12px 14px;
-                border-radius: 6px;
+                border-radius: var(--cms-radius, 6px);
                 overflow-x: auto;
-                font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+                font-family: var(--cms-font-mono, monospace);
                 font-size: .85rem;
                 line-height: 1.5;
                 white-space: pre;
@@ -1436,7 +1443,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             pre code .hljs-link { text-decoration: underline; }
 
             /* code tabs: a tab strip above the stacked code panels. */
-            .cms-code-tabs { margin: .5em 0 .75em; border-radius: 6px; overflow: hidden; }
+            .cms-code-tabs { margin: .5em 0 .75em; border-radius: var(--cms-radius, 6px); overflow: hidden; }
             .cms-code-tabs__bar {
                 display: flex;
                 flex-wrap: wrap;
@@ -1450,8 +1457,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 color: #abb2bf;
                 background: transparent;
                 border: none;
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
+                border-top-left-radius: var(--cms-radius-sm, 4px);
+                border-top-right-radius: var(--cms-radius-sm, 4px);
                 cursor: pointer;
             }
             .cms-code-tabs__tab:hover { background: rgba(255, 255, 255, .06); }

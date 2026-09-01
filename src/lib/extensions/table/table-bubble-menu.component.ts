@@ -80,8 +80,8 @@ export const TABLE_BUBBLE_MENU_DATA = new InjectionToken<TableBubbleMenuData>('T
             padding: 4px;
             background: var(--cms-surface);
             border: 1px solid var(--cms-border);
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+            border-radius: var(--cms-radius-md, 8px);
+            box-shadow: var(--cms-shadow-lg, 0 8px 24px rgba(0,0,0,.12));
             user-select: none;
         }
         .tbm__group {
@@ -100,7 +100,7 @@ export const TABLE_BUBBLE_MENU_DATA = new InjectionToken<TableBubbleMenuData>('T
             padding: 0;
             background: transparent;
             border: 1px solid transparent;
-            border-radius: 6px;
+            border-radius: var(--cms-radius, 6px);
             color: var(--cms-text-body);
             cursor: pointer;
             font-size: .9rem;
@@ -109,7 +109,7 @@ export const TABLE_BUBBLE_MENU_DATA = new InjectionToken<TableBubbleMenuData>('T
         .tbm__btn:hover {
             background: color-mix(in srgb, var(--cms-accent) 12%, transparent);
             border-color: color-mix(in srgb, var(--cms-accent) 50%, transparent);
-            color: #b07014;
+            color: var(--cms-accent-text);
         }
         .tbm__group--height { border-right: none; }
         .tbm__label {
@@ -127,7 +127,7 @@ export const TABLE_BUBBLE_MENU_DATA = new InjectionToken<TableBubbleMenuData>('T
             padding: 2px 4px;
             background: var(--cms-surface);
             border: 1px solid var(--cms-border);
-            border-radius: 4px;
+            border-radius: var(--cms-radius-sm, 4px);
             color: var(--cms-text-body);
             font: inherit;
         }
