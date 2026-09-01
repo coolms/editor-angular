@@ -1,6 +1,6 @@
 {
   "name": "@coolms/editor-angular",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "The CoolMS rich-text editor for Angular: a Tiptap bridge with a pluggable action and extension registry, paged layout, and DTMPL-aware widget transforms.",
   "license": "MIT",
   "author": {
