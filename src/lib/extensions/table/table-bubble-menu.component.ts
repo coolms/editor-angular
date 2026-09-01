@@ -146,10 +146,10 @@ export class TableBubbleMenuComponent {
         'Minimum row height in points — the row still grows for content that needs more. Empty fits the content.';
 
     /**
-     * ⚠️ MEASURED, both halves, because the first two things written here were
+     *  MEASURED, both halves, because the first two things written here were
      * wrong in opposite directions. `paginateFlow` really does repeat the row,
      * so the canvas reserves its height at the top of every page — unticking
-     * this moved the page gaps by exactly one row (256px → 220px, #2294). What
+ * this moved the page gaps by exactly one row (256px -> 220px,). What
      * it does NOT do is paint the row into that space, because the repeat is a
      * layout result and the canvas draws the author's document.
      *

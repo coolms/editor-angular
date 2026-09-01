@@ -32,8 +32,8 @@ import { CoolmsTextStyle } from './text-style-mark';
 /**
  * The editor's SCHEMA is the third place a document can lose its formatting.
  *
- * #2286 made the PHP model round-trip through editor HTML without loss, and
- * #2287 built the endpoints that carry it. Between the two sits ProseMirror,
+ * One change made the PHP model round-trip through editor HTML without loss, and
+ * Another built the endpoints that carry it. Between the two sits ProseMirror,
  * which does not ignore what it cannot model — it STRIPS it. So a `.ddoc`
  * whose vocabulary the schema does not declare comes back poorer than it went
  * in, and the save writes the poorer version over the author's file.
@@ -50,7 +50,7 @@ import { CoolmsTextStyle } from './text-style-mark';
  * attributes, `<br data-page-break>` (the marker went, the break became a line
  * break), and a span carrying ONLY a highlight.
  *
- * ⚠️ A sixth was worse than a loss: `<sup data-footnote="3">` parsed as the
+ *  A sixth was worse than a loss: `<sup data-footnote="3">` parsed as the
  * superscript MARK, so the digit stayed, the attribute went, and the document
  * looked right with a dead footnote in it.
  */
@@ -60,14 +60,14 @@ describe('the document vocabulary through the editor schema', () => {
     /**
      * The units a document surface mounts.
      *
-     * ⚠️ This list is not decoration -- it is the SCHEMA under test, and it has
+     *  This list is not decoration -- it is the SCHEMA under test, and it has
      * to track what the `document-builder` profile really mounts. The editor
      * assembles its units from the profile's contributors, so withdrawing a
      * contributor unmounts its node, and mounting one here that production does
      * not is a test that passes for a shape the app would strip.
      *
-     * ⚠️ It said "callout, math, embed and grid claim no tag in this
-     * vocabulary" and that stopped being true in #2396, when
+     *  It said "callout, math, embed and grid claim no tag in this
+ * vocabulary" and that stopped being true, when
      * `DocumentHtmlWriter` began emitting `<pre><code>` and
      * `<div class="callout …">`. Math, embed and grid still claim none.
      */
@@ -78,7 +78,7 @@ describe('the document vocabulary through the editor schema', () => {
         Link.configure({ openOnClick: false }),
         CmsTable.configure({ resizable: true }), CmsTableRow, CmsTableHeader, CmsTableCell,
         PageBreakNode, CoolmsTextStyle,
-        // The document vocabulary added in #2392 and #2396.
+        // The document vocabulary.
         createCoolmsCodeBlock(), CalloutNode, MathNode,
         // The ones the `preserveDocumentFormatting` switch adds.
         DocumentImageNode, FootnoteReferenceNode, CmsTextAlignExtension,
@@ -108,7 +108,7 @@ describe('the document vocabulary through the editor schema', () => {
     });
 
     /**
-     * ⚠️ The colour comes back as `rgb(255, 0, 0)`, not as the `#FF0000` that
+     *  The colour comes back as `rgb(255, 0, 0)`, not as the `#FF0000` that
      * went in — `el.style.color` is the BROWSER's normalisation and there is no
      * way to read the original text back out of it.
      *
@@ -129,14 +129,14 @@ describe('the document vocabulary through the editor schema', () => {
         expect(out).toContain('background-color: rgb(255, 255, 0)');
     });
 
-    /** ⚠️ A highlight ALONE used to match nothing and be stripped. */
+    /**  A highlight ALONE used to match nothing and be stripped. */
     it('keeps a run carrying only a highlight', () => {
         expect(roundTrip('<p><span style="background-color:#FFFF00">x</span></p>'))
             .toContain('background-color: rgb(255, 255, 0)');
     });
 
     /**
-     * ⚠️ THE assertion behind #2392: a `<sup>` with no `data-footnote` is a
+ * THE assertion behind: a `<sup>` with no `data-footnote` is a
      * superscripted character, and one WITH it is a footnote reference. Both
      * are `<sup>`, and the schema has to tell them apart -- a spec covering
      * only one of them would pass while the other silently became the other.
@@ -153,7 +153,7 @@ describe('the document vocabulary through the editor schema', () => {
     /**
      * The shape `DocumentHtmlWriter` emits for a run of `Code` paragraphs.
      *
-     * ⚠️ The NEWLINES are the assertion. A code block whose lines are joined
+     *  The NEWLINES are the assertion. A code block whose lines are joined
      * into one is a code block that no longer runs, and the loss would be
      * invisible in a "contains the text" check.
      */
@@ -167,7 +167,7 @@ describe('the document vocabulary through the editor schema', () => {
     });
 
     /**
-     * ⚠️ The callout is selected by its CLASS and typed by its ATTRIBUTE --
+     *  The callout is selected by its CLASS and typed by its ATTRIBUTE --
      * `parseHTML` matches `div.callout`, and `data-callout` carries which kind.
      * Two different keys for one fact, on two sides of the wire: the PHP mapper
      * reads the attribute and the schema reads the class. A writer emitting
@@ -194,7 +194,7 @@ describe('the document vocabulary through the editor schema', () => {
     /**
      * A formula, which is a span the schema has to claim BEFORE the text-style
      * mark does -- otherwise it comes back as prose carrying a class nobody
-     * reads, which is the editor-side twin of the loss #2401 fixed in PHP.
+ * reads, which is the editor-side twin of the loss fixed in PHP.
      */
     it('keeps a formula as a formula', () => {
         const out = roundTrip('<p>Rate is <span class=katex-src data-display=0>a+b</span>.</p>');
@@ -216,7 +216,7 @@ describe('the document vocabulary through the editor schema', () => {
     });
 
     /**
-     * ⚠️ Including the ABSENCE of one. An unaligned paragraph must render no
+     *  Including the ABSENCE of one. An unaligned paragraph must render no
      * `text-align` at all: absent means inherit, and inherit is the right
      * margin in a right-to-left document, so an editor that helpfully filled in
      * `left` would pin every paragraph of every imported document to one edge.
@@ -240,7 +240,7 @@ describe('the document vocabulary through the editor schema', () => {
             .toContain('href="https://example.com/terms"');
     });
 
-    /** ⚠️ The one that looked right and was dead. */
+    /**  The one that looked right and was dead. */
     it('keeps a footnote reference as a reference, not as superscript', () => {
         const out = roundTrip('<p>note<sup data-footnote="3">3</sup></p>');
 
@@ -257,7 +257,7 @@ describe('the document vocabulary through the editor schema', () => {
     it('keeps a block page break and a page break inside a paragraph', () => {
         expect(roundTrip('<hr data-page-break>')).toContain('data-page-break');
 
-        // ⚠️ Different thing, same marker: the `<br>` form is how OOXML breaks
+        //  Different thing, same marker: the `<br>` form is how OOXML breaks
         // a page mid-paragraph, and losing the attribute turns it into an
         // ordinary line break with the following text on the same page.
         const inline = roundTrip('<p>before<br data-page-break>after</p>');
@@ -281,7 +281,7 @@ describe('the document vocabulary through the editor schema', () => {
         );
 
         expect(out).toContain('data-width-twips="9000"');
-        // ⚠️ Zero, not absent: a borderless table that came back stating
+        //  Zero, not absent: a borderless table that came back stating
         // nothing gets the mapper's default border on the next save.
         expect(out).toContain('data-border-eighths="0"');
         expect(out).toContain('data-cell-margin-twips="0"');
@@ -289,10 +289,10 @@ describe('the document vocabulary through the editor schema', () => {
         expect(out).toContain('colwidth="600"');
     });
 
-    // ⚠️ The two axes are kept APART. Both stated as the canvas paints them --
+    //  The two axes are kept APART. Both stated as the canvas paints them --
     // 6px vertical, 10px horizontal — and a schema modelling only the older
     // attribute would drop the second on load and save a table that states one
-    // margin, which is the state #2308 closed.
+ // margin, which is the state a later fix closed.
     it('keeps the cell margin\'s two axes apart', () => {
         const out = roundTrip(
             '<table data-width-twips="9000" data-cell-margin-twips="90"'
@@ -316,7 +316,7 @@ describe('the document vocabulary through the editor schema', () => {
     });
 
     /**
-     * ⚠️ The marker is a row ATTRIBUTE and not a `<thead>` precisely because of
+     *  The marker is a row ATTRIBUTE and not a `<thead>` precisely because of
      * this trip. ProseMirror's table schema has no thead node — it serialises
      * rows straight into a `<tbody>` — so a `<thead>` parses fine and then
      * vanishes on the way out, taking "repeat at the top of every page" with it

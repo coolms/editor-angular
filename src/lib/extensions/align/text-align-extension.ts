@@ -27,7 +27,7 @@ declare module '@tiptap/core' {
  * as `script-marks.ts`, which writes its own superscript rather than adding a
  * package for a schema declaration.
  *
- * ## ⚠️ Absent is not `left`
+ * ##  Absent is not `left`
  *
  * The default is null and an unset alignment renders NOTHING. A paragraph with
  * no alignment inherits — from its style, and failing that from the document's

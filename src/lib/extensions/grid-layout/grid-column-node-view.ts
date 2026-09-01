@@ -15,7 +15,7 @@ const HANDLE_HIT_AREA_PX = 8;
  * positioned hit area; mousedown initiates a width-rebalance drag against
  * the next sibling column.
  *
- * Mirrors the MediaNodeView pattern (ADR-055): live width preview via inline
+ * Mirrors the MediaNodeView pattern: live width preview via inline
  * style during drag, single transaction commit on mouseup so undo treats the
  * resize as one operation. The handle is hidden when no next sibling exists
  * (last column has nothing to rebalance against — full-width single-column

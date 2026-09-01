@@ -9,8 +9,8 @@ import { GRID_COLUMN_MAX_WIDTH, GRID_COLUMN_MIN_WIDTH, GRID_COLUMN_TOTAL } from 
  * commit), then inserts a `gridLayout > gridRow+ > gridColumn+` structure
  * with the requested dimensions and equal-width columns.
  *
- * Width math: col-12 splits evenly when 12 mod cols == 0 (2 → 6/6, 3 →
- * 4/4/4, 4 → 3/3/3/3); for non-divisors, leftover units pile onto the
+ * Width math: col-12 splits evenly when 12 mod cols == 0 (2 -> 6/6, 3 ->
+ * 4/4/4, 4 -> 3/3/3/3); for non-divisors, leftover units pile onto the
  * leftmost column so each row sums to 12 deterministically. Each column
  * is seeded with an empty paragraph so the grid is editable on insert.
  *

@@ -31,7 +31,7 @@
             // every engine file into this package's program, where they fall
             // outside `rootDir` (TS6059) -- and would compile a second copy of
             // the engine into this bundle. Build it first:
-            //   npm --prefix ../document-engine run build
+            //   build the document engine first, in its own checkout
             "@coolms/document-engine": ["../document-engine/dist/index.d.ts"]
         }
     },

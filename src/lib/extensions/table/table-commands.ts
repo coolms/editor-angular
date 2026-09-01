@@ -4,7 +4,7 @@ import type { CellAlign } from './table-cell';
 /**
  * Generic in-table command vocabulary. The bubble-menu buttons and the
  * `tiptap.tableCommand` action handler both route through {@link runTableCommand}
- * so the command → Tiptap-chain mapping lives in exactly one place.
+ * so the command -> Tiptap-chain mapping lives in exactly one place.
  */
 export type TableCommand =
     | 'addRowBefore' | 'addRowAfter'

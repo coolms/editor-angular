@@ -48,7 +48,7 @@ interface ToolbarGroup {
  *
  * ## Why the font pickers are a SLOT rather than a contributor
  *
- * The reported complaint (#2081) was "font tools, then forms and media, then
+ * The reported complaint was "font tools, then forms and media, then
  * font tools again". It was accurate, and the cause was a level below the
  * ordering: the font family, size and colour controls were hard-coded in the
  * template AFTER the loop over contributed groups, so no `group`/`priority` in
@@ -72,7 +72,7 @@ type ToolbarSlot =
     | { readonly key: string; readonly kind: 'font' };
 
 /**
- * Paper dimensions for the paged canvas (#1771), as CSS lengths with the
+ * Paper dimensions for the paged canvas, as CSS lengths with the
  * orientation already applied. Produced by `PageSizeResolver::sheetGeometry()`
  * from the SAME array the DOCX renderer hands PHPWord, so the sheet on screen
  * and the paper in the file are the same numbers in different units.
@@ -128,7 +128,7 @@ const PAGE_MARGIN = '20mm';
 /**
  * The frame a document that states no margins is written on.
  *
- * ⚠️ The ONE place `20mm` is written. It used to appear three times -- this
+ *  The ONE place `20mm` is written. It used to appear three times -- this
  * constant, the sheet's `padding`, and the page break's full-bleed negative
  * margin -- which is fine until a document brings margins of its own and only
  * two of the three learn about them. All three now read the custom properties
@@ -151,7 +151,7 @@ const PAGE_MARGIN_PROPERTIES: Readonly<Record<keyof PageMargins, string>> = {
  * The frame this paper is written on: the document's own margins, or Word's
  * default when it states none.
  *
- * ⚠️ The ONE place that fallback happens. The sheet's padding and the
+ *  The ONE place that fallback happens. The sheet's padding and the
  * paginator's measurements both come through here, and a document that got its
  * own margins in one and the default in the other would be laid out by the
  * browser to a width the engine did not measure — which is a line that fits on
@@ -204,13 +204,13 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
     encapsulation: ViewEncapsulation.None,
     // Paged mode is a HOST class, not a wrapper element: with encapsulation
     // off, one class on the host gates every sheet rule below without adding a
-    // box that the split-preview layout would then have to flatten too (#1768).
+    // box that the split-preview layout would then have to flatten too.
     host: { '[class.cms-editor--paged]': 'paged()' },
     template: `
         <div class="cms-editor">
             <div class="cms-editor__toolbar" role="toolbar" aria-label="Editor toolbar">
                 <!-- ONE list, so the font pickers sit where the order says
-                     rather than always last (#2081). See ToolbarSlot. -->
+ rather than always last. See ToolbarSlot. -->
                 @for (slot of toolbarSlots(); track slot.key) {
                     @if ('nodes' === slot.kind) {
                         <div class="cms-editor__toolbar-group">
@@ -278,7 +278,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                      grows with the zoomed page. Splitting them is what lets the
                      desk padding survive on all four sides and what gives the
                      sheet layer a containing block as wide as the CONTENT
-                     rather than as wide as the window (#2071). -->
+ rather than as wide as the window. -->
                 <div class="cms-editor__scroll" (wheel)="onWheelZoom($event)">
                     <div #editorMount class="cms-editor__mount"
                          [class.cms-editor__mount--settling]="paged() && !canvasReady()"></div>
@@ -293,7 +293,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             <!-- The status bar: the two VIEW controls, under the canvas they
                  act on. Where the page counter and the zoom live in every
                  office application, and where the sheet editor already keeps
-                 its own (#2388) -- the two surfaces now agree, which is what
+ its own -- the two surfaces now agree, which is what
                  the author asked for. They were the last two things in a
                  formatting toolbar they were not part of. -->
             @if (paged() && !sourceMode()) {
@@ -357,7 +357,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                  document" here was accurate and looked like a second load
                  starting.
                  ⚠️ A SIBLING OF THE TOOLBAR, not a child of the scroller, and
-                 that is the whole of #2079's jitter. The host's loader fills the
+ that is the whole of the jitter it caused. The host's loader fills the
                  dialog body; this one used to fill only the scrolling area
                  BELOW the toolbar, so the two marks were centred on boxes about
                  a toolbar's height apart and the glyph visibly hopped as the
@@ -541,7 +541,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
            none would give it a zero-height surface to paginate. */
         .cms-editor__mount--settling { visibility: hidden; }
 
-        /* ── Page navigator (#1771) ──────────────────────────────────────────
+        /* -- Page navigator ------------------------------------------
          * Pushed to the far end of the toolbar row: it is a readout about the
          * document, not another formatting control, and mixing it into the
          * button groups makes it look like one. */
@@ -575,7 +575,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             padding: 0 4px;
         }
 
-        /* ── Paged canvas: the "Word look" (#1771) ───────────────────────────
+        /* -- Paged canvas: the "Word look" ---------------------------
          * Gated on the host class, so every other editor surface is untouched.
          * The mount stops being the writing surface and becomes the WORKSPACE
          * the sheet sits on — hence the grey background and the symmetric
@@ -587,9 +587,9 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
              *
              * Was the literal #e4e6ea, which --cms-desk still resolves to in
              * light mode; the token exists so the desk can go dark while the
-             * paper stays white (#2036). NO BACKTICKS IN HERE.
+             * paper stays white. NO BACKTICKS IN HERE.
              *
-             * The colour itself moved to .cms-editor__scroll in #2071 — the
+ * The colour itself moved to .cms-editor__scroll — the
              * mount is now only as tall as its content, so a desk painted here
              * would stop short of the pane whenever the document is short. */
             /* Was 20px 0 — vertical only, so the page ran edge to edge and read
@@ -625,7 +625,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                      var(--cms-page-margin-bottom) var(--cms-page-margin-left);
             margin: 0 auto;
             box-sizing: border-box;
-            /* TRANSPARENT since #1789. This column used to BE the sheet, which
+            /* TRANSPARENT. This column used to BE the sheet, which
              * is why three pages of content drew one endless page with grey
              * bars across it — the break was decoration on a single sheet that
              * simply kept growing. The paper is now a stack of real boxes
@@ -706,7 +706,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
          * display:block is what makes it split a PARAGRAPH -- the line ends at
          * the gap and the rest of the text continues below it.
          *
-         * ⚠️ TWO shapes, because a table cannot hold the first one. Between
+         *  TWO shapes, because a table cannot hold the first one. Between
          * two rows a block is hoisted out of the table by the parser, and a
          * block inside one CELL grows that cell alone. So inside a table the
          * gap IS a row. */
@@ -762,7 +762,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             /* PAPER, not a themed surface. This was --cms-surface, which was
              * white when there was one theme and navy the moment dark mode
              * shipped: the page vanished into the workspace and the document
-             * could not be read (#2036). NO BACKTICKS IN HERE. */
+             * could not be read. NO BACKTICKS IN HERE. */
             background: var(--cms-paper);
             box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
         }
@@ -774,7 +774,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
         /* A footnote marker shows the note's POSITION, not its id.
          *
          * The id is a KEY, and every reader prints the position -- measured in
-         * #2295, where LibreOffice pairing the two .docx parts by position was
+ * An earlier fix, where LibreOffice pairing the two .docx parts by position was
          * swapping note bodies outright. A counter is always right and costs no
          * JavaScript: the browser recomputes it on every edit, including one
          * made in a table cell or three pages away.
@@ -798,7 +798,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
          * sheet from being clipped when the paper is wider than the pane. */
         /* The SCROLLER owns the overflow and the desk; the mount owns the
            padding and grows with the page. Splitting them fixes three things at
-           once (#2071): a scroll container's padding-right and padding-bottom
+ once: a scroll container's padding-right and padding-bottom
            are not honoured for overflowing content, so the desk vanished on
            those sides the moment the page was zoomed past the pane — and an
            absolutely-positioned layer resolves against the CLIENT box, so the
@@ -814,7 +814,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             flex: 1;
             min-height: 200px;
             overflow: auto;
-            /* ⚠️ Load-bearing since the fit began MAGNIFYING (#2390). The fit is
+            /*  Load-bearing since the fit began MAGNIFYING. The fit is
                computed from this box's clientWidth, and a scrollbar that comes
                and goes changes that by ~15px -- so a page scaled to fill can
                summon the scrollbar, which narrows the pane, which shrinks the
@@ -847,7 +847,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
          * to it, which is why the dashed rule stayed on the paper. Match the
          * depth rather than reach for !important. */
         .cms-editor--paged .cms-editor__mount .ProseMirror .cms-page-break {
-            /* Zero height since #1798. The engine treats an explicit break as
+            /* Zero height. The engine treats an explicit break as
              * an instruction about the block that follows, not as content, so
              * anything this element occupied would be space the engine did not
              * account for — and every page after it would drift. */
@@ -896,7 +896,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             outline: 2px solid var(--cms-accent);
             outline-offset: -2px;
         }
-        /* Drag-to-reorder handle (Track B #9). Lives in the mount's left padding
+ /* Drag-to-reorder handle. Lives in the mount's left padding
          * so it never overlaps prose; the controller toggles display + top as
          * the pointer moves between top-level blocks. */
         .cms-drag-handle {
@@ -936,7 +936,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                beside the package and has to be asked for.
                Without it the caret POSITION works and nothing draws, so the
                author arrows into a place they cannot see and types blind, which
-               is barely better than the dead end it fixes (#2080).
+ is barely better than the dead end it fixes.
                Recoloured from the upstream hard-coded black to the text token,
                or it is invisible against the dark theme's paper. */
             .ProseMirror-gapcursor {
@@ -949,8 +949,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 display: block;
                 position: absolute;
                 top: -2px;
-                /* ⚠️ currentColor, NOT a --cms-* token, and that is the whole of
-                   the follow-up to #2080. I themed this with --cms-text and it
+                /*  currentColor, NOT a --cms-* token, and that is the whole of
+ the follow-up. I themed this with --cms-text and it
                    was wrong: that is the admin CHROME's text colour, and the
                    paged canvas is PAPER. Measured in dark mode the caret came
                    out rgb(232,237,244) on a sheet that stays rgb(255,255,255) —
@@ -984,7 +984,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
              * the rem values resolved to (18/15/13.5pt), so nothing shifts, and
              * they now read directly against DocxComposer::HEADING_STYLES.
              *
-             * ⚠️ The line height is STATED, and that is the whole of this note.
+             *  The line height is STATED, and that is the whole of this note.
              * The admin chrome's own stylesheet carries a rule for h1..h6 with
              * line-height 1.2, and it reached the paper because these rules
              * named every other property and not that one. MEASURED
@@ -1003,7 +1003,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             h2 { font-size: 15pt; font-weight: 700; margin: .8em 0 .4em; line-height: normal; }
             h3 { font-size: 13.5pt; font-weight: 600; margin: .8em 0 .4em; line-height: normal; }
             ul, ol { padding-left: 1.5em; margin: 0 0 .75em; }
-            /* ⚠️ These sit on --cms-paper, which is #ffffff in BOTH themes, so
+            /*  These sit on --cms-paper, which is #ffffff in BOTH themes, so
                they take the paper family's inks and not the chrome's. The link
                was --cms-accent: theme-invariant amber, and therefore 2.03 on
                this paper in both themes -- below even the 3:1 for non-text.
@@ -1047,7 +1047,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             }
             .cms-grid .row:last-child { border-bottom: none; }
 
-            /* Explicit page break (#1770) — a labelled dashed rule so an
+            /* Explicit page break — a labelled dashed rule so an
              * author can SEE why the following content will start on a new
              * sheet in the .docx. It is drawn by the node's NodeView, so
              * none of this reaches storage: the stored HTML is a bare
@@ -1152,7 +1152,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             .callout-warning .callout__title { color: #997404; }
             .callout-tip     .callout__title { color: #146c43; }
 
-            /* Inline math atom (Track B #7) — MathNodeView renders a KaTeX
+ /* Inline math atom — MathNodeView renders a KaTeX
              * preview into this span (or the raw source as a fallback). A faint
              * tinted chip so the formula reads as an editable atom; the selected
              * state borrows ProseMirror's selectednode class. Display-mode math
@@ -1306,7 +1306,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
              * tables render border-less in the editor. Production
              * rendering uses whatever the theme provides.
              *
-             * ⚠️ These reach the REPEATED header too, and have to: it is a row
+             *  These reach the REPEATED header too, and have to: it is a row
              * of this same table, drawn again by a widget decoration. That is
              * the whole reason it is drawn there rather than beside the page. */
             table {
@@ -1332,7 +1332,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 font-weight: 600;
                 text-align: left;
             }
-            /* ⚠️ A repeated header is a copy, not a place to work: no caret, no
+            /*  A repeated header is a copy, not a place to work: no caret, no
              * selection, and no hover telling the author a cell is live. */
             tr.cms-repeat-header, tr.cms-repeat-header > * {
                 pointer-events: none;
@@ -1356,7 +1356,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             }
             /* Tiptap's resize handle: rendered as an empty div on the cell.
              *
-             * Reported as "cursor over cell border looks like caret" (#2083),
+             * Reported as "cursor over cell border looks like caret",
              * and it did: a 4px saturated bar, per-cell so it broke into
              * segments, has exactly a caret's proportions and turns up where an
              * insertion point plausibly would. Now 2px and full-bleed top and
@@ -1381,7 +1381,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             }
             .ProseMirror.resize-cursor { cursor: col-resize; }
 
-            /* ── Editor code block (lowlight) + code tabs (#788 Track B).
+ /* -- Editor code block (lowlight) + code tabs.
              * A dark "code box" with the atom-one-dark token palette so authors
              * see coloured syntax while editing. The highlight spans come from
              * CodeBlockLowlight's view-layer decorations — getHTML() still emits
@@ -1475,14 +1475,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     /**
      * Opaque string the host bumps to force a clean re-mount of Tiptap with
      * the current `content`. Use case: page-editor's locale tabs — switching
-     * BE → EN swaps the storage payload, and we want a fresh Tiptap instance
+     * BE -> EN swaps the storage payload, and we want a fresh Tiptap instance
      * so cursor / undo history don't leak across documents.
      */
     readonly mountKey = input<string>('');
 
     /**
      * Paper dimensions (CSS lengths) that turn the canvas into SHEETS — the
-     * "Word look" (#1771). Null keeps the plain flowing canvas every other
+     * "Word look". Null keeps the plain flowing canvas every other
      * surface uses; a web page has no pages, and drawing one there would be a
      * lie about the output.
      *
@@ -1530,7 +1530,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     /**
      * Every family the catalogue has been asked for.
      *
-     * ⚠️ A document names its own faces per RUN, and the engine holds only
+     *  A document names its own faces per RUN, and the engine holds only
      * what it was told to fetch -- an unheld family resolves to the base one,
      * which is a silent change to the page count. So the families are collected
      * from the document and requested before the layout can be wrong about
@@ -1673,9 +1673,9 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            // ⚠️ An emptiness flip the AUTHOR caused is not content arriving.
+            //  An emptiness flip the AUTHOR caused is not content arriving.
             //
-            // This was #2079, reported as "I press Enter and the cursor
+ // This was that defect, reported as "I press Enter and the cursor
             // disappears, then comes back at the first position — it looks like
             // a reset". It was: typing the first character into an EMPTY
             // document takes `content` from '' to '<p></p>', which flips
@@ -1738,7 +1738,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         this.requestOfferedFamilies();
 
         // The pane changes width for reasons this component never hears about
-        // — the split preview opening (#1768), fullscreen, the browser window.
+        // — the split preview opening, fullscreen, the browser window.
         // Observing the HOST rather than the mount covers all of them with one
         // subscription that survives source mode: the mount element is inside
         // an @if and is replaced every time it toggles, so an observer bound to
@@ -1760,7 +1760,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         this.tiptap?.destroy();
     }
 
-    /** True when the host handed us paper — the "Word look" canvas (#1771). */
+    /** True when the host handed us paper — the "Word look" canvas. */
     readonly paged = computed<boolean>(() => null !== this.pageGeometry());
 
     /** Watches the workspace so the sheet re-fits when the pane resizes. */
@@ -1771,7 +1771,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *
      * `fitSheet()` deliberately does NOT go through the scheduler: a resize
      * observer fires at most once a frame already, and its call runs in the same
-     * frame as the zoom it just wrote — which is the timing #2070 was fixed
+ * frame as the zoom it just wrote — which is the timing that was fixed
      * against and is not worth disturbing for a burst that cannot happen there.
      */
     private paginateFrame = 0;
@@ -1792,9 +1792,9 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * whatever the first frame happened to be.
      */
     /**
-     * The zoom the author chose, or null to follow the fit (#2069).
+     * The zoom the author chose, or null to follow the fit.
      *
-     * ⚠️ `fitSheet()` runs on every resize AND every repaginate, so without a
+     *  `fitSheet()` runs on every resize AND every repaginate, so without a
      * separate override a chosen zoom would be recomputed away by the next
      * keystroke. Null means "no preference expressed", which is a different
      * state from "chose 100%" — the latter must survive a resize that the
@@ -1806,7 +1806,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     private readonly fittedZoom = signal(1);
 
     /**
-     * Whether the canvas is safe to look at (#2073).
+     * Whether the canvas is safe to look at.
      *
      * Tiptap paints the entire document as one continuous column the moment it
      * mounts; the page boundaries only exist once the document fonts have
@@ -1898,7 +1898,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         // The desk padding comes off too — `clientWidth` INCLUDES it, so a fit
         // computed without subtracting it sizes the page to space the padding
         // has already taken and the sheet overflows by exactly that much.
-        // Measured on the SCROLLER, not the mount: since #2071 the mount is
+        // Measured on the SCROLLER, not the mount: the mount is
         // `width: max-content`, so its clientWidth is how wide the page already
         // IS — feeding that back in would make the fit agree with whatever it
         // last produced instead of with the space available.
@@ -1920,7 +1920,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Turn the editable column into SHEETS (#1789).
+     * Turn the editable column into SHEETS.
      *
      * The user's report was "3 pages on 1 page? Just unusable" — and it was
      * accurate. A page break was decoration: a grey strip drawn across one
@@ -2042,8 +2042,8 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 // The browser has already laid these out; asking it is both
                 // exact and cheaper than modelling what it did.
                 //
-                // ⚠️ DIVIDED BY THE ZOOM, and this is the whole of defect
-                // #2070. `getBoundingClientRect()` reports the VISUAL box, so
+                //  DIVIDED BY THE ZOOM, and this is the whole of defect
+ // `getBoundingClientRect()` reports the VISUAL box, so
                 // CSS `zoom` scales it — while `pagePx` above comes from an
                 // unzoomed probe. At 100% the two agree and everything is fine;
                 // at 77% every block measures 77% of its real height while the
@@ -2057,13 +2057,13 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
                     return node.getBoundingClientRect().height / zoom;
                 },
-                // ⚠️ NOT divided by the zoom, unlike the rect above, and the
+                //  NOT divided by the zoom, unlike the rect above, and the
                 // contrast is deliberate. Measured at zoom 0.982: a paragraph's
                 // `margin-bottom` read 10.9969px, which is .75em of the
                 // UNZOOMED 14.6625px body size — `getComputedStyle` resolves
                 // lengths before the zoom is applied, where
                 // `getBoundingClientRect()` reports after it. Dividing here
-                // would re-introduce #2070 with the sign flipped.
+ // would re-introduce it with the sign flipped.
                 measureBoxAt: (pos: number): BlockBox | null => {
                     const node = editor.view.nodeDOM(pos);
                     if (!(node instanceof HTMLElement)) return null;
@@ -2111,7 +2111,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 marginBottomPx: marginPx.bottom,
                 marginLeftPx:   marginPx.left,
             },
-            // ⚠️ No `lineHeightPx` in the base either. It would answer for
+            //  No `lineHeightPx` in the base either. It would answer for
             // every block that states none -- which, after the change in
             // `styled()`, is all of them -- and put the engine straight back on
             // the CSS number. `--cms-doc-line` above is the same face's
@@ -2177,7 +2177,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
         // Meta only: the document does not change, so this neither enters the
         // undo history nor re-triggers onUpdate.
-        // ⚠️ ONE transaction, both metas. Two dispatches in a frame means the
+        //  ONE transaction, both metas. Two dispatches in a frame means the
         // second re-renders what the first drew, which is how the first attempt
         // at this lost every attribute it had just set.
         editor.view.dispatch(
@@ -2205,7 +2205,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         // One sheet per page the ENGINE found, at the pitch the gaps enforce —
         // no measuring, because the position of every page is now known before
         // the browser lays anything out.
-        // The flow has to reach the bottom of the LAST SHEET (#2071). The
+        // The flow has to reach the bottom of the LAST SHEET. The
         // sheets are absolutely positioned and contribute no height, and a
         // final page is usually mostly empty — measured, the text ended 580px
         // above the paper it sits on. The scrollable area therefore stopped
@@ -2248,7 +2248,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * first. Rebuilt on every repagination, so editing the header changes every
      * copy of it at once.
      *
-     * ⚠️ It is drawn as a ROW of the table it belongs to, which is what makes
+     *  It is drawn as a ROW of the table it belongs to, which is what makes
      * the columns line up by construction -- `colspan` included -- and what
      * lets every rule the real header is dressed by reach the copy. A copy
      * drawn beside the table instead has to be positioned, sized and dressed
@@ -2261,7 +2261,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *
      * The engine's rule is `max(ascender + lineGap) + max(-descender)` -- each
      * side of the baseline maxed on its own, measured against LibreOffice at
-     * 11 of 11 (#2312). CSS has a different model: it gives every inline box
+     * 11 of 11. CSS has a different model: it gives every inline box
      * the stated height by splitting the leading HALF above and HALF below ITS
      * OWN content area, so two faces on one line end up at different offsets
      * and their union is taller than either.
@@ -2278,12 +2278,12 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * ...for Carlito alone, Carlito + Liberation Mono, Liberation Serif + Mono.
      * Only the fourth row lands, and it lands within 0.006px.
      *
-     * ⚠️ The error ran in BOTH directions before this. A single-face page drew
+     *  The error ran in BOTH directions before this. A single-face page drew
      * 0.304px SHORT a line and a serif+mono page 0.303px LONG -- which is
-     * exactly #2319's "ends 17.1px above the bottom margin" and "8.5px below
+ * exactly the measured "ends 17.1px above the bottom margin" and "8.5px below
      * it". One change, both pages.
      *
-     * ## ⚠️ What it does NOT reach
+     * ##  What it does NOT reach
      *
      * `PlacedLine.paragraphIndex` indexes the TOP-LEVEL flow items, so a table
      * is one item and the paragraphs inside its cells are not among them. They
@@ -2292,7 +2292,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * runs the engine never measured would leave those cells drawing an
      * inherited number and call it a fix.
      *
-     * ⚠️ And CSS has ONE line-height per block. A paragraph whose LINES use
+     *  And CSS has ONE line-height per block. A paragraph whose LINES use
      * different face sets is drawn on its tallest, which is the only choice
      * that cannot make text overlap.
      *
@@ -2301,7 +2301,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * Setting this changes the block's rendered height, and the next pass
      * measures that. It converges anyway: a paragraph's engine line box is
      * computed from its runs' FONT METRICS and size, not from the height the
-     * browser reported -- `styled()` stopped passing that in #2320 -- so the
+ * browser reported -- `styled()` stopped passing that -- so the
      * second pass computes the same number and writes it again.
      */
     private repeatedHeaderRows(
@@ -2463,7 +2463,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         // paragraphs are not the document's children: reaching each of them
         // through `nodeDOM` is a walk per paragraph per row, and every
         // paragraph in a cell answers the same. A body block does not — an h1,
-        // a `p` and a blockquote all differ, and believing otherwise was #2074.
+ // a `p` and a blockquote all differ, and believing otherwise was that defect.
         const cellParagraph = cell?.querySelector('p') ?? null;
 
         const list = surface.querySelector('ul, ol');
@@ -2472,7 +2472,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
 
         return {
-            // ⚠️ PADDING ONLY, and the border reported beside it. This was
+            //  PADDING ONLY, and the border reported beside it. This was
             // half of padding PLUS borders, and the engine applies it to both
             // sides of every row -- so a rule that `border-collapse` shares
             // between two rows was counted twice, and the engine's row came out
@@ -2524,7 +2524,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 .filter((element) => element.dataset['page'] === String(page));
             if (0 === elements.length) continue;
 
-            // ⚠️ MIXED UNITS were defect #2070, and they cancel at 100% zoom
+ // MIXED UNITS were a defect, and they cancel at 100% zoom
             // which is why this survived so long. `getBoundingClientRect()`
             // reports the VISUAL box, so CSS `zoom` scales it, while
             // `pagePitchPx` and `pageMarginTopPx` are engine numbers in unzoomed
@@ -2652,14 +2652,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Offered by NAME, not measured from the system (#2062), and READ FROM THE
-     * MANIFEST rather than typed out (#2312).
+     * Offered by NAME, not measured from the system, and READ FROM THE
+     * MANIFEST rather than typed out.
      *
      * The name is what lands in the .docx, and the .docx is opened somewhere
      * else — so the useful list is the one Word and LibreOffice both resolve,
      * not whatever happens to be installed on the author's machine.
      *
-     * ⚠️ A literal here drifts, and silently. It offered Georgia, Verdana and
+     *  A literal here drifts, and silently. It offered Georgia, Verdana and
      * Tahoma, which the platform vendors nothing for: `familyOf` returned null,
      * so `faceIsLoaded` was false forever, so the flow mapper never named the
      * family and the ENGINE measured Carlito -- while CSS painted whatever the
@@ -2813,7 +2813,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
     private toggleSourceMode(): void {
         if (this.sourceMode()) {
-            // Source → Visual: re-mount Tiptap with the (possibly edited)
+            // Source -> Visual: re-mount Tiptap with the (possibly edited)
             // storage content. mount() already pipes content through
             // adapter.toEditor(), so dtmpl tags re-hydrate into widget nodes.
             // setTimeout(0) defers past the next change-detection cycle so the
@@ -2822,7 +2822,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             this.sourceMode.set(false);
             setTimeout(() => void this.mount(), 0);
         } else {
-            // Visual → Source: capture editor HTML, run it back through the
+            // Visual -> Source: capture editor HTML, run it back through the
             // adapter's toStorage() so the textarea displays the storage form
             // (e.g. `{widget:link:page:HEX label="..."}`) rather than the
             // editor's internal `<a data-widget="link">` markers. This keeps
@@ -2859,7 +2859,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         // current block). The backend manifest doesn't enumerate them as
         // toolbar extensions.
         // `gapcursor` is foundation too, and its absence was a reported dead end
-        // (#2080): a table inserted with nothing before or after it CANNOT be
+        //: a table inserted with nothing before or after it CANNOT be
         // escaped, because there is no text position on either side of it to put
         // a caret in. ProseMirror draws one there only if this plugin is loaded.
         // Not tied to the table contributor: the same trap belongs to every
@@ -2869,14 +2869,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         for (const n of nodes) for (const e of n.extensions) names.add(e);
         const tiptapUnits = this.extensions.resolve(Array.from(names));
 
-        // Editor-wide UX extensions (Track B #9) — the `/`-command palette, the
+ // Editor-wide UX extensions — the `/`-command palette, the
         // drag-to-reorder gutter handle, and Word/Docs paste cleanup. Built here
         // rather than via the name registry because the slash palette needs
         // per-instance closures: the active profile's slashable entries and the
         // same action bridge a toolbar click uses, keeping the palette fully
         // manifest-driven. The slash menu offers commands only when the profile
         // actually has slashable contributors (`slashItems()` is empty
-        // otherwise → the trigger never opens).
+        // otherwise -> the trigger never opens).
         const uxUnits = [
             createSlashMenu({
                 items:    () => this.slashItems(),
@@ -2893,7 +2893,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             // instead — see the mark's own note.
             CoolmsTextStyle,
             // The same rule, applied to the three things a stored DOCUMENT
-            // carries and page content must not (#2289). Switched on by the
+            // carries and page content must not. Switched on by the
             // surface that edits documents; see `preserveDocumentFormatting`
             // for why this one is not simply always on too.
             ...(this.preserveDocumentFormatting()
@@ -2931,7 +2931,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 this.content.set(stored);
                 this.stateTick.update((t: number) => t + 1);
                 // Typing changes where the breaks fall, so the paper behind the
-                // text has to follow (#1789). After the DOM settles, or the
+                // text has to follow. After the DOM settles, or the
                 // measurement reads the layout the keystroke just invalidated.
                 this.schedulePaginate();
             },

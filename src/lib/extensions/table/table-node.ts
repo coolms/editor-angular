@@ -12,7 +12,7 @@ export const TABLE_BORDER_COLOR_ATTRIBUTE = 'data-border-color';
 export const TABLE_CELL_MARGIN_ATTRIBUTE = 'data-cell-margin-twips';
 
 /**
- * The cell margin's HORIZONTAL axis (#2308).
+ * The cell margin's HORIZONTAL axis.
  *
  * The canvas paints `padding: 6px 10px` and the model carries both numbers now,
  * so the writer emits both -- the vertical under the older name above. Declared
@@ -31,7 +31,7 @@ const wholeNumber = (element: HTMLElement, attribute: string): number | null => 
 };
 
 /**
- * ⚠️ The attribute KEY has to be closed over, not taken as an argument.
+ *  The attribute KEY has to be closed over, not taken as an argument.
  * Tiptap calls an attribute's `renderHTML` with the whole attribute bag and
  * nothing else — a second parameter is simply `undefined`, so `attrs[key]`
  * reads nothing and the attribute silently never renders. Measured: three of
@@ -49,8 +49,8 @@ const numberAttribute = (key: string, attribute: string) => ({
 });
 
 /**
- * Stock Table plus the five facts a `.docx` table has and HTML does not (#2289,
- * #2308).
+ * Stock Table plus the five facts a `.docx` table has and HTML does not
+ *).
  *
  * ## Why these have to be modelled and not merely emitted
  *
@@ -86,7 +86,7 @@ export const CmsTable = Table.extend({
                 parseHTML: (element: HTMLElement): string | null => {
                     const raw = (element.getAttribute(TABLE_BORDER_COLOR_ATTRIBUTE) ?? '').trim();
 
-                    // ⚠️ An EMPTY value is meaningful and is not null: the
+                    //  An EMPTY value is meaningful and is not null: the
                     // writer emits `data-border-color=""` for a table whose
                     // border has no colour of its own, and losing the
                     // distinction would let the mapper's default grey back in.

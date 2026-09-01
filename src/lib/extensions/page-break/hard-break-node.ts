@@ -15,7 +15,7 @@ import { PAGE_BREAK_ATTRIBUTE } from './page-break-node';
  * `DocumentHtmlWriter` therefore writes `<br data-page-break>` for it, and
  * `PageBreakMapper` reads the marker on a `<br>` as the same instruction.
  *
- * ⚠️ Without the attribute below, ProseMirror keeps the `<br>` and STRIPS the
+ *  Without the attribute below, ProseMirror keeps the `<br>` and STRIPS the
  * marker — so the page break silently becomes a line break, the following text
  * stays on the same page, and nothing says why the document got shorter.
  *

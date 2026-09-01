@@ -4,7 +4,7 @@ import type { Extension, Mark, Node } from '@tiptap/core';
 type TiptapUnit = Extension | Node | Mark;
 
 /**
- * Singleton registry mapping wire-string extension names → Tiptap factory
+ * Singleton registry mapping wire-string extension names -> Tiptap factory
  * functions. The backend manifest carries strings ('bold', 'mediaWidget')
  * — this registry resolves them to actual Tiptap units when the editor
  * mounts.

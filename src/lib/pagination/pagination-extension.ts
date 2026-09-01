@@ -51,7 +51,7 @@ export const paginationKey = new PluginKey<PageGap[]>('coolmsPagination');
 /**
  * The line box the ENGINE computed for one block.
  *
- * ⚠️ `pos` is the BLOCK's own position -- the one `nodeDOM()` takes -- not its
+ *  `pos` is the BLOCK's own position -- the one `nodeDOM()` takes -- not its
  * content start. A flow item's `at` is the content start, so the caller passes
  * `at - 1`.
  */
@@ -61,7 +61,7 @@ export interface LineBox {
 }
 
 /**
- * ⚠️ A DECORATION, not an attribute somebody sets on the DOM.
+ *  A DECORATION, not an attribute somebody sets on the DOM.
  *
  * Writing `style` and `data-` straight onto `view.nodeDOM()` works for exactly
  * as long as ProseMirror leaves that element alone. MEASURED: the pass reported
@@ -79,7 +79,7 @@ export const lineBoxKey = new PluginKey<LineBox[]>('coolmsLineBoxes');
  *
  * The engine's rule is `max(ascender + lineGap) + max(-descender)` -- each
  * side of the baseline maxed on its own, measured against LibreOffice at
- * 11 of 11 (#2312). CSS has a different model: it gives every inline box
+ * 11 of 11. CSS has a different model: it gives every inline box
  * the stated height by splitting the leading HALF above and HALF below ITS
  * OWN content area, so two faces on one line end up at different offsets
  * and their union is taller than either.
@@ -96,12 +96,12 @@ export const lineBoxKey = new PluginKey<LineBox[]>('coolmsLineBoxes');
  * Only the fourth row lands, and it lands within 0.006px. The CSS beside
  * `--cms-line-box` is the other half of it.
  *
- * ⚠️ The error ran in BOTH directions before this. A single-face page drew
+ *  The error ran in BOTH directions before this. A single-face page drew
  * 0.304px SHORT a line and a serif+mono page 0.303px LONG -- which is
- * exactly #2319's "ends 17.1px above the bottom margin" and "8.5px below
+ * exactly the measured "ends 17.1px above the bottom margin" and "8.5px below
  * it". One change, both pages.
  *
- * ⚠️ Table cells too, and the mapping is CHECKED
+ *  Table cells too, and the mapping is CHECKED
  *
  * `PlacedLine.paragraphIndex` indexes the TOP-LEVEL flow items, so a table is
  * one item and its cells' paragraphs are invisible to that walk. Their boxes
@@ -112,7 +112,7 @@ export const lineBoxKey = new PluginKey<LineBox[]>('coolmsLineBoxes');
  * skipped: losing a box costs a fraction of a pixel, and putting one
  * paragraph's height on another would move text.
  *
- * ⚠️ A table nested inside a cell is still not reached. `PlacedCell.rows`
+ *  A table nested inside a cell is still not reached. `PlacedCell.rows`
  * holds it, and the recursion is one more level than this needs today.
  *
  * The CSS is scoped by the attribute the decoration sets rather than written
@@ -120,7 +120,7 @@ export const lineBoxKey = new PluginKey<LineBox[]>('coolmsLineBoxes');
  * -- a rule that zeroed runs the engine never measured would leave them
  * drawing an inherited number and call it a fix.
  *
- * ⚠️ And CSS has ONE line-height per block. A paragraph whose LINES use
+ *  And CSS has ONE line-height per block. A paragraph whose LINES use
  * different face sets is drawn on its TALLEST, which is the only choice
  * that cannot make text overlap.
  *
@@ -129,7 +129,7 @@ export const lineBoxKey = new PluginKey<LineBox[]>('coolmsLineBoxes');
  * Setting this changes the block's rendered height, and the next pass
  * measures that. It converges anyway: a paragraph's engine line box is
  * computed from its runs' FONT METRICS and size, not from the height the
- * browser reported -- `styled()` stopped passing that in #2320 -- so the
+ * browser reported -- `styled()` stopped passing that -- so the
  * second pass computes the same number and asks for it again.
  *
  * @returns one entry per measured block, at the BLOCK's own position
@@ -165,15 +165,15 @@ export function lineBoxesFrom(
     }
 
     
-    // ── the paragraphs inside table CELLS ────────────────────────────────
+    // -- the paragraphs inside table CELLS --------------------------------
     //
-    // ⚠️ `PlacedLine.paragraphIndex` at the top level indexes the flow ITEMS,
+    //  `PlacedLine.paragraphIndex` at the top level indexes the flow ITEMS,
     // so a table is one item and its cells' paragraphs are invisible to the
     // walk above. Their boxes exist -- `PlacedCell.lines` carries them, indexed
     // relative to the cell -- but reaching them means mapping a placed cell
     // back to the source cell that produced it.
     //
-    // ⚠️ That mapping is by INDEX, and it is CHECKED rather than trusted. A row
+    //  That mapping is by INDEX, and it is CHECKED rather than trusted. A row
     // the layout expanded -- a `w:vMerge` continuation inserts cells that no
     // source cell answers to -- no longer lines up, and an index that has
     // silently shifted would put one paragraph's line height on another's. When
@@ -269,7 +269,7 @@ export function createPagination(): Extension {
                                         side: GAP_SIDE,
                                         ignoreSelection: true,
                                     }),
-                                    // ⚠️ EXPLICIT sides rather than insertion order: these
+                                    //  EXPLICIT sides rather than insertion order: these
                                     // all sit at one position, and a header drawn
                                     // above the gap that opens its page would be a
                                     // header on the wrong page.
@@ -385,7 +385,7 @@ export function pageGapElement(gap: PageGap): HTMLElement {
  * The markup is the author's own row's, so the columns, borders, backgrounds and
  * text are the ones on the screen and cannot drift from them.
  *
- * ⚠️ A `<template>`, and that is the whole of it. Measured 2026-08-24:
+ *  A `<template>`, and that is the whole of it. Measured 2026-08-24:
  * `div.innerHTML = '<tr><th><p>Item</p></th></tr>'` answers `<p>Item</p>` --
  * the row and its cells are DISCARDED, because a row is only allowed in table
  * content. A template element parses table fragments as themselves, so the row

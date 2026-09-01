@@ -19,11 +19,11 @@ const SWITCHER_ARIA_FALLBACK = 'Callout type';
  * content in a `<div class="callout__body">` (the contentDOM) under a
  * non-editable title line that carries:
  *
- *   • an inline SVG icon + a localized label ("Note" / "Warning" / "Tip"),
+ *   - an inline SVG icon + a localized label ("Note" / "Warning" / "Tip"),
  *     resolved through the host `translate` (EDITOR_TRANSLATE) with an English
  *     fallback — parity with the published page, which the PHP
  *     `CalloutTitleProcessor` titles from the same i18n keys; and
- *   • a top-right `<select>` type switcher that changes the callout's `type`
+ *   - a top-right `<select>` type switcher that changes the callout's `type`
  *     attribute in place (no delete + re-insert). The `type` attr is the single
  *     source of truth — `update()` re-derives the class, icon, label, and select
  *     value from it whenever it changes.
@@ -54,7 +54,7 @@ export class CalloutNodeView {
 
         this.dom = document.createElement('div');
 
-        // ── Title line (decoration — not part of the content hole) ──────────
+        // -- Title line (decoration — not part of the content hole) ----------
         this.titleEl = document.createElement('div');
         this.titleEl.className = 'callout__title';
         this.titleEl.contentEditable = 'false';
@@ -81,7 +81,7 @@ export class CalloutNodeView {
 
         this.dom.appendChild(this.titleEl);
 
-        // ── Body (the editable content hole) ────────────────────────────────
+        // -- Body (the editable content hole) --------------------------------
         this.contentDOM = document.createElement('div');
         this.contentDOM.className = 'callout__body';
         this.dom.appendChild(this.contentDOM);

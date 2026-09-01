@@ -20,7 +20,7 @@ export const ZOOM_MAX = 4;
 /**
  * The scale at which a page of `paperPx` fills `availablePx`.
  *
- * ⚠️ It MAGNIFIES, and until #2390 it did not -- the result was capped at 1, so
+ * It MAGNIFIES, and until a later fix it did not -- the result was capped at 1, so
  * a pane wider than the paper left the page at actual size with the control
  * still reading "Fit". Reported exactly that way: "I select Fit, then resize to
  * full screen -- it still shows Fit, but the page stays small."

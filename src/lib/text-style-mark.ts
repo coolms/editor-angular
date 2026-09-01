@@ -1,7 +1,7 @@
 import { Mark, mergeAttributes } from '@tiptap/core';
 
 /**
- * Character-level font family, size and colour (#2062).
+ * Character-level font family, size and colour.
  *
  * ## Why one local mark instead of Tiptap's official extensions
  *
@@ -103,8 +103,8 @@ export const CoolmsTextStyle = Mark.create({
                 if (typeof el === 'string') return false;
                 const s = el.style;
 
-                // ⚠️ `backgroundColor` belongs in this list, and was missing
-                // (#2289). The mark MODELS a background — `renderHTML` writes
+                //  `backgroundColor` belongs in this list, and was missing
+                //. The mark MODELS a background — `renderHTML` writes
                 // one — so a span carrying only a highlight matched nothing,
                 // and ProseMirror strips what nothing claims: a run highlighted
                 // and not otherwise styled lost its highlight on load and saved

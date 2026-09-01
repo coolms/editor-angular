@@ -5,7 +5,7 @@ import type { EditorView } from '@tiptap/pm/view';
 const DRAG_HANDLE_KEY = new PluginKey('coolmsDragHandle');
 
 /**
- * Left-gutter drag handle for reordering top-level blocks (Track B #9). A
+ * Left-gutter drag handle for reordering top-level blocks. A
  * floating grip follows the block under the pointer; dragging it moves that
  * whole block via ProseMirror's native node drag-and-drop.
  *

@@ -28,7 +28,7 @@ export interface RepeatedHeader {
  * The ENGINE decides WHICH rows repeat: it is what broke the table, and the
  * `.docx` and the PDF get the same answer out of the same code. Deriving it
  * again here would be a second opinion about a question already answered --
- * and one that could disagree, which is the whole defect #2294 fixed.
+ * and one that could disagree, which is the whole a defect fixed.
  */
 export function repeatedHeadersOf(
     pages: readonly { readonly rows: readonly PlacedRow[] }[],

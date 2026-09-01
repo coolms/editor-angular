@@ -55,7 +55,7 @@ export function codeBlockLanguages(): ReadonlyArray<CodeBlockLanguageOption> {
 /**
  * The editor's `codeBlock` unit: CodeBlockLowlight (coloured tokens while
  * editing) + a NodeView that adds the language picker. Replaces the plain
- * `@tiptap/extension-code-block` registration from #788.
+ * `@tiptap/extension-code-block` registration.
  *
  * Serialisation is unchanged from stock CodeBlock — `<pre><code class="language-x">`
  * with raw source — so existing stored content round-trips and the

@@ -78,7 +78,7 @@ export function provideCoolmsEditor(): Provider[] {
                 injector: Injector,
                 translate: EditorTranslate | null,
             ) => () => {
-                // ── Action handlers ─────────────────────────────────────
+                // -- Action handlers -------------------------------------
                 actions.register('tiptap.toggleMark',        new TiptapToggleMarkHandler());
                 actions.register('tiptap.toggleNode',        new TiptapToggleNodeHandler());
                 actions.register('tiptap.setHeading',        new TiptapSetHeadingHandler());
@@ -96,11 +96,11 @@ export function provideCoolmsEditor(): Provider[] {
                 actions.register('math.insert',              new MathInsertHandler());
                 actions.register('pageBreak.insert',         new PageBreakInsertHandler());
                 // One handler for four buttons; they differ only by the
-                // 'align' action parameter (#2292).
+                // 'align' action parameter.
                 actions.register('cmsTextAlign.set',         new CmsTextAlignSetHandler());
                 actions.register('cmsFootnote.insert',       new CmsFootnoteInsertHandler());
 
-                // ── Tiptap extensions (canonical names from PHP manifest)
+                // -- Tiptap extensions (canonical names from PHP manifest)
                 // Document/Paragraph/Text/History always register — Tiptap
                 // requires them as the editor's foundation. The other
                 // entries are toolbar-driven; if no built-in references one
@@ -114,7 +114,7 @@ export function provideCoolmsEditor(): Provider[] {
                 // CmsHardBreak, not the stock unit: it carries the
                 // `data-page-break` marker a page break INSIDE a paragraph
                 // needs, which OOXML puts in a run and a block atom cannot
-                // express (#2289).
+                // express.
                 extensions.register('hardBreak',   () => CmsHardBreak);
                 extensions.register('history',     () => History);
                 // The caret ProseMirror draws where no text position exists —
@@ -131,7 +131,7 @@ export function provideCoolmsEditor(): Provider[] {
                 // toggleMark action resolves via the generic handler.
                 extensions.register('code',        () => Code);
                 // Fenced code block (`<pre><code class="language-…">`). The
-                // lowlight build (#788 Track B) adds coloured tokens while
+ // lowlight build (Track B) adds coloured tokens while
                 // editing + an in-block language picker; serialisation stays
                 // raw source so getHTML() is sanitiser-clean.
                 extensions.register('codeBlock',   () => createCoolmsCodeBlock());
@@ -158,14 +158,14 @@ export function provideCoolmsEditor(): Provider[] {
                 // the gridColumn resize NodeView at the table level. The cell +
                 // header units are the `CmsTableCell` / `CmsTableHeader`
                 // subclasses that add the `align` attribute (column alignment
-                // → Bootstrap `text-*` class; no inline style).
+                // -> Bootstrap `text-*` class; no inline style).
                 // CmsTable, not the stock unit: it adds the table's own width,
                 // border and cell-margin attributes, without which a
                 // borderless imported table grows borders on its first save
-                // (#2289).
+                //.
                 extensions.register('table',       () => CmsTable.configure({ resizable: true }));
                 // CmsTableRow, not the stock TableRow: it adds the `height`
-                // attribute a `w:trHeight` is written from (#2086).
+                // attribute a `w:trHeight` is written from.
                 extensions.register('tableRow',    () => CmsTableRow);
                 extensions.register('tableHeader', () => CmsTableHeader);
                 extensions.register('tableCell',   () => CmsTableCell);
@@ -179,19 +179,19 @@ export function provideCoolmsEditor(): Provider[] {
                 // Callout / admonition block (note · warning · tip) — one node,
                 // three `callout:*` toolbar buttons insert each kind. The
                 // NodeView renders a localized, iconed title + an in-place type
-                // switcher; `translate` localizes those labels (null → English).
+                // switcher; `translate` localizes those labels (null -> English).
                 extensions.register('callout',     () => CalloutNode.configure({ translate }));
                 // Video embed (YouTube / Vimeo) — `block:embed` toolbar button
                 // opens a URL dialog; the node round-trips through the
                 // {widget:embed:video …} dtmpl transform (server resolves the
                 // safe canonical iframe at render time).
                 extensions.register('dtmplEmbed',  () => DtmplEmbedNode);
-                // Inline math atom (Track B #7) — `format:math` toolbar button opens
+ // Inline math atom — `format:math` toolbar button opens
                 // a LaTeX dialog; the node stores the same `.katex-src` span the
                 // server's MathProcessor emits, and a NodeView shows a live KaTeX
                 // preview while editing. KaTeX is lazy-imported by the NodeView.
                 extensions.register('math',        () => MathNode);
-                // Explicit page break (#1770) — an atom rendering
+                // Explicit page break — an atom rendering
                 // <hr data-page-break>, which PageBreakMapper turns into a real
                 // DOCX page break. Deliberately NOT the built-in horizontal rule:
                 // that is a visible divider, and reusing it would make every

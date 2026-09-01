@@ -1,7 +1,7 @@
 import type { EditorActionContext, EditorActionHandler } from '../../editor.types';
 
 /**
- * Handles `pageBreak.insert` — drops a page break at the cursor (#1770).
+ * Handles `pageBreak.insert` — drops a page break at the cursor.
  *
  * No dialog: a page break has nothing to configure. The only decision is
  * WHERE, and the caret already answers that.

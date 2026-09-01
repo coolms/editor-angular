@@ -5,7 +5,7 @@ import { cleanPastedHtml, type PasteCleanupOptions } from './paste-cleanup';
 const PASTE_CLEANUP_KEY = new PluginKey('coolmsPasteCleanup');
 
 /**
- * `pasteCleanup` extension (Track B #9) — runs {@link cleanPastedHtml} through
+ * `pasteCleanup` extension — runs {@link cleanPastedHtml} through
  * ProseMirror's `transformPastedHTML` hook so Word / Google-Docs cruft is
  * scrubbed before the clipboard HTML is parsed into the document. Non-Office
  * pastes (including intra-editor copies of widgets) pass through unchanged.

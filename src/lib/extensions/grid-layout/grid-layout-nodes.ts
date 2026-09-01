@@ -20,7 +20,7 @@ export const GRID_COLUMN_TOTAL = 12;
  *       </div>
  *     </div>
  *
- * F.1 emitted a flat gridLayout → gridColumn structure (no row wrapper).
+ * F.1 emitted a flat gridLayout -> gridColumn structure (no row wrapper).
  * F.1.1 introduces gridRow so the layout supports multiple rows. Documents
  * authored under F.1 are migrated client-side by `migrateLegacyGridLayout`
  * (see dtmpl-content-adapter) which wraps a bare `<div class="row">` with

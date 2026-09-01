@@ -23,7 +23,7 @@ import { PAGE_BREAK_NODE_NAME } from '../extensions/page-break/page-break-node';
 
 /** Marks that mean bold, across the extensions this editor ships. */
 /**
- * ⚠️ The mark an author's FONT choice lives on.
+ *  The mark an author's FONT choice lives on.
  *
  * The toolbar offers a family and a size per run, and neither reached the
  * engine: every character was measured with the document's base face at the
@@ -38,7 +38,7 @@ const BOLD_MARKS = new Set(['bold', 'strong']);
 const ITALIC_MARKS = new Set(['italic', 'em']);
 
 /**
- * ⚠️ A heading holds on to what it heads.
+ *  A heading holds on to what it heads.
  *
  * The engine has modelled `keepWithNext` since it could read one out of a
  * `.docx`, and nothing on this side ever set it -- so the canvas would leave a
@@ -84,7 +84,7 @@ const PX_PER_POINT = 96 / 72;
 export interface BlockBox {
     /** Computed `line-height`, or null where it resolved to `normal`. */
     /**
-     * ⚠️ Reported but NO LONGER USED for a text block, and kept because the
+     *  Reported but NO LONGER USED for a text block, and kept because the
      * measurement is cheap and the reason is worth stating where the value is
      * taken: a block's computed `line-height` is the LEADING, and a line box
      * grows to hold an inline box whose font is taller. Stating it made the
@@ -111,7 +111,7 @@ export interface FlowOptions {
      * decides where the page breaks and it can only be right if its rows are
      * as tall as the browser's.
      *
-     * ⚠️ PADDING ONLY. It used to be half of padding plus borders, which
+     *  PADDING ONLY. It used to be half of padding plus borders, which
      * the engine then applied to BOTH sides of every row -- so a collapsed rule
      * shared between two rows was counted twice. Measured: 42.90px a row
      * against the browser's 41.69. The rules have their own seam below.
@@ -131,7 +131,7 @@ export interface FlowOptions {
     /** ...and in what colour, as `#RRGGBB`. */
     readonly cellBorderColorHex: string;
     /**
-     * ⚠️ Whether a face is IN HAND, not whether it is known.
+     *  Whether a face is IN HAND, not whether it is known.
      *
      * Naming a family whose bytes have not arrived makes the catalogue's reader
      * throw, and that exception lands mid-layout: the document then has no page
@@ -146,12 +146,12 @@ export interface FlowOptions {
      * Ten pixels a row the engine would otherwise not know about — a page
      * every hundred rows.
      *
-     * ⚠️ This said "body paragraphs in this editor have none". They have
+     *  This said "body paragraphs in this editor have none". They have
      * exactly the same `.75em`, which is why they are measured too
      * (`measureBoxAt`). The belief that body text carried no space under it is
      * the same one that left `Normal` with no `w:spacing` in the `.docx` until
      * it was measured: the printed page ran 13.45pt a line against the canvas's
-     * 21.67 (#2301). Kept as its own option because a cell's paragraph could
+     * 21.67. Kept as its own option because a cell's paragraph could
      * legitimately differ, not because it does.
      */
     readonly cellParagraphSpaceAfterPx: number;
@@ -189,7 +189,7 @@ export interface FlowOptions {
      *
      * ## Why every block is measured, not just the exotic ones
      *
-     * This was defect [#2074], reported as "I press Enter and the text carries
+ * This was defect, reported as "I press Enter and the text carries
      * on over the grey zone". A body paragraph carries `margin: 0 0 .75em` and a
      * heading `.8em 0 .4em`, and NONE of it reached the engine: a block was
      * handed over as bare spans, so the layout stacked 17.9px lines where the
@@ -296,12 +296,12 @@ function styled(block: FlowBlock, box: BlockBox | null): FlowBlock {
         return block;
     }
 
-    // ⚠️ No line height is stated, and that is the whole point.
+    //  No line height is stated, and that is the whole point.
     //
     // The block's computed `line-height` is a CSS number: the browser's own
     // union of the strut and each run's inline box. The ENGINE's rule is
     // `max(ascender + lineGap) + max(-descender)` over the runs, which was
-    // measured against LibreOffice at 11 of 11 (#2312). Handing the CSS number
+    // measured against LibreOffice at 11 of 11. Handing the CSS number
     // over makes the engine honour it through the `auto` branch and throw its
     // own rule away.
     //
@@ -309,11 +309,11 @@ function styled(block: FlowBlock, box: BlockBox | null): FlowBlock {
     // canvas DRAWS 22.266pt, the engine told the CSS number computes 21.674,
     // and LibreOffice PRINTS 21.800. Saying nothing puts the engine on 21.80.
     //
-    // ⚠️ #2310 tried this and reverted it: the document came out with two
+ // An earlier attempt tried this and reverted it: the document came out with two
     // pages and no gap between them. Two things have changed since -- the
-    // engine's rule itself was wrong then (#2312), and the faces a document
-    // names were being painted by whatever the machine had (#2311). The
-    // instrument that can tell breaks apart is #2319's, not a screenshot.
+    // engine's rule itself was wrong then, and the faces a document
+    // names were being painted by whatever the machine had. The
+ // instrument that can tell breaks apart is the, not a screenshot.
     //
     // The SIZE and the spacing still travel: no face metric supplies those.
     return {
@@ -365,7 +365,7 @@ function readBlock(
 /**
  * The face and size one run asked for, in the engine's units.
  *
- * ⚠️ The mark keeps a size in POINTS -- the unit the `.docx` speaks and the
+ *  The mark keeps a size in POINTS -- the unit the `.docx` speaks and the
  * one the toolbar shows -- and the engine measures in px. Converting here
  * rather than at either end keeps the mark's own comment true: a document that
  * round-trips through a browser keeps the size the author chose.
@@ -389,7 +389,7 @@ function runStyle(
         : null;
     const sizePt = 'number' === typeof attrs.fontSize && attrs.fontSize > 0 ? attrs.fontSize : null;
 
-    // ⚠️ A face nobody has fetched is not named: see `faceIsLoaded`.
+    //  A face nobody has fetched is not named: see `faceIsLoaded`.
     const usable = null !== family && (undefined === faceIsLoaded || faceIsLoaded(family));
 
     return {
@@ -577,16 +577,16 @@ function readTable(node: ProseMirrorNode, offset: number, options: FlowOptions):
         // this the canvas would break its pages where an UNSET row would fall
         // and the .docx where the stated one does — the two disagreeing about
         // the same table, which is the whole thing a paged editor exists to
-        // prevent (#2086).
+        // prevent.
         const attrs = rowNode.attrs as { height?: number | null; repeatHeader?: boolean };
         const height = attrs.height;
         rows.push({
             cells,
-            // ⚠️ Stated, not derived from the cells being `<th>`. The engine
+            //  Stated, not derived from the cells being `<th>`. The engine
             // falls back to that derivation for callers that have no such
             // attribute, and the derivation was wrong in one direction: the
             // canvas repeated a header row the `.docx` never did, because
-            // nothing wrote `w:tblHeader` until #2294. Sending the author's
+ // nothing wrote `w:tblHeader` until a later fix. Sending the author's
             // real answer is what makes the two agree.
             repeatHeader: true === attrs.repeatHeader,
             ...('number' === typeof height && height > 0 ? { heightPx: height * PX_PER_POINT } : {}),

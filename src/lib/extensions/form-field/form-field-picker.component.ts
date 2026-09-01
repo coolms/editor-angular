@@ -327,7 +327,7 @@ de=Germany"></textarea>
             gap: 8px;
             border-top: 1px solid var(--cms-border-light);
         }
-        /* Kit shadows removed (#2030). This copy carried three literals the kit
+        /* Kit shadows removed. This copy carried three literals the kit
            has tokens for — a #d1d5db border, and a #e69417 hover that is NOT
            --cms-accent-hover (#E09200), so this button hovered a different
            amber from every other primary button in the admin. */
@@ -348,7 +348,7 @@ export class FormFieldPickerComponent {
     readonly validatorCatalogue = BUILTIN_VALIDATORS;
     readonly operators = VISIBILITY_OPERATORS;
 
-    // ── Form state ──────────────────────────────────────────────────────────
+    // -- Form state ----------------------------------------------------------
     readonly type         = signal<FormFieldType>('text');
     readonly label        = signal<string>('');
     readonly fieldId      = signal<string>('');

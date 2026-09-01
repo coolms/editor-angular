@@ -15,7 +15,7 @@ export class TiptapToggleNodeHandler implements EditorActionHandler {
         const name = params['name'];
         if (typeof name !== 'string' || name === '') return;
 
-        // Convert e.g. 'bulletList' → 'toggleBulletList' on the chain.
+        // Convert e.g. 'bulletList' -> 'toggleBulletList' on the chain.
         const command = `toggle${name.charAt(0).toUpperCase()}${name.slice(1)}`;
         const chain = ctx.editor.chain().focus() as unknown as Record<string, () => Record<string, () => boolean>>;
         const fn = chain[command];

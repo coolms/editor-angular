@@ -30,9 +30,9 @@ package knowing about media libraries, link pickers or DTMPL.
 ## Where it sits
 
     @coolms/core-angular      session, manifest, theme, the loader mark
-        └── @coolms/editor-angular
-                └── @coolms/ui-angular       (its richtext form field mounts this)
-                        └── the application
+        └-- @coolms/editor-angular
+                └-- @coolms/ui-angular       (its richtext form field mounts this)
+                        └-- the application
 
 The editor is BELOW the UI kit, which is worth stating because it was briefly
 above it: the editor showed the platform loader by importing it from the kit,
@@ -44,7 +44,7 @@ that needs it.
 
 ```bash
 npm --prefix ../core-angular run build
-npm --prefix ../document-engine run build   # only if paged layout is in play
+npm run build   # in the document-engine checkout, if paged layout is in play
 npm run build
 ```
 
@@ -54,9 +54,8 @@ both.
 
 ## Status
 
-Not published, and no repository yet — `tools/publish-guard.sh` reports "no
-tracked files" for it, which is the guard refusing to certify what it cannot
-read rather than a clean result.
+A pre-release: the shape is still moving and it carries no
+compatibility promise.
 
 ## Licence
 

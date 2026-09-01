@@ -2,7 +2,7 @@
  * Public surface for `@coolms/editor-angular`.
  *
  * Monorepo-internal first (per design doc Section 5): consumed via tsconfig
- * path mapping from `packages/theme-admin/angular`. When the bridge
+ * path mapping from the consuming application. When the bridge
  * stabilises, we add a `package.json` here and publish to npm without code
  * changes — the public surface stays the same.
  */

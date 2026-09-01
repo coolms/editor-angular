@@ -1,7 +1,6 @@
 {
   "name": "@coolms/editor-angular",
-  "version": "0.1.0",
-  "private": true,
+  "version": "2.0.0-alpha.1",
   "description": "The CoolMS rich-text editor for Angular: a Tiptap bridge with a pluggable action and extension registry, paged layout, and DTMPL-aware widget transforms.",
   "license": "MIT",
   "author": {
@@ -14,8 +13,8 @@
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
-    "@coolms/core-angular": "^0.2.0",
-    "@coolms/document-engine": "^0.1.0",
+    "@coolms/core-angular": "^2.0.0-alpha.1",
+    "@coolms/document-engine": "^0.1.0-alpha.1",
     "rxjs": "^7.8.0"
   },
   "peerDependenciesMeta": {
@@ -87,5 +86,8 @@
     "tslib": "^2.3.0",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.33.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

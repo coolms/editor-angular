@@ -4,7 +4,7 @@ import {
 import type { FlowItem, PlacedLine, PlacedRow } from '@coolms/document-engine';
 
 /**
- * Spec for what a page gap is DRAWN as (#2299).
+ * Spec for what a page gap is DRAWN as.
  *
  * A gap between blocks is a block. A gap that opens a page inside a TABLE
  * cannot be: a block between two rows is discarded by the HTML parser, and a
@@ -38,7 +38,7 @@ describe('pageGapElement', () => {
     });
 
     /**
-     * ⚠️ The correction pass writes a measured delta back into the gap's
+     *  The correction pass writes a measured delta back into the gap's
      * height. A row is as tall as its CELLS, so a height written on the row
      * itself is a request the browser is free to ignore -- and the pages after
      * it would then never converge.
@@ -63,7 +63,7 @@ describe('repeatedHeaderElement', () => {
         + '<th colwidth="300"><p>Amount</p></th></tr>';
 
     /**
-     * ⚠️ A row is only allowed in table content, and the element it is
+     *  A row is only allowed in table content, and the element it is
      * parsed into decides whether it survives. Measured 2026-08-24:
      * `div.innerHTML` answers `<p>Item</p>` -- the row and its cells gone --
      * while a `<template>` parses table fragments as themselves. Build it in
@@ -97,7 +97,7 @@ describe('repeatedHeaderElement', () => {
 /**
  * The line box the ENGINE computed, turned into something a decoration can draw.
  *
- * ⚠️ Why this is worth a spec of its own: the numbers are right in the engine
+ *  Why this is worth a spec of its own: the numbers are right in the engine
  * and the CSS is right on the page, and BETWEEN them sit two conversions that
  * are each easy to get silently wrong -- an index into the top-level flow items,
  * and a position that is one less than the one the flow carries.
@@ -117,7 +117,7 @@ describe('lineBoxesFrom', () => {
     });
 
     /**
-     * ⚠️ CSS has ONE line-height per block, so a paragraph whose lines differ
+     *  CSS has ONE line-height per block, so a paragraph whose lines differ
      * is drawn on its TALLEST -- the only choice that cannot make text overlap.
      */
     it('takes the tallest line of a block, across pages', () => {
@@ -130,7 +130,7 @@ describe('lineBoxesFrom', () => {
     });
 
     /**
-     * ⚠️ A table is ONE flow item and its cells' paragraphs are not among the
+     *  A table is ONE flow item and its cells' paragraphs are not among the
      * top-level ones, so nothing here can speak for them. Emitting a box for
      * the table itself would state a line height for a grid.
      */
@@ -157,7 +157,7 @@ describe('lineBoxesFrom', () => {
 /**
  * The paragraphs inside table CELLS.
  *
- * ⚠️ Their line boxes live on `PlacedCell.lines`, indexed relative to the cell,
+ *  Their line boxes live on `PlacedCell.lines`, indexed relative to the cell,
  * so reaching them means mapping a placed cell back to the source cell that
  * produced it -- and that mapping is by INDEX. Every case here is about whether
  * the index can be trusted, because assigning one paragraph's height to another
@@ -206,7 +206,7 @@ describe('lineBoxesFrom, inside a table', () => {
     });
 
     /**
-     * ⚠️ The guard the whole mapping rests on. A `w:vMerge` continuation puts a
+     *  The guard the whole mapping rests on. A `w:vMerge` continuation puts a
      * cell in the placed row that no source cell answers to, and from there
      * every index is one out -- the SECOND cell's line height would land on the
      * FIRST cell's paragraph. Skipping the row loses a box; trusting the index

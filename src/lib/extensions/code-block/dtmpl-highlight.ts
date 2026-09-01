@@ -10,7 +10,7 @@ import type { HLJSApi, Language } from 'highlight.js';
  * cosmetic mirror, not a correctness dependency.
  *
  * NOTE: this file is intentionally duplicated, byte-for-byte in spirit, into
- * `packages/theme-default/assets/js/dtmpl-highlight.js` (the public SSR theme).
+ * the highlighter the SSR theme ships.
  * There is no shared npm workspace across the admin SPA and the themes, so the
  * grammar ships as a self-contained highlight.js `LanguageFn` that any frontend
  * (lowlight in the editor, highlight.js in a theme, a future SPA) can register.

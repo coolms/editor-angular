@@ -111,7 +111,7 @@ export class CodeBlockLanguageNodeView {
     private onLanguageChange(): void {
         const pos = this.getPos();
         if (pos === undefined) return;
-        // Empty option = "Plain text" → null language (no class on save).
+        // Empty option = "Plain text" -> null language (no class on save).
         const value = this.select.value || null;
         const tr = this.editor.state.tr.setNodeMarkup(pos, undefined, {
             ...this.node.attrs,
