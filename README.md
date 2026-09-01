@@ -9,7 +9,7 @@ action and extension registry, paged layout, and DTMPL-aware widget transforms.
 npm install @coolms/editor-angular @coolms/core-angular
 ```
 
-Angular 22, RxJS 7 and `@angular/cdk` are peers. Tiptap and its extensions are
+Angular, NGXS, RxJS and `@angular/cdk` are peers; the supported ranges are declared in `package.json`, which is what an install actually checks. Tiptap and its extensions are
 ordinary dependencies rather than peers: they are this package's implementation,
 and a consumer should not have to name two dozen of them to render an editor.
 
