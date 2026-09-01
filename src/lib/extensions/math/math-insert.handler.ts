@@ -33,7 +33,7 @@ type MathDialogData = MathAttrs;
             <div class="cms-dialog-body" style="padding:16px">
                 <label class="cms-label" for="math-latex">LaTeX</label>
                 <textarea id="math-latex" class="cms-input" rows="3" autofocus
-                          style="font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; resize: vertical"
+                          style="font-family: var(--cms-font-mono, monospace); resize: vertical"
                           placeholder="e.g.  E = mc^2   or   \\int_0^1 x\\,dx"
                           [ngModel]="latex()"
                           (ngModelChange)="latex.set($event)"

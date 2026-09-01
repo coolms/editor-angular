@@ -237,15 +237,15 @@ de=Germany"></textarea>
         :host {
             display: block;
             background: var(--cms-surface);
-            border-radius: 10px;
+            border-radius: var(--cms-radius-lg, 10px);
             width: min(560px, 95vw);
             max-height: min(85vh, 720px);
-            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+            box-shadow: var(--cms-shadow-lg, 0 8px 24px rgba(0,0,0,.12));
         }
         .ffp-host { display: flex; flex-direction: column; max-height: inherit; }
         .ffp-header {
             padding: 14px 18px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--cms-border-light);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -253,16 +253,16 @@ de=Germany"></textarea>
         .ffp-header h4 { flex: 1; margin: 0; font-size: 1rem; font-weight: 600; color: var(--cms-text); }
         .ffp-close {
             width: 28px; height: 28px; border: none; background: transparent;
-            cursor: pointer; color: var(--cms-text-muted); border-radius: 6px;
+            cursor: pointer; color: var(--cms-text-muted); border-radius: var(--cms-radius, 6px);
             display: flex; align-items: center; justify-content: center;
         }
-        .ffp-close:hover { background: #f1f5f9; color: var(--cms-text-body); }
+        .ffp-close:hover { background: var(--cms-surface-hover); color: var(--cms-text-body); }
         .ffp-tabs {
             display: flex;
             gap: 2px;
             padding: 0 14px;
-            border-bottom: 1px solid #f1f5f9;
-            background: #fafbfc;
+            border-bottom: 1px solid var(--cms-border-light);
+            background: var(--cms-surface-muted);
             overflow-x: auto;
             flex-wrap: nowrap;
         }
@@ -290,7 +290,7 @@ de=Germany"></textarea>
            The local copy hard-coded both the border and an rgba() of the accent
            that the ratchet's hex pattern cannot even see. */
         .cms-input { display: block; width: 100%; box-sizing: border-box; }
-        .ffp-textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; min-height: 120px; }
+        .ffp-textarea { font-family: var(--cms-font-mono, monospace); min-height: 120px; }
         .ffp-type-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -303,13 +303,13 @@ de=Germany"></textarea>
             gap: 6px;
             padding: 14px 8px;
             border: 1px solid var(--cms-border);
-            border-radius: 8px;
+            border-radius: var(--cms-radius-md, 8px);
             background: var(--cms-surface);
             cursor: pointer;
             font-size: .8rem;
             color: var(--cms-text-body);
         }
-        .ffp-type-card:hover { background: var(--cms-surface-muted); border-color: #d1d5db; }
+        .ffp-type-card:hover { background: var(--cms-surface-muted); border-color: var(--cms-btn-border); }
         .ffp-type-card--active {
             border-color: var(--cms-accent);
             background: color-mix(in srgb, var(--cms-accent) 8%, transparent);
@@ -318,21 +318,21 @@ de=Germany"></textarea>
         .ffp-type-card__icon { font-size: 1.4rem; color: var(--cms-text-secondary); }
         .ffp-type-card--active .ffp-type-card__icon { color: var(--cms-accent); }
         .ffp-type-card__label { font-weight: 500; }
-        .ffp-validator { padding: 8px 10px; border: 1px solid #f1f5f9; border-radius: 6px; }
+        .ffp-validator { padding: 8px 10px; border: 1px solid var(--cms-border-light); border-radius: var(--cms-radius, 6px); }
         .ffp-validator__args { margin-top: 8px; padding-left: 24px; display: flex; flex-direction: column; gap: 6px; }
         .ffp-footer {
             padding: 12px 18px 16px;
             display: flex;
             justify-content: flex-end;
             gap: 8px;
-            border-top: 1px solid #f1f5f9;
+            border-top: 1px solid var(--cms-border-light);
         }
         /* Kit shadows removed (#2030). This copy carried three literals the kit
            has tokens for — a #d1d5db border, and a #e69417 hover that is NOT
            --cms-accent-hover (#E09200), so this button hovered a different
            amber from every other primary button in the admin. */
         code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-family: var(--cms-font-mono, monospace);
             background: var(--cms-surface-muted);
             padding: 1px 4px;
             border-radius: 3px;
