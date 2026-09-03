@@ -1,4 +1,6 @@
-import { FONT_MANIFEST_ASSET, FontCatalogue, type FontManifest } from '@coolms/document-engine';
+import type { FontCatalogue, FontManifest } from '@coolms/document-engine';
+
+import { loadPaginationEngine } from './engine';
 
 /**
  * The vendored fonts, in the browser.
@@ -160,6 +162,8 @@ async function readRegistry(): Promise<FontManifest> {
         }
     }
 
+    const { FONT_MANIFEST_ASSET } = await loadPaginationEngine();
+
     return fetchJson<FontManifest>(FONT_MANIFEST_ASSET);
 }
 
@@ -198,6 +202,7 @@ export function familyOf(manifest: FontManifest, name: string): string | null {
  * here, and the catalogue then substitutes it the way it already documents.
  */
 export async function loadDocumentFonts(families?: readonly string[]): Promise<FontCatalogue> {
+    const engine = await loadPaginationEngine();
     const manifest = await loadFontManifest();
     const wanted = vendored(manifest, families ?? [manifest.defaults.family]);
 
@@ -225,7 +230,7 @@ export async function loadDocumentFonts(families?: readonly string[]): Promise<F
 
     // Rebuilt each time rather than cached: it is a thin object over the bytes,
     // and a stale one would not know about a family that has just arrived.
-    return FontCatalogue.load(manifest, (file) => {
+    return engine.FontCatalogue.load(manifest, (file) => {
         const bytes = bytesByFile.get(file);
         if (undefined === bytes) {
             // Loud rather than silent: an unloaded face would otherwise be

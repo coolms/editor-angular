@@ -29,7 +29,7 @@ import type { SlashCommandItem } from './extensions/slash-menu/slash-menu-types'
 import { EditorActionRegistry } from './registry/editor-action-registry';
 import { ZOOM_MAX, ZOOM_MIN, fitZoomFor } from './fit-zoom';
 import { EditorExtensionRegistry } from './registry/editor-extension-registry';
-import { isFlowTable, offeredFontFamilies, paginateFlow, type BorderStyle, type FontCatalogue } from '@coolms/document-engine';
+import type { BorderStyle, FontCatalogue } from '@coolms/document-engine';
 import { faceIsLoaded, loadDocumentFonts, loadFontManifest } from './pagination/document-fonts';
 import { flowBlocksFromDoc, fontFamiliesIn, rowPositionOf, type BlockBox } from './pagination/flow-blocks';
 import {
@@ -37,6 +37,7 @@ import {
     type PageGap,
 } from './pagination/pagination-extension';
 import { repeatedHeadersOf, type RepeatedHeader } from './pagination/repeated-headers';
+import { loadPaginationEngine, paginationEngine } from './pagination/engine';
 
 interface ToolbarGroup {
     readonly name:  string;
@@ -1526,6 +1527,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     /** The vendored faces the engine measures. Null until they arrive. */
     private documentFonts: FontCatalogue | null = null;
     private fontsRequested = false;
+    private engineRequested = false;
 
     /**
      * Every family the catalogue has been asked for.
@@ -2004,6 +2006,15 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         const fonts = this.documentFonts;
         if (!fonts) { this.requestDocumentFonts(); return; }
 
+        // The layout engine is an OPTIONAL peer and is fetched, not imported,
+        // so the first pass through here may arrive before it does. Same shape
+        // as the fonts above: ask for it, return, and this runs again when it
+        // lands. A consumer who never installed it never gets past this line,
+        // which is what "optional" is supposed to mean.
+        const engine = paginationEngine();
+        if (!engine) { this.requestPaginationEngine(); return; }
+        const { isFlowTable, paginateFlow } = engine;
+
         const pagePx  = this.cssLengthToPx(geometry.height);
         const widthPx = this.cssLengthToPx(geometry.width);
         // The document's own frame, not a fixed one. The engine measures with
@@ -2381,8 +2392,8 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * whose metrics we could not confirm is the defect this replaced.
      */
     private requestOfferedFamilies(): void {
-        loadFontManifest()
-            .then((manifest) => this.fontFamilies.set(offeredFontFamilies(manifest)))
+        Promise.all([loadPaginationEngine(), loadFontManifest()])
+            .then(([engine, manifest]) => this.fontFamilies.set(engine.offeredFontFamilies(manifest)))
             .catch((error: unknown) => {
                 console.error('[coolms-editor] the font manifest failed to load; only the default family is offered', error);
             });
@@ -2396,6 +2407,26 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * the canvas unpaginated rather than breaking the editor — being unable to
      * draw page boundaries is not a reason to be unable to write.
      */
+    /**
+     * Fetch the optional layout engine, once, then lay out again.
+     *
+     * Mirrors {@link requestDocumentFonts} deliberately: `repaginate()` has
+     * two things it cannot proceed without, and both are asked for the same
+     * way so neither becomes a special case. The error is logged once and the
+     * canvas simply stays unpaginated -- which is the correct outcome for a
+     * peer the consumer chose not to install.
+     */
+    private requestPaginationEngine(): void {
+        if (this.engineRequested) return;
+        this.engineRequested = true;
+
+        loadPaginationEngine()
+            .then(() => this.repaginate())
+            .catch((error: unknown) => {
+                console.error('[coolms-editor] @coolms/document-engine is not installed; the paged canvas will not paginate', error);
+            });
+    }
+
     private requestDocumentFonts(): void {
         if (this.fontsRequested) return;
         this.fontsRequested = true;

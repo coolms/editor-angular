@@ -1,5 +1,7 @@
 import { Extension } from '@tiptap/core';
-import { isFlowTable, type FlowItem, type PlacedLine, type PlacedRow } from '@coolms/document-engine';
+import type { FlowItem, PlacedLine, PlacedRow } from '@coolms/document-engine';
+
+import { paginationEngine } from './engine';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 
@@ -141,6 +143,15 @@ export function lineBoxesFrom(
         readonly rows?: readonly PlacedRow[];
     }[],
 ): LineBox[] {
+    // The engine is an optional peer, loaded on demand. Null cannot happen on
+    // the real path -- this is only ever reached from `repaginate()`, which
+    // returns early until the module has arrived, and its `pages` argument is
+    // the engine's own output. The guard is here so a caller that has not gone
+    // through that pass gets no boxes rather than a crash.
+    const engine = paginationEngine();
+    if (null === engine) return [];
+    const { isFlowTable } = engine;
+
     const tallest = new Map<number, number>();
     for (const page of pages) {
         for (const placed of page.lines) {

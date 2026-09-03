@@ -2,6 +2,27 @@ import {
     gapHeightHost, lineBoxesFrom, pageGapElement, repeatedHeaderElement, type PageGap,
 } from './pagination-extension';
 import type { FlowItem, PlacedLine, PlacedRow } from '@coolms/document-engine';
+import { loadPaginationEngine, resetPaginationEngine } from './engine';
+
+/**
+ * `lineBoxesFrom` reads `isFlowTable` from the optional peer, which is fetched
+ * rather than imported, so it has a precondition: the module must have
+ * arrived. In the editor that is guaranteed -- `repaginate()` returns early
+ * until it lands and is its only caller -- but a spec calls the function
+ * directly.
+ *
+ * ⚠️ This is NOT what makes the file pass, and saying so would be the more
+ * comfortable lie. Removing it leaves all 1219 specs green, measured: karma
+ * bundles the suite, and `document-fonts.spec.ts` loads the engine as a side
+ * effect of `loadFontManifest()` before anything here runs. It is here to make
+ * the dependency explicit and independent of spec order, not to satisfy it.
+ *
+ * What actually distinguishes a working guard from a missing one is the pair
+ * of cases at the end of `lineBoxesFrom`, which reset the module first.
+ */
+beforeAll(async () => {
+    await loadPaginationEngine();
+});
 
 /**
  * Spec for what a page gap is DRAWN as.
@@ -151,6 +172,44 @@ describe('lineBoxesFrom', () => {
     /** A zero height would draw a collapsed line rather than no opinion. */
     it('skips a height of zero', () => {
         expect(lineBoxesFrom([block(1)], [{ lines: [line(0, 0)] }])).toEqual([]);
+    });
+
+    /**
+     * ⚠️ The two states of the OPTIONAL peer, which nothing else here can see.
+     *
+     * `@coolms/document-engine` is fetched rather than imported, so
+     * `lineBoxesFrom` reads `isFlowTable` from a module that may not have
+     * arrived. Every case above runs with it loaded -- and would run with it
+     * loaded even if this file did nothing to arrange that, because karma
+     * bundles the specs together and `document-fonts.spec.ts` loads the engine
+     * as a side effect of `loadFontManifest()`.
+     *
+     * That was measured, not assumed: removing this file's `beforeAll` left
+     * all 1219 specs passing. So the suite could not tell the guard working
+     * from the guard being absent, and these two cases are what make the
+     * difference visible. The first fails if the guard is removed; the second
+     * fails if it never lets go.
+     */
+    describe('and the engine it needs', () => {
+        afterAll(async () => {
+            // Leave it loaded. The memo is module-global and every other spec
+            // in this bundle assumes it has arrived.
+            await loadPaginationEngine();
+        });
+
+        it('yields nothing while the peer has not arrived', () => {
+            resetPaginationEngine();
+
+            expect(lineBoxesFrom([block(1)], [{ lines: [line(0, 18.09)] }])).toEqual([]);
+        });
+
+        it('yields boxes once it has', async () => {
+            resetPaginationEngine();
+            await loadPaginationEngine();
+
+            expect(lineBoxesFrom([block(1)], [{ lines: [line(0, 18.09)] }]))
+                .toEqual([{ pos: 0, heightPx: 18.09 }]);
+        });
     });
 });
 
