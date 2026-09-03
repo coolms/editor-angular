@@ -44,9 +44,11 @@ that needs it.
 
 ```bash
 npm --prefix ../core-angular run build
-npm run build   # in the document-engine checkout, if paged layout is in play
 npm run build
 ```
+
+Build the document engine first as well if paged layout is in play — it is an
+optional peer, and only the pagination code imports it.
 
 Peers are consumed as BUILT output, never as sources: compiling a peer's sources
 into this bundle would ship a second copy of it to any application that installs
