@@ -2,15 +2,23 @@ import type { HLJSApi, Language } from 'highlight.js';
 
 /**
  * DTMPL tag keywords — the highlightable token set of the platform's PHP-only
- * template language (`{var:…}`, `{if:…}`, `{widget:…}`, `{verbatim}…{endverbatim}`).
+ * template language (`{var:…}`, `{if:…}`, `{widget:…}`, `{verbatim}…{endverbatim}`,
+ * `{comment}…{endcomment}`).
  *
- * SOURCE OF TRUTH: `src/DTMPL/Domain/Lexer/Lexer.php` `KEYWORDS` map. Keep this
- * list in sync when the lexer gains/drops a keyword. A grammar that lags the
- * lexer only mis-colours a snippet — it never affects rendering — so this is a
- * cosmetic mirror, not a correctness dependency.
+ * SOURCE OF TRUTH: `KeywordRegistry::KEYWORDS` in the `coolms/dtmpl` package
+ * (`src/Lexer/KeywordRegistry.php` within it). Keep this list in sync when
+ * the lexer gains/drops a keyword. A grammar that lags the lexer only
+ * mis-colours a snippet — it never affects rendering — so this is a cosmetic
+ * mirror, not a correctness dependency.
+ *
+ * ⚠️ `verbatim` and `comment` are NOT in that registry and never will be: they
+ * are lexer constructs resolved ahead of the parser, which is precisely why
+ * their contents reach no output. They are spelled out separately below, and a
+ * sweep that only diffs against the registry will not see them.
  *
  * NOTE: this file is intentionally duplicated, byte-for-byte in spirit, into
- * the highlighter the SSR theme ships.
+ * the highlighter the SSR theme ships, and mirrored again by the server-side
+ * `DtmplGrammar` in the platform's `Web` module.
  * There is no shared npm workspace across the admin SPA and the themes, so the
  * grammar ships as a self-contained highlight.js `LanguageFn` that any frontend
  * (lowlight in the editor, highlight.js in a theme, a future SPA) can register.
@@ -55,6 +63,15 @@ export function dtmpl(_hljs: HLJSApi): Language {
     // `@alias` entity-alias prefix (tag-body only in the lexer; harmless here).
     const ALIAS = { scope: 'symbol', begin: /@[A-Za-z_]\w*/ };
 
+    // `{comment}…{endcomment}` and `{comment:…}`.
+    //
+    // Both swallow their BODY, not just the markers — a comment's contents are
+    // definitionally not code, and colouring a tag inside one would show the
+    // reader the opposite of what the engine does with it. Exact-form begins,
+    // so `{comments}` and `{comment foo}` stay ordinary text.
+    const COMMENT_BLOCK = { scope: 'comment', begin: /\{comment\}/, end: /\{endcomment\}/ };
+    const COMMENT_INLINE = { scope: 'comment', begin: /\{comment:/, end: /\}/ };
+
     // Comparison + separators. `|` is intentionally absent — FILTER owns it.
     const OPERATOR = { scope: 'operator', begin: /!=|>=|<=|[=><:,.[\]]/ };
 
@@ -85,6 +102,9 @@ export function dtmpl(_hljs: HLJSApi): Language {
         contains: [
             // `{{` / `}}` literal-brace escapes.
             { match: /\{\{|\}\}/, scope: 'meta' },
+            // Comments first: their body must not be offered to TAG below.
+            COMMENT_BLOCK,
+            COMMENT_INLINE,
             // `{verbatim}` / `{endverbatim}` markers (interior stays plain).
             { match: /\{(?:verbatim|endverbatim)\}/, scope: 'meta' },
             TAG,
