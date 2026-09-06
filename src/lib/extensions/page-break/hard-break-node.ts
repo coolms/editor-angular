@@ -8,7 +8,7 @@ import { PAGE_BREAK_ATTRIBUTE } from './page-break-node';
  *
  * ## Why the block-level page break is not enough
  *
- * OOXML puts a break in a RUN, so a paragraph may be split by one — the
+ * OOXML puts a break in a RUN, so a paragraph may be split by one -- the
  * ordinary shape in an imported document, where a break lands mid-sentence.
  * `PageBreakNode` is a block atom and cannot express that: closing the
  * paragraph to emit one would add a paragraph mark the author never typed.
@@ -16,7 +16,7 @@ import { PAGE_BREAK_ATTRIBUTE } from './page-break-node';
  * `PageBreakMapper` reads the marker on a `<br>` as the same instruction.
  *
  *  Without the attribute below, ProseMirror keeps the `<br>` and STRIPS the
- * marker — so the page break silently becomes a line break, the following text
+ * marker -- so the page break silently becomes a line break, the following text
  * stays on the same page, and nothing says why the document got shorter.
  *
  * ## Inert everywhere else

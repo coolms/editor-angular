@@ -15,7 +15,7 @@ import { GRID_COLUMN_MAX_WIDTH, GRID_COLUMN_MIN_WIDTH, GRID_COLUMN_TOTAL } from 
  * is seeded with an empty paragraph so the grid is editable on insert.
  *
  * The handler reads the picker's `Overlay` lazily through `ctx.injector`
- * to keep the constructor free of CDK deps — the few action handlers that
+ * to keep the constructor free of CDK deps -- the few action handlers that
  * never open an overlay shouldn't pull `@angular/cdk/overlay` into their
  * compilation unit.
  */

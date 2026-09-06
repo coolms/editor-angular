@@ -29,7 +29,7 @@ const KIND_PLACEHOLDERS: Record<EmbedKind, string> = {
 };
 
 /**
- * Tiny inline dialog for the embed prompt — kind + URL (required) + aspect ratio
+ * Tiny inline dialog for the embed prompt -- kind + URL (required) + aspect ratio
  * (hidden for audio) + optional title. Lives next to the handler since they're
  * tightly coupled (mirrors EditorLinkDialogComponent). Re-uses the global
  * `cms-dialog-*` / `cms-input` / `cms-select` classes, no per-component styles.

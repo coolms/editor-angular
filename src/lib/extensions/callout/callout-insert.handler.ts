@@ -5,7 +5,7 @@ import { CALLOUT_TYPES, type CalloutType } from './callout-node';
  * Handles `callout.insert`. Each `callout:note|warning|tip` toolbar button
  * passes its kind via `actionParams.type`; this inserts an empty callout of
  * that kind (seeded with one paragraph so it's immediately editable). No picker
- * overlay — the kind is fixed by which button fired.
+ * overlay -- the kind is fixed by which button fired.
  */
 export class CalloutInsertHandler implements EditorActionHandler {
     execute(

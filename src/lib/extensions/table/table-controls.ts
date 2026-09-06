@@ -23,7 +23,7 @@ const MENU_POSITIONS: ConnectedPosition[] = [
  *
  * A custom overlay (not `@tiptap/extension-bubble-menu`) keeps us off a new
  * tippy dependency and reuses the same CDK Overlay the grid / table pickers
- * already use. No backdrop — the user keeps typing in the table with the menu
+ * already use. No backdrop -- the user keeps typing in the table with the menu
  * open; the menu re-anchors only when the selection moves to a *different*
  * table, so adding rows/columns doesn't flicker it.
  */
@@ -103,7 +103,7 @@ class TableBubbleMenuController {
 }
 
 /**
- * `tableControls` extension — declared by the `block:table` contributor so it
+ * `tableControls` extension -- declared by the `block:table` contributor so it
  * loads exactly when tables are enabled for a profile. Adds the bubble-menu
  * plugin; carries no schema of its own. The Angular `injector` (captured by
  * `provideCoolmsEditor`) lets the plugin reach CDK Overlay without coupling the

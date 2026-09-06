@@ -4,17 +4,17 @@ import { TableRow } from '@tiptap/extension-table-row';
  * A table row that can carry a height.
  *
  * The stock `@tiptap/extension-table-row` has no attributes at all; this adds
- * one, `height`, in POINTS — the unit Word states `w:trHeight` in and the unit
+ * one, `height`, in POINTS -- the unit Word states `w:trHeight` in and the unit
  * the toolbar speaks, so the number an author types is the number the file
  * stores with no conversion in between to get wrong.
  *
- * ## Why `data-height` and not `style="height:…"`
+ * ## Why `data-height` and not `style="height:..."`
  *
  * The same reason {@link ./table-cell} uses a class for alignment: the
  * server-side `HtmlProfileSanitizer` deliberately allows no `style` attribute
  * anywhere in the table family, because it would reopen CSS injection. Unlike
- * alignment there is no small set of values to map onto classes — a height is a
- * number — so it goes in a `data-` attribute, which is inert.
+ * alignment there is no small set of values to map onto classes -- a height is a
+ * number -- so it goes in a `data-` attribute, which is inert.
  *
  *  A sanitised surface does not carry it. `<tr>` is whitelisted with NO
  * attributes, so a table pasted into a page body keeps its rows and loses their
@@ -32,7 +32,7 @@ export const CmsTableRow = TableRow.extend({
         return {
             ...this.parent?.(),
             /**
-             * `w:tblHeader` — "repeat this row at the top of every page"
+             * `w:tblHeader` -- "repeat this row at the top of every page"
              *.
              *
              *  A row ATTRIBUTE and not a `<thead>`, because ProseMirror's
@@ -40,7 +40,7 @@ export const CmsTableRow = TableRow.extend({
              * a `<tbody>`, so a `<thead>` would parse and then vanish on the way
              * back out, taking the setting with it on the first save.
              *
-             *  And a BOOLEAN attribute — its presence is the fact. Rendering
+             *  And a BOOLEAN attribute -- its presence is the fact. Rendering
              * `="true"` would work until the serializer normalised it, and a
              * reader comparing values would then find `""` and read it as off.
              *

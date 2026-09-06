@@ -12,8 +12,8 @@ import {
 /**
  * Which note a new marker points at.
  *
- * The handler cannot see the note BODIES — they live in the `.ddoc` the dialog
- * holds — so it allocates from the references it can see. Every case below is a
+ * The handler cannot see the note BODIES -- they live in the `.ddoc` the dialog
+ * holds -- so it allocates from the references it can see. Every case below is a
  * way that allocation could hand out an id somebody is already using.
  */
 describe('footnote ids in a document', () => {
@@ -55,7 +55,7 @@ describe('footnote ids in a document', () => {
     /**
      *  One more than the HIGHEST, not one more than the count. Deleting the
      * second of three markers would make a count-based rule hand out 3 again,
-     * and the new marker would land on a note that is still there — the seam
+     * and the new marker would land on a note that is still there -- the seam
      * keeps a body whose reference has gone.
      */
     it('takes one more than the highest id, not one more than the count', () => {
@@ -79,13 +79,13 @@ describe('footnote ids in a document', () => {
 
     /**
      *  And the same for a node built PROGRAMMATICALLY, which is the only way
-     * the reader's own guard can be reached — and the reason it is not dead
+     * the reader's own guard can be reached -- and the reason it is not dead
      * code. `parseHTML` already refuses a reserved id, so a test that went
      * through markup could not tell whether this reader checks at all: found by
      * mutation, where gutting the check left the markup-driven test green.
      *
-     * Attributes are not validated by ProseMirror, so `insertContent` — which
-     * is how the toolbar's own handler inserts — can carry anything a caller
+     * Attributes are not validated by ProseMirror, so `insertContent` -- which
+     * is how the toolbar's own handler inserts -- can carry anything a caller
      * passes it.
      */
     it('ignores an id below one on a node that was not parsed', () => {

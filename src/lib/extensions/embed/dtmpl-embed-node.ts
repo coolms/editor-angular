@@ -16,11 +16,11 @@ export function normalizeRatio(raw: string | null | undefined): EmbedRatio {
 }
 
 /**
- * Embed kinds, carried as the token's `_id` segment (`{widget:embed:<kind> …}`).
+ * Embed kinds, carried as the token's `_id` segment (`{widget:embed:<kind> ...}`).
  * Mirrors the backend EmbedWidgetRenderer dispatch:
- *   - video  — YouTube / Vimeo -> responsive iframe.
- *   - iframe — maps + code playgrounds -> responsive iframe.
- *   - audio  — Spotify / SoundCloud player, or a direct audio file.
+ *   - video  -- YouTube / Vimeo -> responsive iframe.
+ *   - iframe -- maps + code playgrounds -> responsive iframe.
+ *   - audio  -- Spotify / SoundCloud player, or a direct audio file.
  */
 export const EMBED_KINDS = ['video', 'iframe', 'audio'] as const;
 export type EmbedKind = (typeof EMBED_KINDS)[number];
@@ -47,7 +47,7 @@ export function kindUsesRatio(kind: EmbedKind): boolean {
 }
 
 /**
- * Attribute set for the `{widget:embed:<kind> src=`URL` …}` dtmpl tag, mirrored
+ * Attribute set for the `{widget:embed:<kind> src=`URL` ...}` dtmpl tag, mirrored
  * as a Tiptap node so authors see a placeholder card in place of the eventual
  * embed.
  *
@@ -55,7 +55,7 @@ export function kindUsesRatio(kind: EmbedKind): boolean {
  *            resolver + which placeholder/icon the editor shows.
  *   url    - the author-supplied provider URL. Stored verbatim; the backend
  *            EmbedUrlResolver allow-lists + canonicalizes it at render time (an
- *            unknown host renders nothing — no raw iframe).
+ *            unknown host renders nothing -- no raw iframe).
  *   ratio  - Bootstrap aspect ratio token ('16x9' | '4x3' | '21x9' | '1x1');
  *            ignored for audio.
  *   title  - optional iframe / audio title / accessible label.
@@ -76,22 +76,22 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Block atom Tiptap node mirroring a `{widget:embed:video …}` dtmpl tag.
+ * Block atom Tiptap node mirroring a `{widget:embed:video ...}` dtmpl tag.
  *
  * In-editor: renders as an informational placeholder card (icon + title/URL +
- *            ratio) — no live iframe; the actual responsive embed is produced
+ *            ratio) -- no live iframe; the actual responsive embed is produced
  *            server-side by EmbedWidgetRenderer when the page is rendered.
  *            Block + atom because an embed is a standalone block the author
  *            doesn't type inside; the dialog (embed.insert handler) is the sole
  *            config UI.
  * On save:   `embedHtmlToDtmpl()` swaps each marker `<div data-widget="embed">`
- *            back into `{widget:embed:video src=`…` …}`.
+ *            back into `{widget:embed:video src=`...` ...}`.
  * On load:   `embedDtmplToHtml()` produces the marker div from the dtmpl tag.
  *
  * The per-attribute renderHTML overrides return `{}` so Tiptap doesn't emit each
  * attribute as a same-named HTML attribute; the node-level renderHTML below
  * composes the canonical `data-widget`/`data-url`/`data-ratio`/`data-title` set
- * from node.attrs directly, and parseHTML reads those back — lossless round-trip.
+ * from node.attrs directly, and parseHTML reads those back -- lossless round-trip.
  */
 export const DtmplEmbedNode = Node.create({
     name:       'dtmplEmbed',

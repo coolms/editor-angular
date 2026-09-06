@@ -9,7 +9,7 @@ import { loadPaginationEngine } from './engine';
  *
  * The files are fetched ONCE and handed to two consumers: the engine, which
  * measures them, and the FontFace API, which paints with them. Not a `@font-face`
- * rule pointing at the same URL — that is a second fetch, a second cache entry,
+ * rule pointing at the same URL -- that is a second fetch, a second cache entry,
  * and a second chance for the two to be different files. Registering the buffer
  * makes "the same bytes" true by construction rather than by convention.
  *

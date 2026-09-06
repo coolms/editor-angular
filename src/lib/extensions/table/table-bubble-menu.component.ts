@@ -22,7 +22,7 @@ export const TABLE_BUBBLE_MENU_DATA = new InjectionToken<TableBubbleMenuData>('T
  * overlay by {@link TableBubbleMenuController}, anchored above the table.
  *
  * `mousedown.preventDefault()` on the bar keeps focus + the ProseMirror
- * selection in the editor when a button is pressed — essential so commands that
+ * selection in the editor when a button is pressed -- essential so commands that
  * act on a cell-selection (`mergeCells`) or the current column (`align*`) still
  * see it. Buttons are stateless action triggers (parity with the grid / table
  * pickers); the menu shows/hides purely on table membership, not per-cell state.
@@ -148,7 +148,7 @@ export class TableBubbleMenuComponent {
     /**
      *  MEASURED, both halves, because the first two things written here were
      * wrong in opposite directions. `paginateFlow` really does repeat the row,
-     * so the canvas reserves its height at the top of every page — unticking
+     * so the canvas reserves its height at the top of every page -- unticking
  * this moved the page gaps by exactly one row (256px -> 220px,). What
      * it does NOT do is paint the row into that space, because the repeat is a
      * layout result and the canvas draws the author's document.

@@ -5,7 +5,7 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
  * The attribute that MEANS "this superscript is a footnote reference".
  *
  * Must stay byte-identical to `FootnoteMapper::MARKER_ATTRIBUTE` on the PHP
- * side — that mapper is what turns this into a real OOXML
+ * side -- that mapper is what turns this into a real OOXML
  * `w:footnoteReference`, and the two only agree by convention.
  */
 export const FOOTNOTE_ATTRIBUTE = 'data-footnote';
@@ -17,7 +17,7 @@ export const FOOTNOTE_REFERENCE_NODE_NAME = 'footnoteReference';
  *
  * The panel needs it to say which notes are live and which are orphans, and the
  * insert handler needs it to allocate. Mirrors `FootnoteReferences::inOrder()`
- * on the PHP side — the same walk, over the other representation.
+ * on the PHP side -- the same walk, over the other representation.
  */
 export function footnoteIdsInDocument(doc: ProseMirrorNode): number[] {
     const ids: number[] = [];
@@ -43,21 +43,21 @@ export function footnoteIdsInDocument(doc: ProseMirrorNode): number[] {
  *
  *  Not "count + 1". Deleting the second of three references would make that
  * hand out 3 again, and the new marker would land on a note that is still
- * there — the seam keeps a body whose reference has gone.
+ * there -- the seam keeps a body whose reference has gone.
  */
 export function nextFootnoteId(doc: ProseMirrorNode): number {
     return footnoteIdsInDocument(doc).reduce((highest, id) => Math.max(highest, id), 0) + 1;
 }
 
 /**
- * A footnote reference — an inline atom rendering `<sup data-footnote="3">3</sup>`.
+ * A footnote reference -- an inline atom rendering `<sup data-footnote="3">3</sup>`.
  *
  * ## Why a node exists at all when nothing inserts one
  *
  * ProseMirror does not ignore what it cannot model, it STRIPS it. A `.ddoc`
  * carries footnotes, `DocumentHtmlWriter` puts their references in the body as
  * `<sup data-footnote="N">`, and without this node every one of them would be
- * gone the first time an author saved — silently, and with the note bodies left
+ * gone the first time an author saved -- silently, and with the note bodies left
  * behind pointing at nothing. The same reasoning that keeps `CoolmsTextStyle`
  * always on: an unregistered thing is not inert.
  *
@@ -69,7 +69,7 @@ export function nextFootnoteId(doc: ProseMirrorNode): number {
  *
  * ## The number on screen is NOT this id
  *
- * The id is a KEY. Every reader — Word, LibreOffice, us — prints a footnote's
+ * The id is a KEY. Every reader -- Word, LibreOffice, us -- prints a footnote's
  * POSITION, so a document whose ids are not in document order says 7 where the
  * page says 1. Measured, where it was worse than cosmetic: LibreOffice
  * pairs the two `.docx` parts by position, and the writer now renumbers on the
@@ -78,7 +78,7 @@ export function nextFootnoteId(doc: ProseMirrorNode): number {
  * `renderHTML` still writes the id as the element's text, because that is what
  * `DocumentHtmlWriter` emits and a round trip should not quietly change shape.
  * The CANVAS covers it with a CSS counter, which is always right and costs no
- * JavaScript — see `.cms-footnote` in `editor.component.ts`.
+ * JavaScript -- see `.cms-footnote` in `editor.component.ts`.
  */
 export const FootnoteReferenceNode = Node.create({
     name: FOOTNOTE_REFERENCE_NODE_NAME,
@@ -113,7 +113,7 @@ export const FootnoteReferenceNode = Node.create({
     },
 
     parseHTML() {
-        // Priority over the superscript mark's bare `sup` rule — see above.
+        // Priority over the superscript mark's bare `sup` rule -- see above.
         return [{ tag: `sup[${FOOTNOTE_ATTRIBUTE}]`, priority: 100 }];
     },
 

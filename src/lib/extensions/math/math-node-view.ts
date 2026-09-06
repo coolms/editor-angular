@@ -7,7 +7,7 @@ type KatexRenderToString = (
 ) => string;
 
 /**
- * Lazily import KaTeX once for the whole SPA (its own bundle chunk) — only when
+ * Lazily import KaTeX once for the whole SPA (its own bundle chunk) -- only when
  * a math NodeView first needs a preview, so editors without math pay nothing.
  * Mirrors the public theme's `math-render.js` lazy strategy; the stylesheet is
  * loaded globally via angular.json (`katex.min.css`) since the application
@@ -28,7 +28,7 @@ function loadKatex(): Promise<{ renderToString: KatexRenderToString }> {
  * ProseMirror NodeView for the inline `math` atom. Renders a live KaTeX preview
  * of the node's `latex` (in inline or display mode per the `display` attr); the
  * raw source stays visible until KaTeX resolves and as the fallback if KaTeX
- * errors, so a malformed formula never blanks out — the author still sees what
+ * errors, so a malformed formula never blanks out -- the author still sees what
  * they typed (matching the public theme's graceful degradation). The source is
  * also surfaced via the element `title` on hover.
  *

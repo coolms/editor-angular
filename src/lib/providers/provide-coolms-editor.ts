@@ -62,14 +62,14 @@ import { EDITOR_TRANSLATE, type EditorTranslate } from '../editor.types';
  *
  * Module-supplied handlers + extensions (Media insert in C2, future
  * Taxonomy link decoration) register via their own APP_INITIALIZER alongside
- * this one — multi: true means everything composes additively.
+ * this one -- multi: true means everything composes additively.
  */
 export function provideCoolmsEditor(): Provider[] {
     return [
         {
             provide: APP_INITIALIZER,
             multi:   true,
-            // EDITOR_TRANSLATE is optional (no provider wired today) — the
+            // EDITOR_TRANSLATE is optional (no provider wired today) -- the
             // callout NodeView falls back to English labels when it's null.
             deps:    [EditorActionRegistry, EditorExtensionRegistry, Injector, [new Optional(), EDITOR_TRANSLATE]],
             useFactory: (
@@ -87,7 +87,7 @@ export function provideCoolmsEditor(): Provider[] {
                 actions.register('gridLayout.insert',        new GridLayoutInsertHandler());
                 actions.register('table.insert',             new TableInsertHandler());
                 // Generic in-table editing ops (add/remove row+col, merge/split,
-                // toggle header, column alignment) — the table bubble-menu
+                // toggle header, column alignment) -- the table bubble-menu
                 // dispatches `params.command` through this handler.
                 actions.register('tiptap.tableCommand',      new TableCommandHandler());
                 actions.register('codeTabs.insert',          new CodeTabsInsertHandler());
@@ -101,7 +101,7 @@ export function provideCoolmsEditor(): Provider[] {
                 actions.register('cmsFootnote.insert',       new CmsFootnoteInsertHandler());
 
                 // -- Tiptap extensions (canonical names from PHP manifest)
-                // Document/Paragraph/Text/History always register — Tiptap
+                // Document/Paragraph/Text/History always register -- Tiptap
                 // requires them as the editor's foundation. The other
                 // entries are toolbar-driven; if no built-in references one
                 // (e.g. nobody enabled lists), the resolver simply won't
@@ -117,7 +117,7 @@ export function provideCoolmsEditor(): Provider[] {
                 // express.
                 extensions.register('hardBreak',   () => CmsHardBreak);
                 extensions.register('history',     () => History);
-                // The caret ProseMirror draws where no text position exists —
+                // The caret ProseMirror draws where no text position exists --
                 // beside a table, a grid, a page break. Seeded unconditionally
                 // by editor.component: without it a block at the very start or
                 // end of the document is a dead end with no way to type past it.
@@ -127,15 +127,15 @@ export function provideCoolmsEditor(): Provider[] {
                 extensions.register('strike',      () => Strike);
                 extensions.register('superscript', () => SuperscriptMark);
                 extensions.register('subscript',   () => SubscriptMark);
-                // Inline code mark (`<code>`) — stock Tiptap unit; its
+                // Inline code mark (`<code>`) -- stock Tiptap unit; its
                 // toggleMark action resolves via the generic handler.
                 extensions.register('code',        () => Code);
-                // Fenced code block (`<pre><code class="language-…">`). The
+                // Fenced code block (`<pre><code class="language-...">`). The
  // lowlight build (Track B) adds coloured tokens while
                 // editing + an in-block language picker; serialisation stays
                 // raw source so getHTML() is sanitiser-clean.
                 extensions.register('codeBlock',   () => createCoolmsCodeBlock());
-                // Multi-language code tabs — container of codeBlock+ rendered
+                // Multi-language code tabs -- container of codeBlock+ rendered
                 // as a tabbed `<div class="code-tabs">`.
                 extensions.register('codeTabs',    () => CodeTabsNode);
                 extensions.register('heading',     () => Heading);
@@ -144,7 +144,7 @@ export function provideCoolmsEditor(): Provider[] {
                 extensions.register('listItem',    () => ListItem);
                 extensions.register('blockquote',  () => Blockquote);
                 extensions.register('link',        () => Link.configure({ openOnClick: false }));
-                // Grid layout primitives — three factories because the
+                // Grid layout primitives -- three factories because the
                 // EditorExtensionRegistry maps one name to one Tiptap unit
                 // and gridLayout / gridRow / gridColumn are three nodes.
                 // The contributor declares all three in `extensions:` so
@@ -152,7 +152,7 @@ export function provideCoolmsEditor(): Provider[] {
                 extensions.register('gridLayout',  () => GridLayoutNode);
                 extensions.register('gridRow',     () => GridRowNode);
                 extensions.register('gridColumn',  () => GridColumnNode);
-                // Tabular-data primitives — Tiptap's stock table extensions.
+                // Tabular-data primitives -- Tiptap's stock table extensions.
                 // `Table.configure({ resizable: true })` enables column
                 // resize handles built into the extension; behaviour mirrors
                 // the gridColumn resize NodeView at the table level. The cell +
@@ -176,22 +176,22 @@ export function provideCoolmsEditor(): Provider[] {
                 // it loads exactly when tables are enabled. Needs the Angular
                 // injector to reach CDK Overlay from the ProseMirror plugin.
                 extensions.register('tableControls', () => createTableControls(injector));
-                // Callout / admonition block (note · warning · tip) — one node,
+                // Callout / admonition block (note - warning - tip) -- one node,
                 // three `callout:*` toolbar buttons insert each kind. The
                 // NodeView renders a localized, iconed title + an in-place type
                 // switcher; `translate` localizes those labels (null -> English).
                 extensions.register('callout',     () => CalloutNode.configure({ translate }));
-                // Video embed (YouTube / Vimeo) — `block:embed` toolbar button
+                // Video embed (YouTube / Vimeo) -- `block:embed` toolbar button
                 // opens a URL dialog; the node round-trips through the
-                // {widget:embed:video …} dtmpl transform (server resolves the
+                // {widget:embed:video ...} dtmpl transform (server resolves the
                 // safe canonical iframe at render time).
                 extensions.register('dtmplEmbed',  () => DtmplEmbedNode);
- // Inline math atom — `format:math` toolbar button opens
+ // Inline math atom -- `format:math` toolbar button opens
                 // a LaTeX dialog; the node stores the same `.katex-src` span the
                 // server's MathProcessor emits, and a NodeView shows a live KaTeX
                 // preview while editing. KaTeX is lazy-imported by the NodeView.
                 extensions.register('math',        () => MathNode);
-                // Explicit page break — an atom rendering
+                // Explicit page break -- an atom rendering
                 // <hr data-page-break>, which PageBreakMapper turns into a real
                 // DOCX page break. Deliberately NOT the built-in horizontal rule:
                 // that is a visible divider, and reusing it would make every

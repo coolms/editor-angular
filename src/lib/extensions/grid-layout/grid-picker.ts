@@ -8,7 +8,7 @@ import {
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { take } from 'rxjs';
 
-/** Cap matches the prompt: 12 × 12. Bootstrap grid maxes at col-12; tables
+/** Cap matches the prompt: 12 x 12. Bootstrap grid maxes at col-12; tables
  *  at this size are already unwieldy so the same cap fits both intents. */
 export const GRID_PICKER_MAX = 12;
 
@@ -18,7 +18,7 @@ export interface GridPickerDimensions {
 }
 
 export interface GridPickerOptions {
-    /** Suffix used in the live label ("X × Y grid" / "X × Y table"). */
+    /** Suffix used in the live label ("X x Y grid" / "X x Y table"). */
     readonly noun: 'grid' | 'table';
     /** Element the popup attaches to. Falls back to viewport-centered if null. */
     readonly anchor: HTMLElement | null;
@@ -33,11 +33,11 @@ interface PickerData {
 }
 
 /**
- * Compact 12 × 12 popup for picking a (rows, cols) pair. Mirrors the
+ * Compact 12 x 12 popup for picking a (rows, cols) pair. Mirrors the
  * Excel / Word "insert table" affordance: hover from the top-left
  * highlights an extending rectangle, click commits, click outside or
  * Escape cancels. Reused by both `gridLayout.insert` and `table.insert`
- * action handlers — only the `noun` differs in the live label.
+ * action handlers -- only the `noun` differs in the live label.
  */
 @Component({
     selector: 'app-grid-picker',

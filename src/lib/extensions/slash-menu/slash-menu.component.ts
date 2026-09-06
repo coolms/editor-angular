@@ -11,7 +11,7 @@ import type { SlashCommandGroup, SlashCommandItem } from './slash-menu-types';
  * from them. Clicks + hovers are reported back through the callbacks.
  *
  * Keyboard navigation is owned by the controller (driven from the ProseMirror
- * plugin's `handleKeyDown`, since the editor — not this popup — keeps DOM
+ * plugin's `handleKeyDown`, since the editor -- not this popup -- keeps DOM
  * focus while the user types). The component is a pure view: it never installs
  * key listeners.
  */

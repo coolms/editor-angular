@@ -4,7 +4,7 @@ import { GridColumnNodeView } from './grid-column-node-view';
 /**
  * Bootstrap-grid column count carried as an attribute on `gridColumn`. The
  * sum of `width` across siblings inside a single `gridRow` is expected to
- * equal 12 — the resize NodeView preserves this invariant by rebalancing
+ * equal 12 -- the resize NodeView preserves this invariant by rebalancing
  * the pair of columns adjacent to the dragged handle.
  */
 export const GRID_COLUMN_MIN_WIDTH = 1;
@@ -16,7 +16,7 @@ export const GRID_COLUMN_TOTAL = 12;
  *
  *     <div class="cms-grid">           <-- gridLayout
  *       <div class="row">              <-- gridRow (1+)
- *         <div class="col-6">…</div>   <-- gridColumn (1+)
+ *         <div class="col-6">...</div>   <-- gridColumn (1+)
  *       </div>
  *     </div>
  *
@@ -51,7 +51,7 @@ export const GridRowNode = Node.create({
     defining: true,
 
     parseHTML() {
-        // Match a `row` div that contains at least one `col-…` child. The
+        // Match a `row` div that contains at least one `col-...` child. The
         // legacy-migration regex in DtmplContentAdapter ensures that on
         // load, every such `div.row` lives inside a `div.cms-grid`, so the
         // `gridRow+` schema constraint on gridLayout is always satisfiable.

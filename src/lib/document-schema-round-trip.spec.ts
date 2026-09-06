@@ -34,7 +34,7 @@ import { CoolmsTextStyle } from './text-style-mark';
  *
  * One change made the PHP model round-trip through editor HTML without loss, and
  * Another built the endpoints that carry it. Between the two sits ProseMirror,
- * which does not ignore what it cannot model — it STRIPS it. So a `.ddoc`
+ * which does not ignore what it cannot model -- it STRIPS it. So a `.ddoc`
  * whose vocabulary the schema does not declare comes back poorer than it went
  * in, and the save writes the poorer version over the author's file.
  *
@@ -69,7 +69,7 @@ describe('the document vocabulary through the editor schema', () => {
      *  It said "callout, math, embed and grid claim no tag in this
  * vocabulary" and that stopped being true, when
      * `DocumentHtmlWriter` began emitting `<pre><code>` and
-     * `<div class="callout …">`. Math, embed and grid still claim none.
+     * `<div class="callout ...">`. Math, embed and grid still claim none.
      */
     const documentExtensions = [
         Document, Paragraph, Text, History, CmsHardBreak,
@@ -109,13 +109,13 @@ describe('the document vocabulary through the editor schema', () => {
 
     /**
      *  The colour comes back as `rgb(255, 0, 0)`, not as the `#FF0000` that
-     * went in — `el.style.color` is the BROWSER's normalisation and there is no
+     * went in -- `el.style.color` is the BROWSER's normalisation and there is no
      * way to read the original text back out of it.
      *
      * That is not a loss, and the assertion says so rather than pretending the
      * hex survives: `TextMapper::hex()` on the PHP side accepts `rgb()` and
      * `rgba()` as well as hex, so the model gets `FF0000` either way. It is a
-     * real cross-boundary dependency, though — this is the shape the PHP mapper
+     * real cross-boundary dependency, though -- this is the shape the PHP mapper
      * actually receives in production, which is why it has a test of its own.
      */
     it('keeps a run\'s font, size, colour and highlight', () => {
@@ -290,7 +290,7 @@ describe('the document vocabulary through the editor schema', () => {
     });
 
     //  The two axes are kept APART. Both stated as the canvas paints them --
-    // 6px vertical, 10px horizontal — and a schema modelling only the older
+    // 6px vertical, 10px horizontal -- and a schema modelling only the older
     // attribute would drop the second on load and save a table that states one
  // margin, which is the state a later fix closed.
     it('keeps the cell margin\'s two axes apart', () => {
@@ -317,8 +317,8 @@ describe('the document vocabulary through the editor schema', () => {
 
     /**
      *  The marker is a row ATTRIBUTE and not a `<thead>` precisely because of
-     * this trip. ProseMirror's table schema has no thead node — it serialises
-     * rows straight into a `<tbody>` — so a `<thead>` parses fine and then
+     * this trip. ProseMirror's table schema has no thead node -- it serialises
+     * rows straight into a `<tbody>` -- so a `<thead>` parses fine and then
      * vanishes on the way out, taking "repeat at the top of every page" with it
      * on the author's first save.
      */
@@ -330,7 +330,7 @@ describe('the document vocabulary through the editor schema', () => {
 
         expect(out).toContain('data-repeat-header');
         expect(out).toContain('<th');
-        // The body row keeps neither — a repeat written onto every row would
+        // The body row keeps neither -- a repeat written onto every row would
         // put the whole table at the top of each page.
         expect(out.match(/data-repeat-header/g)?.length).toBe(1);
         expect(out).toContain('<td');

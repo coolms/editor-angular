@@ -8,7 +8,7 @@ import Image from '@tiptap/extension-image';
  * Page content does not use one: a picture on a page is a `mediaWidget` chip
  * that resolves to a media-library reference at render time, which is what
  * gives it a stable identity, a caption and a right to exist after the file
- * moves. A raw `<img>` had no place in that world, so nothing modelled one —
+ * moves. A raw `<img>` had no place in that world, so nothing modelled one --
  * and ProseMirror STRIPS what it cannot model.
  *
  * A document is the world where a raw `<img>` is the only honest answer. An
@@ -26,7 +26,7 @@ import Image from '@tiptap/extension-image';
  * ## Width and height are POINTS, not pixels
  *
  * The mapper reads `width` / `height` as points, which is a drift from CSS that
- * predates this node and is preserved on purpose — see `docs/formats/ddoc.md`.
+ * predates this node and is preserved on purpose -- see `docs/formats/ddoc.md`.
  * Stock `@tiptap/extension-image` models neither attribute, so both are
  * declared here or a resized picture comes back at its intrinsic size.
  */

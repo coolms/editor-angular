@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core';
 
-/** The alignments a document can hold — the model's own four (`w:jc`). */
+/** The alignments a document can hold -- the model's own four (`w:jc`). */
 export type CmsTextAlign = 'left' | 'center' | 'right' | 'justify';
 
 const ALIGNMENTS: readonly CmsTextAlign[] = ['left', 'center', 'right', 'justify'];
@@ -30,7 +30,7 @@ declare module '@tiptap/core' {
  * ##  Absent is not `left`
  *
  * The default is null and an unset alignment renders NOTHING. A paragraph with
- * no alignment inherits — from its style, and failing that from the document's
+ * no alignment inherits -- from its style, and failing that from the document's
  * direction, which is right-aligned in a right-to-left document. Emitting
  * `text-align: left` for the unset case would pin every paragraph of every
  * imported document to one edge. `ParagraphAlignment` on the PHP side draws the

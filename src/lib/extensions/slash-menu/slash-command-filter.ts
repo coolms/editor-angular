@@ -7,7 +7,7 @@ import type { SlashCommandGroup, SlashCommandItem } from './slash-menu-types';
  * fuzzy-match contract is unit-testable in isolation (see
  * `slash-command-filter.spec.ts`).
  *
- * The palette is built straight from the editor manifest — there is no
+ * The palette is built straight from the editor manifest -- there is no
  * hardcoded command list anywhere. `buildSlashItems` keeps only the entries
  * the backend marked `slashable` (block-structure + insert-widget groups;
  * and resolves their labels for display.
@@ -53,7 +53,7 @@ export function buildSlashItems(
  *   subsequence (loose fuzzy, e.g. "bq" -> "blockquote")
  *
  * The label is weighted above keywords/id so the most human-meaningful match
- * wins ties. An empty query matches everything (score 0) — the palette shows
+ * wins ties. An empty query matches everything (score 0) -- the palette shows
  * the full list before the user types.
  */
 export function scoreSlashItem(item: SlashCommandItem, query: string): number | null {

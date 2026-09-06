@@ -8,7 +8,7 @@ import type { EditorActionContext, EditorActionHandler } from '../editor.types';
  * by `provideCoolmsEditor()`'s APP_INITIALIZER. Module-supplied handlers
  * register the same way from each Angular feature module's bootstrap.
  *
- * Duplicate registration throws — collisions surface at app boot, never
+ * Duplicate registration throws -- collisions surface at app boot, never
  * silently shadow each other (matches the PHP-side `(treeSlug, path)`
  * uniqueness in NaviGraph).
  */
@@ -26,7 +26,7 @@ export class EditorActionRegistry {
     /**
      * Dispatch a registered handler. Logs a warning + no-ops when the
      * action type is unknown so a misconfigured manifest doesn't crash
-     * the editor (per design doc Risk #4 — graceful degradation).
+     * the editor (per design doc Risk #4 -- graceful degradation).
      */
     async dispatch(
         actionType: string,
@@ -47,7 +47,7 @@ export class EditorActionRegistry {
         }
     }
 
-    /** Test-only — purely diagnostic. */
+    /** Test-only -- purely diagnostic. */
     has(actionType: string): boolean {
         return this.handlers.has(actionType);
     }

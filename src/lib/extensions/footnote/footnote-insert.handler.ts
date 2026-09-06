@@ -2,7 +2,7 @@ import type { EditorActionContext, EditorActionHandler } from '../../editor.type
 import { FOOTNOTE_REFERENCE_NODE_NAME, nextFootnoteId } from './footnote-reference-node';
 
 /**
- * Handles `cmsFootnote.insert` — drops a reference to a new note at the caret.
+ * Handles `cmsFootnote.insert` -- drops a reference to a new note at the caret.
  *
  * ## The id is allocated from the DOCUMENT, not from the notes panel
  *
@@ -11,8 +11,8 @@ import { FOOTNOTE_REFERENCE_NODE_NAME, nextFootnoteId } from './footnote-referen
  * document, and one more than the highest of those is free by construction.
  *
  *  That leaves one case worth naming: a note whose reference an author
- * deleted keeps its BODY — the editing seam drops nothing for being
- * unreferenced — so an id above every remaining reference can be handed out
+ * deleted keeps its BODY -- the editing seam drops nothing for being
+ * unreferenced -- so an id above every remaining reference can be handed out
  * again, and the new marker then points at that old text. It is visible rather
  * than silent (the notes panel shows the note with its text in it), and it is
  * the friendly reading of a body that was kept on purpose.

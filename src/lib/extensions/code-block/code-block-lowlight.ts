@@ -34,7 +34,7 @@ function label(id: string): string {
  * first, DTMPL + Mermaid second (platform-first), then the registered common
  * languages alphabetically by display label.
  *
- * `mermaid` is NOT a highlight.js grammar — it's the diagram contract (Track B
+ * `mermaid` is NOT a highlight.js grammar -- it's the diagram contract (Track B
  * #7): a `language-mermaid` block is rendered as a diagram by the public theme's
  * `mermaid-render.js` (and skipped by the highlighter). In the editor it shows
  * as plain diagram source in the code box; on the published page it paints.
@@ -57,8 +57,8 @@ export function codeBlockLanguages(): ReadonlyArray<CodeBlockLanguageOption> {
  * editing) + a NodeView that adds the language picker. Replaces the plain
  * `@tiptap/extension-code-block` registration.
  *
- * Serialisation is unchanged from stock CodeBlock — `<pre><code class="language-x">`
- * with raw source — so existing stored content round-trips and the
+ * Serialisation is unchanged from stock CodeBlock -- `<pre><code class="language-x">`
+ * with raw source -- so existing stored content round-trips and the
  * HtmlProfileSanitizer keeps it verbatim.
  */
 export function createCoolmsCodeBlock() {

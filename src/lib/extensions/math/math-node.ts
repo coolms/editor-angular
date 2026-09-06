@@ -3,7 +3,7 @@ import { MathNodeView } from './math-node-view';
 
 /** Editor attribute set for an inline math atom. */
 export interface MathAttrs {
-    /** Raw LaTeX (no `$`/`$$` delimiters) — stored as the span's text content. */
+    /** Raw LaTeX (no `$`/`$$` delimiters) -- stored as the span's text content. */
     latex: string;
     /** `true` -> KaTeX display mode (centred block); `false` -> inline. */
     display: boolean;
@@ -23,22 +23,22 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Inline math atom — (KaTeX).
+ * Inline math atom -- (KaTeX).
  *
  * Stored HTML shape is **byte-identical to what the server-side `MathProcessor`
- * emits** for hand-typed `$…$` / `$$…$$`:
+ * emits** for hand-typed `$...$` / `$$...$$`:
  *
  *     <span class="katex-src" data-display="0|1">LATEX</span>
  *
  * so the public theme's `math-render.js` renders BOTH contracts (editor-inserted
- * spans *and* author-typed `$…$` that the server wraps) with one code path. The
+ * spans *and* author-typed `$...$` that the server wraps) with one code path. The
  * LaTeX lives in the element's text content; `data-display` carries inline vs
  * display. `MathProcessor` fast-paths bodies with no `$`, so a stored span (which
  * has none) round-trips untouched on the public render.
  *
  * In-editor a {@link MathNodeView} renders a live KaTeX preview; `renderHTML`
  * below still emits the bare `.katex-src` span, so `getHTML()` (and the stored
- * content) never carries the rendered KaTeX markup — only the source span. The
+ * content) never carries the rendered KaTeX markup -- only the source span. The
  * `DtmplContentAdapter` passes the span through untouched (its transforms target
  * `<img>`/`<a>`/widget markers, not spans), so save/reload is lossless.
  */

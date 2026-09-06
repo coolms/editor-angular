@@ -12,7 +12,7 @@ type EditorWithTable = Editor & {
 
 /**
  * Handles `table.insert`. Reuses the same visual picker as `gridLayout.insert`
- * — only the noun differs in the live label — and dispatches Tiptap's
+ * -- only the noun differs in the live label -- and dispatches Tiptap's
  * `insertTable` command with `withHeaderRow: true` so freshly-inserted tables
  * carry a `<th>` header row by default.
  *

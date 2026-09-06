@@ -3,11 +3,11 @@ import type { EditorActionContext, EditorActionHandler } from '../editor.types';
 const ALIGNMENTS = ['left', 'center', 'right', 'justify'];
 
 /**
- * Handles `cmsTextAlign.set` — one handler for all four alignment buttons,
+ * Handles `cmsTextAlign.set` -- one handler for all four alignment buttons,
  * which differ only by the `align` action parameter.
  *
  *  `focus()` first, always. A toolbar click moves focus to the button, and a
- * command applied without restoring the selection lands nowhere — the classic
+ * command applied without restoring the selection lands nowhere -- the classic
  * "the button does nothing" bug in a rich-text toolbar.
  *
  * The command itself TOGGLES: pressing the button a paragraph already carries

@@ -65,7 +65,7 @@ interface ToolbarGroup {
  *
  * So the editor's own clusters take part in the ORDERING without taking part in
  * the contribution model: one list, built here, holding both. That is also the
- * seam a future drag-to-reorder would reorder — it can sort slots without
+ * seam a future drag-to-reorder would reorder -- it can sort slots without
  * caring which kind each one is.
  */
 type ToolbarSlot =
@@ -107,7 +107,7 @@ export interface PageMargins {
 const SHEET_GUTTER_PX = 32;
 
 
-/** Workspace visible between two sheets — the gap that makes them two. */
+/** Workspace visible between two sheets -- the gap that makes them two. */
 const SHEET_GAP_PX = 24;
 
 /**
@@ -155,7 +155,7 @@ const PAGE_MARGIN_PROPERTIES: Readonly<Record<keyof PageMargins, string>> = {
  *  The ONE place that fallback happens. The sheet's padding and the
  * paginator's measurements both come through here, and a document that got its
  * own margins in one and the default in the other would be laid out by the
- * browser to a width the engine did not measure — which is a line that fits on
+ * browser to a width the engine did not measure -- which is a line that fits on
  * screen and not in the file, once per page, compounding.
  */
 export function pageMarginsOf(geometry: PageGeometry): PageMargins {
@@ -166,7 +166,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
  * Public component that mounts a Tiptap editor and renders the toolbar
  * declared by the backend's editor manifest. Component contract:
  *
- *   profile           required — names the profile (manifest key). Mirrors
+ *   profile           required -- names the profile (manifest key). Mirrors
  *                     PHP `EditorProfile` resolution: 'simple', 'standard',
  *                     'full', 'admin', 'comment', or any custom YAML.
  *   content (model)   two-way bound editor content. The component owns the
@@ -188,14 +188,14 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
     selector: 'coolms-editor',
     standalone: true,
     // The loader keeps its OWN (emulated) encapsulation despite this component
-    // turning encapsulation off — its styles stay scoped to itself, which is
+    // turning encapsulation off -- its styles stay scoped to itself, which is
     // what lets it be dropped into surfaces that know nothing about each other.
     imports: [CmsLoaderComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     /**
      * `ViewEncapsulation.None` is required: the editor renders content via
      * Tiptap NodeViews (gridColumn resize chip, formField chip) that create
-     * DOM imperatively. Imperative DOM doesn't carry the `_ngcontent-…`
+     * DOM imperatively. Imperative DOM doesn't carry the `_ngcontent-...`
      * attribute Emulated encapsulation depends on, so any rule targeting
      * NodeView-rendered classes (`.cms-grid-column`, etc.) silently failed
      * to match. Styles below are still effectively scoped because every
@@ -1475,14 +1475,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     readonly contentAdapter = input<ContentAdapter | null>(null);
     /**
      * Opaque string the host bumps to force a clean re-mount of Tiptap with
-     * the current `content`. Use case: page-editor's locale tabs — switching
+     * the current `content`. Use case: page-editor's locale tabs -- switching
      * BE -> EN swaps the storage payload, and we want a fresh Tiptap instance
      * so cursor / undo history don't leak across documents.
      */
     readonly mountKey = input<string>('');
 
     /**
-     * Paper dimensions (CSS lengths) that turn the canvas into SHEETS — the
+     * Paper dimensions (CSS lengths) that turn the canvas into SHEETS -- the
      * "Word look". Null keeps the plain flowing canvas every other
      * surface uses; a web page has no pages, and drawing one there would be a
      * lie about the output.
@@ -1490,7 +1490,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * ## What the sheets do and do not claim
      *
      * The width and margins are exact, and every EXPLICIT page break starts a
-     * new sheet — so what you see matches the .docx wherever the author decided
+     * new sheet -- so what you see matches the .docx wherever the author decided
      * the pages. Content that overflows a sheet is NOT re-flowed onto the next
      * one: that needs Word's line-breaking and font metrics, and a browser's
      * answer would be a confident second opinion that disagrees with the file.
@@ -1506,7 +1506,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *
      * ProseMirror strips what it cannot model, so a document carrying an
      * underline, a picture or a footnote reference loses it the moment an
-     * editor without those units opens the file. That argues for always on —
+     * editor without those units opens the file. That argues for always on --
      * and the page path argues the other way: `HtmlProfileSanitizer` removes
      * `<u>` and `<img>` from page content on save, so an editor that kept them
      * would show an author something the server then silently discards. Two
@@ -1544,12 +1544,12 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * Where each page begins, as document positions, straight from the engine.
      *
      * Position 0 is page one. Everything after it is a boundary the engine
-     * FOUND — including the ones no author placed, which is what makes the
+     * FOUND -- including the ones no author placed, which is what makes the
      * counter describe the document rather than the breaks in it.
      */
     private readonly pageStarts = signal<readonly number[]>([0]);
 
-    /** Sheet height plus the workspace gap — the distance from page to page. */
+    /** Sheet height plus the workspace gap -- the distance from page to page. */
     private pagePitchPx = 0;
     /** The TOP margin the gaps are aligned against -- where page N's text starts. */
     private pageMarginTopPx = 0;
@@ -1601,7 +1601,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             }
         }
 
-        // A profile with no `format` group still gets its pickers, at the end —
+        // A profile with no `format` group still gets its pickers, at the end --
         // exactly where they used to be. Falling back to the old position beats
         // dropping the controls because a manifest was shaped unexpectedly.
         if (font && !slots.some((slot) => 'font' === slot.kind)) {
@@ -1645,7 +1645,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * The last value this editor pushed OUT through `content`.
      *
      * Lets the mount effect tell content arriving from the host apart from
-     * content the author just typed — see the effect for why that matters.
+     * content the author just typed -- see the effect for why that matters.
      */
     private selfEmitted: string | null = null;
 
@@ -1678,15 +1678,15 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             //  An emptiness flip the AUTHOR caused is not content arriving.
             //
  // This was that defect, reported as "I press Enter and the cursor
-            // disappears, then comes back at the first position — it looks like
+            // disappears, then comes back at the first position -- it looks like
             // a reset". It was: typing the first character into an EMPTY
             // document takes `content` from '' to '<p></p>', which flips
             // `contentEmptiness` and remounts Tiptap underneath the keystroke.
             // A fresh editor has a fresh selection, so the caret goes to the
             // start of the document and the focus goes nowhere.
             //
-            // The flip this effect is FOR — a host that mounts the editor empty
-            // and fetches the content afterwards — looks identical from
+            // The flip this effect is FOR -- a host that mounts the editor empty
+            // and fetches the content afterwards -- looks identical from
             // emptiness alone. What separates them is authorship, so that is
             // what is tested: content the editor itself just emitted is content
             // it already holds, and re-installing it can only lose the caret.
@@ -1704,8 +1704,8 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         });
 
         // Paper dimensions ride on the HOST as custom properties, set
-        // imperatively rather than bound. The host element always exists — the
-        // mount comes and goes with source mode — and custom properties
+        // imperatively rather than bound. The host element always exists -- the
+        // mount comes and goes with source mode -- and custom properties
         // inherit, so one write reaches every sheet rule below. Clearing them
         // when the geometry goes away matters: a stale --cms-page-width on a
         // non-paged editor would size nothing today and something wrong later.
@@ -1740,7 +1740,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         this.requestOfferedFamilies();
 
         // The pane changes width for reasons this component never hears about
-        // — the split preview opening, fullscreen, the browser window.
+        // -- the split preview opening, fullscreen, the browser window.
         // Observing the HOST rather than the mount covers all of them with one
         // subscription that survives source mode: the mount element is inside
         // an @if and is replaced every time it toggles, so an observer bound to
@@ -1762,7 +1762,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         this.tiptap?.destroy();
     }
 
-    /** True when the host handed us paper — the "Word look" canvas. */
+    /** True when the host handed us paper -- the "Word look" canvas. */
     readonly paged = computed<boolean>(() => null !== this.pageGeometry());
 
     /** Watches the workspace so the sheet re-fits when the pane resizes. */
@@ -1773,14 +1773,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *
      * `fitSheet()` deliberately does NOT go through the scheduler: a resize
      * observer fires at most once a frame already, and its call runs in the same
- * frame as the zoom it just wrote — which is the timing that was fixed
+ * frame as the zoom it just wrote -- which is the timing that was fixed
      * against and is not worth disturbing for a burst that cannot happen there.
      */
     private paginateFrame = 0;
 
     /**
      * Scale the sheet down until it fits the pane, the way Word's zoom-to-fit
-     * does — and never up.
+     * does -- and never up.
      *
      * A4 landscape is 1123px of paper; the dialog gives about 950. Without
      * this the page is simply cut off on the right, which is the one thing a
@@ -1799,7 +1799,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *  `fitSheet()` runs on every resize AND every repaginate, so without a
      * separate override a chosen zoom would be recomputed away by the next
      * keystroke. Null means "no preference expressed", which is a different
-     * state from "chose 100%" — the latter must survive a resize that the
+     * state from "chose 100%" -- the latter must survive a resize that the
      * former should follow.
      */
     private readonly zoomOverride = signal<number | null>(null);
@@ -1813,7 +1813,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * Tiptap paints the entire document as one continuous column the moment it
      * mounts; the page boundaries only exist once the document fonts have
      * loaded and `repaginate()` has run. Between those two moments the author
-     * sees their text unsplit and then watches it jump onto its pages — the
+     * sees their text unsplit and then watches it jump onto its pages -- the
      * reported "text jumps to the pages it belongs to".
      *
      * Only the PAGED canvas has that gap. An inline editor has no pagination to
@@ -1834,7 +1834,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         this.applyZoom(from * factor);
     }
 
-    /** The named zooms. 100% is the point of the list — actual size is the one an author asks for. */
+    /** The named zooms. 100% is the point of the list -- actual size is the one an author asks for. */
     protected readonly zoomSteps = [50, 75, 100, 125, 150, 200, 400];
 
     /** True when the current zoom is a chosen one that no step names. */
@@ -1897,12 +1897,12 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
         // The gutter keeps the sheet's shadow off the scrollbar; without it a
         // page that "just fits" sits flush against the edge and reads clipped.
-        // The desk padding comes off too — `clientWidth` INCLUDES it, so a fit
+        // The desk padding comes off too -- `clientWidth` INCLUDES it, so a fit
         // computed without subtracting it sizes the page to space the padding
         // has already taken and the sheet overflows by exactly that much.
         // Measured on the SCROLLER, not the mount: the mount is
         // `width: max-content`, so its clientWidth is how wide the page already
-        // IS — feeding that back in would make the fit agree with whatever it
+        // IS -- feeding that back in would make the fit agree with whatever it
         // last produced instead of with the space available.
         const scroller = mount.parentElement ?? mount;
         const desk = getComputedStyle(mount);
@@ -1912,7 +1912,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
         // A zoom the author set WINS over the fit. Recomputing the fit on every
         // resize is right when nobody has expressed a preference and wrong the
-        // moment somebody has — it would snap their choice away on the next
+        // moment somebody has -- it would snap their choice away on the next
         // keystroke that triggers a repaginate.
         const zoom = this.zoomOverride() ?? fitted;
 
@@ -1924,7 +1924,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     /**
      * Turn the editable column into SHEETS.
      *
-     * The user's report was "3 pages on 1 page? Just unusable" — and it was
+     * The user's report was "3 pages on 1 page? Just unusable" -- and it was
      * accurate. A page break was decoration: a grey strip drawn across one
      * sheet that simply kept growing, while a counter in the toolbar said
      * "Page 1 of 3" about something nobody could see. Inserting a page break
@@ -1938,14 +1938,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * after it starts on the next sheet:
      *
      *   1. walk the breaks in order, measuring where each one falls;
-     *   2. the page it ends is at least one page tall — a short page still
-     *      looks like a page — and taller if its content overran;
+     *   2. the page it ends is at least one page tall -- a short page still
+     *      looks like a page -- and taller if its content overran;
      *   3. give the break the height that fills the rest of that page, crosses
      *      the workspace gap, and clears the next page's top margin;
      *   4. emit one absolutely-positioned white box per page behind the text.
      *
      * Measurement happens INSIDE the loop, once per break, because setting a
-     * height moves everything below it — reading all the offsets up front would
+     * height moves everything below it -- reading all the offsets up front would
      * lay out every page against stale positions.
      *
      * ## The limit, stated rather than hidden
@@ -1953,7 +1953,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * Content that simply OVERFLOWS a page is not re-flowed onto the next one;
      * that page's sheet grows instead. Re-flowing means deciding where a
      * paragraph splits, which is Word's decision and not one a browser can make
-     * identically — and guessing it would put a break on screen that the .docx
+     * identically -- and guessing it would put a break on screen that the .docx
      * does not have. An explicit break is the author's instruction and is
      * honoured exactly.
      */
@@ -1965,7 +1965,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * `onUpdate` fires once per ProseMirror transaction, and the naive
      * `requestAnimationFrame(() => this.repaginate())` it used to call books a
      * SEPARATE callback every time. Callbacks queued during one frame all run in
-     * the next, so a burst of edits does not coalesce — it queues. Holding Enter
+     * the next, so a burst of edits does not coalesce -- it queues. Holding Enter
      * repeats at roughly 30 keys a second, and the moment one repagination costs
      * more than the gap between two keystrokes the queue grows faster than it
      * drains: each entry re-lays-out a document that is longer than the one the
@@ -1973,7 +1973,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * books an `alignGaps` frame of its own. The editor stops painting, which is
      * what "it seems like it overloads" describes.
      *
-     * Only the LAST of those repaginations could have been right anyway — the
+     * Only the LAST of those repaginations could have been right anyway -- the
      * ones before it measured a document that no longer exists. So the fix is
      * not to make them cheaper but to stop asking for them: one frame is
      * booked, later asks in the same frame ride on it, and the work happens once
@@ -2040,7 +2040,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
         // The zoom the surface is CURRENTLY painted at. Read from the element
         // rather than from the signal so it reflects what the browser actually
-        // applied — the two differ for one frame after a zoom change, and that
+        // applied -- the two differ for one frame after a zoom change, and that
         // frame is exactly when this runs.
         const zoom = Number.parseFloat(getComputedStyle(surface).zoom) || 1;
 
@@ -2055,7 +2055,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 //
                 //  DIVIDED BY THE ZOOM, and this is the whole of defect
  // `getBoundingClientRect()` reports the VISUAL box, so
-                // CSS `zoom` scales it — while `pagePx` above comes from an
+                // CSS `zoom` scales it -- while `pagePx` above comes from an
                 // unzoomed probe. At 100% the two agree and everything is fine;
                 // at 77% every block measures 77% of its real height while the
                 // page is still full size, so the paginator believes far more
@@ -2071,7 +2071,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 //  NOT divided by the zoom, unlike the rect above, and the
                 // contrast is deliberate. Measured at zoom 0.982: a paragraph's
                 // `margin-bottom` read 10.9969px, which is .75em of the
-                // UNZOOMED 14.6625px body size — `getComputedStyle` resolves
+                // UNZOOMED 14.6625px body size -- `getComputedStyle` resolves
                 // lengths before the zoom is applied, where
                 // `getBoundingClientRect()` reports after it. Dividing here
  // would re-introduce it with the sign flipped.
@@ -2093,7 +2093,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                     if (fontSizePx <= 0) return null;
 
                     // `normal` where the browser will not resolve it to a
-                    // length — the engine then uses the face's own natural
+                    // length -- the engine then uses the face's own natural
                     // line height, which is what `normal` means.
                     const lineHeightPx = Number.parseFloat(computed.lineHeight);
 
@@ -2138,14 +2138,14 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         const repeated = this.repeatedHeaderRows(editor, repeatedHeadersOf(pagination.pages));
 
         // A gap fills what is left of the page it ends, crosses the workspace,
-        // and re-establishes the next page's top margin — the same arithmetic
+        // and re-establishes the next page's top margin -- the same arithmetic
         // the DOM version did, over the engine's coordinates instead of the
         // browser's.
         const gaps: PageGap[] = [];
         for (const start of pagination.pageStarts) {
             if (null === start.at) continue;
 
-            // How far down the PREVIOUS page its content actually reached —
+            // How far down the PREVIOUS page its content actually reached --
             // whichever of its text and its table rows ended lower. A page of
             // nothing but a table has no lines at all, and measuring only those
             // makes it look empty: the gap then comes out a whole page tall.
@@ -2213,12 +2213,12 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             element.style.height = '';
         }
 
-        // One sheet per page the ENGINE found, at the pitch the gaps enforce —
+        // One sheet per page the ENGINE found, at the pitch the gaps enforce --
         // no measuring, because the position of every page is now known before
         // the browser lays anything out.
         // The flow has to reach the bottom of the LAST SHEET. The
         // sheets are absolutely positioned and contribute no height, and a
-        // final page is usually mostly empty — measured, the text ended 580px
+        // final page is usually mostly empty -- measured, the text ended 580px
         // above the paper it sits on. The scrollable area therefore stopped
         // short of the page, so the desk's bottom padding had nothing to sit
         // below and the last sheet ran off the end of the canvas.
@@ -2404,7 +2404,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *
      * Deliberately not awaited before the editor mounts: an author can type
      * immediately and the paper appears when the fonts arrive. A failure leaves
-     * the canvas unpaginated rather than breaking the editor — being unable to
+     * the canvas unpaginated rather than breaking the editor -- being unable to
      * draw page boundaries is not a reason to be unable to write.
      */
     /**
@@ -2449,7 +2449,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * written: a constant here would be the same number twice, and a couple of
      * pixels a row is a whole page every forty rows.
      *
-     * Falls back to nothing when the document has no table to measure — in which
+     * Falls back to nothing when the document has no table to measure -- in which
      * case no table is being laid out either.
      */
     private measureBoxes(surface: HTMLElement): {
@@ -2493,7 +2493,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         // block is measured individually (`measureBoxAt`), because a cell's
         // paragraphs are not the document's children: reaching each of them
         // through `nodeDOM` is a walk per paragraph per row, and every
-        // paragraph in a cell answers the same. A body block does not — an h1,
+        // paragraph in a cell answers the same. A body block does not -- an h1,
  // a `p` and a blockquote all differ, and believing otherwise was that defect.
         const cellParagraph = cell?.querySelector('p') ?? null;
 
@@ -2560,7 +2560,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             // reports the VISUAL box, so CSS `zoom` scales it, while
             // `pagePitchPx` and `pageMarginTopPx` are engine numbers in unzoomed
             // layout px. At 77% the measured offset read 77% of the real one,
-            // `delta` came out spuriously positive, the gap grew — and the text
+            // `delta` came out spuriously positive, the gap grew -- and the text
             // on every page after the first slid down as the author zoomed out.
             //
             // Normalising the measurement is the correct end to fix: `delta` is
@@ -2613,7 +2613,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * Measured with getBoundingClientRect rather than offsetHeight, which is an
      * INTEGER: 11pt is 14.667px and offsetHeight calls it 15. Both the engine
      * and the canvas would then use 15 and agree with each other while
-     * disagreeing with the .docx, where 11pt means 11pt — a third of a pixel per
+     * disagreeing with the .docx, where 11pt means 11pt -- a third of a pixel per
      * line that becomes a whole line somewhere down a long document.
      */
     private cssLengthToPx(length: string): number {
@@ -2632,13 +2632,13 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      *
      * Deliberately counted from the DOCUMENT, not from measuring the rendered
      * height against the sheet. A measured count would be the browser's opinion
-     * about where Word will break, and it would be wrong — different
+     * about where Word will break, and it would be wrong -- different
      * line-breaking, different font metrics. This count is one an author can
      * act on, because it only reflects breaks they placed themselves.
      */
     readonly pageCount = computed<number>(() => this.pageStarts().length);
 
-    /** Which sheet the caret sits on — breaks before it, plus one. */
+    /** Which sheet the caret sits on -- breaks before it, plus one. */
     readonly currentPage = computed<number>(() => {
         this.stateTick();
         const editor = this.tiptap;
@@ -2659,7 +2659,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * Put the caret at the top of sheet `n` and scroll it into view.
      *
      * Moves the CARET rather than just scrolling, so the author can start
-     * typing on the page they navigated to — and so the counter agrees with
+     * typing on the page they navigated to -- and so the counter agrees with
      * where they are. `focus(position)` is what resolves the position safely:
      * the offset after a break is a block boundary, not a text position, and
      * setting a text selection there directly throws when the next node is
@@ -2674,7 +2674,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         const starts = this.pageStarts();
         const target = starts[Math.min(Math.max(n, 1), starts.length) - 1];
 
-        // Page 1 starts at position 0 — and Tiptap's focus() treats a FALSY
+        // Page 1 starts at position 0 -- and Tiptap's focus() treats a FALSY
         // position as "no position given", i.e. keep the current selection. So
         // focus(0) is a silent no-op and the one page you can never navigate
         // back to is the first. 'start' says the same thing in a form the API
@@ -2687,7 +2687,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
      * MANIFEST rather than typed out.
      *
      * The name is what lands in the .docx, and the .docx is opened somewhere
-     * else — so the useful list is the one Word and LibreOffice both resolve,
+     * else -- so the useful list is the one Word and LibreOffice both resolve,
      * not whatever happens to be installed on the author's machine.
      *
      *  A literal here drifts, and silently. It offered Georgia, Verdana and
@@ -2755,7 +2755,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
     /**
      * `focus()` first, always. A toolbar click moves focus to the button, and a
-     * command applied without restoring the selection lands nowhere — the
+     * command applied without restoring the selection lands nowhere -- the
      * classic "the button does nothing" bug in a rich-text toolbar.
      */
     private applyTextStyle(attrs: Partial<TextStyleAttributes>): void {
@@ -2769,7 +2769,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         const editor = this.tiptap;
         if (!editor) return false;
         for (const key of node.stateKeys) {
-            // `[attr=value]` — an ATTRIBUTE with no node type, for a global
+            // `[attr=value]` -- an ATTRIBUTE with no node type, for a global
             // attribute that can sit on several (alignment is on paragraphs and
             // headings alike). Naming a type here would light the button up for
             // a centred paragraph and leave it dark for a centred heading.
@@ -2807,7 +2807,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     /**
      * Build the action context and route a manifest node through the action
      * bridge. Shared by the toolbar (`dispatch`) and the slash palette
-     * (`onSelect`) so a `/`-command is dispatched identically to a click —
+     * (`onSelect`) so a `/`-command is dispatched identically to a click --
      * the palette never owns its own command list. `anchor` positions a
      * handler's popup (grid/table picker); the slash path passes null, which
      * those handlers treat as "centre on the viewport".
@@ -2894,13 +2894,13 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         // escaped, because there is no text position on either side of it to put
         // a caret in. ProseMirror draws one there only if this plugin is loaded.
         // Not tied to the table contributor: the same trap belongs to every
-        // isolating block the editor ships — a grid layout, a page break, a
-        // code block — and any of them can be the first or last node.
+        // isolating block the editor ships -- a grid layout, a page break, a
+        // code block -- and any of them can be the first or last node.
         const names = new Set<string>(['document', 'paragraph', 'text', 'history', 'hardBreak', 'gapcursor']);
         for (const n of nodes) for (const e of n.extensions) names.add(e);
         const tiptapUnits = this.extensions.resolve(Array.from(names));
 
- // Editor-wide UX extensions — the `/`-command palette, the
+ // Editor-wide UX extensions -- the `/`-command palette, the
         // drag-to-reorder gutter handle, and Word/Docs paste cleanup. Built here
         // rather than via the name registry because the slash palette needs
         // per-instance closures: the active profile's slashable entries and the
@@ -2921,7 +2921,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             // inert, ProseMirror STRIPS what it cannot model, so a document
             // with fonts opened under a narrower profile would lose them
             // silently and save that way. The toolbar controls are gated
-            // instead — see the mark's own note.
+            // instead -- see the mark's own note.
             CoolmsTextStyle,
             // The same rule, applied to the three things a stored DOCUMENT
             // carries and page content must not. Switched on by the
@@ -2970,7 +2970,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
         });
 
         // Bump once on mount. `tiptap` is a plain field, so nothing that reads
-        // it is reactive until the tick moves — without this the page counter
+        // it is reactive until the tick moves -- without this the page counter
         // reads "1 / 1" on a freshly opened multi-page document and only
         // corrects itself after the first keystroke.
         this.stateTick.update((t: number) => t + 1);

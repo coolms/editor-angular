@@ -15,7 +15,7 @@ export interface CodeBlockLanguageOption {
  * stored `class="language-x"`.
  *
  * Highlight COLOURS come from CodeBlockLowlight's ProseMirror plugin, which
- * paints inline decorations over the code text — those decorations live in the
+ * paints inline decorations over the code text -- those decorations live in the
  * view layer only, never in the document, so `editor.getHTML()` still emits
  * clean `<pre><code class="language-x">source</code></pre>` (no `hljs-*` spans).
  * That keeps the stored output inside the HtmlProfileSanitizer's allow-list

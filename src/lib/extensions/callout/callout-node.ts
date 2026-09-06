@@ -15,7 +15,7 @@ export function normalizeType(value: unknown): CalloutType {
 }
 
 /**
- * Toolbar i18n key per kind — REUSED as the box's title label so the in-editor
+ * Toolbar i18n key per kind -- REUSED as the box's title label so the in-editor
  * title and the published-page title (rendered server-side by the PHP
  * `CalloutTitleProcessor` from the SAME keys) stay in lockstep.
  */
@@ -37,9 +37,9 @@ export const DEFAULT_CALLOUT_LABELS: Record<CalloutType, string> = {
 };
 
 /**
- * Inline Bootstrap-Icons SVG per kind (info-circle · exclamation-triangle ·
+ * Inline Bootstrap-Icons SVG per kind (info-circle - exclamation-triangle -
  * lightbulb). Kept byte-identical to the backend `CalloutTitleProcessor::ICONS`
- * so the editor and the published page show the same glyph — and so the public
+ * so the editor and the published page show the same glyph -- and so the public
  * theme (which ships no icon font) can embed the icon inline.
  */
 export const CALLOUT_ICONS: Record<CalloutType, string> = {
@@ -52,7 +52,7 @@ export const CALLOUT_ICONS: Record<CalloutType, string> = {
 export interface CalloutOptions {
     /**
      * Resolves a toolbar i18n key to a localized label for the in-editor title.
-     * Null when the host wires no `EDITOR_TRANSLATE` provider — the NodeView
+     * Null when the host wires no `EDITOR_TRANSLATE` provider -- the NodeView
      * then falls back to {@link DEFAULT_CALLOUT_LABELS}. Captured at boot by
      * `provideCoolmsEditor()` and passed via `CalloutNode.configure({ translate })`.
      */
@@ -74,11 +74,11 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Callout / admonition block — a boxed aside (note · warning · tip) holding any
- * block content. Saved HTML shape (box only — the title is render-time):
+ * Callout / admonition block -- a boxed aside (note - warning - tip) holding any
+ * block content. Saved HTML shape (box only -- the title is render-time):
  *
  *     <div class="callout callout-note" data-callout="note">
- *       <p>…</p>
+ *       <p>...</p>
  *     </div>
  *
  * The `class` carries the kind for the public theme's CSS; `data-callout`
@@ -87,7 +87,7 @@ declare module '@tiptap/core' {
  * `callout:*` toolbar buttons via `callout.insert`.
  *
  * A NodeView ({@see CalloutNodeView}) renders a localized, iconed title line +
- * an in-place type switcher while editing — but `renderHTML()` below still emits
+ * an in-place type switcher while editing -- but `renderHTML()` below still emits
  * the bare box, so `getHTML()` stays clean: the title is never stored (the
  * public theme re-adds its own localized title at render time via
  * `CalloutTitleProcessor`, so there's nothing to double-inject on the next load).

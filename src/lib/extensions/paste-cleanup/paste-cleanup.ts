@@ -4,30 +4,30 @@
  * `paste-cleanup-extension.ts`).
  *
  * Design: only HTML that *looks* like it came from Word or Google Docs is
- * rewritten. Everything else — including copy/paste *within* the editor, where
- * our own widget markup (`class="callout …"`, `data-widget`, grid/table
- * structure) must survive — passes through untouched, leaving ProseMirror's
+ * rewritten. Everything else -- including copy/paste *within* the editor, where
+ * our own widget markup (`class="callout ..."`, `data-widget`, grid/table
+ * structure) must survive -- passes through untouched, leaving ProseMirror's
  * schema-aware parser in charge. The backend `HtmlProfileSanitizer` remains
  * authoritative on save; this is an editor-side ergonomics pass.
  *
  * What it does to Office/Docs HTML:
- *   - drops cruft tags (`<style>`, `<xml>`, `<o:p>`, `<w:…>`, conditional
+ *   - drops cruft tags (`<style>`, `<xml>`, `<o:p>`, `<w:...>`, conditional
  *     comments) and all comment nodes;
  *   - converts Google-Docs style-encoded emphasis (`<span style="font-weight:
  *     700">` -> `<strong>`, italic -> `<em>`, underline -> `<u>`, line-through ->
  *     `<s>`) BEFORE stripping styles, so bold/italic survive;
  *   - unwraps the leftover `<span>` / `<font>` wrappers;
- *   - strips presentational attributes (`style`, `class`, `lang`, …), keeping
+ *   - strips presentational attributes (`style`, `class`, `lang`, ...), keeping
  *     only structural ones (`href`, `src`/`alt`, `colspan`/`rowspan`);
  *   - removes the empty `MsoNormal` filler paragraphs Word emits;
- *   - optionally normalises smart quotes (off by default — they are valid
+ *   - optionally normalises smart quotes (off by default -- they are valid
  *     content).
  *
  * Headings, lists, links, tables and inline emphasis are preserved throughout.
  */
 
 export interface PasteCleanupOptions {
-    /** Convert “smart” quotes / apostrophes to straight ones. Default: false. */
+    /** Convert "smart" quotes / apostrophes to straight ones. Default: false. */
     readonly normalizeSmartQuotes?: boolean;
 }
 
@@ -44,7 +44,7 @@ const KEEP_ATTRS: Readonly<Record<string, ReadonlySet<string>>> = {
 
 /**
  * Heuristic: does this clipboard HTML originate from MS Word or Google Docs?
- * Pure string check — safe to call in any environment and unit-testable
+ * Pure string check -- safe to call in any environment and unit-testable
  * without a DOM.
  */
 export function looksLikeOfficeOrDocs(html: string): boolean {
@@ -58,8 +58,8 @@ export function looksLikeOfficeOrDocs(html: string): boolean {
 export function cleanPastedHtml(html: string, options: PasteCleanupOptions = {}): string {
     if (html.trim() === '' || !looksLikeOfficeOrDocs(html)) return html;
 
-    // Strip downlevel conditional comments (`<![if !supportLists]>…<![endif]>`)
-    // up front — they are not real comment nodes and confuse the parser.
+    // Strip downlevel conditional comments (`<![if !supportLists]>...<![endif]>`)
+    // up front -- they are not real comment nodes and confuse the parser.
     const pre = html.replace(/<!\[(?:end)?if[^\]]*\]>/gi, '');
 
     const doc = new DOMParser().parseFromString(pre, 'text/html');
@@ -75,7 +75,7 @@ export function cleanPastedHtml(html: string, options: PasteCleanupOptions = {})
     return body.innerHTML.trim();
 }
 
-/** Remove cruft tags + any namespaced element (`o:p`, `w:…`, `v:…`). */
+/** Remove cruft tags + any namespaced element (`o:p`, `w:...`, `v:...`). */
 function dropCruftTags(root: HTMLElement): void {
     for (const el of Array.from(root.querySelectorAll('*'))) {
         if (DROP_TAGS.has(el.tagName) || el.tagName.includes(':')) {
@@ -127,7 +127,7 @@ function emphasisTags(style: string): string[] {
     const tags: string[] = [];
     const weight = decls['font-weight'];
     // Number('') is 0 and Number('normal') is NaN, so a non-numeric / missing
-    // weight never trips the >= 600 branch — no explicit undefined guard needed.
+    // weight never trips the >= 600 branch -- no explicit undefined guard needed.
     if (weight === 'bold' || weight === 'bolder' || Number(weight) >= 600) {
         tags.push('strong');
     }

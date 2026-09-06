@@ -10,7 +10,7 @@ const DRAG_HANDLE_KEY = new PluginKey('coolmsDragHandle');
  * whole block via ProseMirror's native node drag-and-drop.
  *
  * Implemented as a bare ProseMirror plugin (no `@tiptap/extension-drag-handle`
- * dependency — same "stay off extra deps" stance as the table bubble-menu).
+ * dependency -- same "stay off extra deps" stance as the table bubble-menu).
  * The handle lives in the editor mount's left padding, so it never overlaps
  * prose; clicking it selects the block, dragging it reorders.
  */

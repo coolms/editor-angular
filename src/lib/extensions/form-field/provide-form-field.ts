@@ -16,7 +16,7 @@ import { OpenFormFieldPickerHandler } from './open-form-field-picker.handler';
  *      FormFieldContributor declares in its `extensions` field.
  *
  * Lives inside @coolms/editor-angular (not a feature/ module) because
- * formField is a universal editor primitive — same reason gridLayout's
+ * formField is a universal editor primitive -- same reason gridLayout's
  * factory registration is inside `provideCoolmsEditor()`. Kept as a
  * separate provider so consumer apps that don't want formField can simply
  * omit `provideCoolmsEditorFormField()` from their composition without

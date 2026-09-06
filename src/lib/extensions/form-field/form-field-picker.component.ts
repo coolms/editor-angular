@@ -357,16 +357,16 @@ export class FormFieldPickerComponent {
     readonly defaultValue = signal<string>('');
     readonly datasource   = signal<string>('');
 
-    /** Validators array — picker-internal shape. Encoded to base64 on apply. */
+    /** Validators array -- picker-internal shape. Encoded to base64 on apply. */
     readonly validators = signal<ReadonlyArray<FormFieldValidator>>([]);
 
-    /** Visibility rule — picker-internal shape. Encoded to base64 on apply. */
+    /** Visibility rule -- picker-internal shape. Encoded to base64 on apply. */
     readonly visibilityField    = signal<string>('');
     readonly visibilityOperator = signal<VisibilityOperator>('eq');
     readonly visibilityValue    = signal<string>('');
 
     readonly activeTab = signal<PickerTab>('type');
-    /** True when fieldId has been edited manually — disables auto-slugify. */
+    /** True when fieldId has been edited manually -- disables auto-slugify. */
     readonly fieldIdManuallySet = signal<boolean>(false);
 
     readonly isEditing = computed(() => {
@@ -406,7 +406,7 @@ export class FormFieldPickerComponent {
                 const parsed = JSON.parse(decodeBase64(validationRaw)) as FormFieldValidator[];
                 if (Array.isArray(parsed)) this.validators.set(parsed);
             } catch {
-                // Malformed payload — ignore so the user can re-author from
+                // Malformed payload -- ignore so the user can re-author from
                 // a clean slate rather than seeing a crashed dialog.
             }
         }
