@@ -6,7 +6,7 @@ type TiptapUnit = Extension | Node | Mark;
 /**
  * Singleton registry mapping wire-string extension names -> Tiptap factory
  * functions. The backend manifest carries strings ('bold', 'mediaWidget')
- * — this registry resolves them to actual Tiptap units when the editor
+ * -- this registry resolves them to actual Tiptap units when the editor
  * mounts.
  *
  * Built-in StarterKit units are seeded by `provideCoolmsEditor()` under
@@ -15,7 +15,7 @@ type TiptapUnit = Extension | Node | Mark;
  * feature module's bootstrap.
  *
  * Factories return a fresh instance per call (no shared state across
- * editor mounts) — ProseMirror plugins keep instance-local state and
+ * editor mounts) -- ProseMirror plugins keep instance-local state and
  * sharing them across editors causes subtle re-render bugs.
  */
 @Injectable({ providedIn: 'root' })
@@ -31,7 +31,7 @@ export class EditorExtensionRegistry {
 
     /**
      * Resolve a wire-string list to actual Tiptap units. Unknown names
-     * log a warning and are dropped — keeps the editor mounted with the
+     * log a warning and are dropped -- keeps the editor mounted with the
      * extensions it does know, even if a manifest references something
      * stale (e.g. uninstalled module's still-cached entries).
      */

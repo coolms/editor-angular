@@ -9,7 +9,7 @@ currently serves. Earlier alphas are deliberately not reconstructed: entries are
 in the same commit as the work they describe, and inventing the ones that
 predate this file would be a worse record than not having them.
 
-## 2.0.0-alpha.2 — 2026-09-03
+## 2.0.0-alpha.2 -- 2026-09-03
 
 **A pre-release, carrying no compatibility promise.** Published under the
 `alpha` dist-tag.
@@ -22,7 +22,7 @@ knowing about media libraries or link pickers.
 
 ### Added
 
-- `{comment}…{endcomment}` and `{comment:…}` in the DTMPL syntax
+- `{comment}...{endcomment}` and `{comment:...}` in the DTMPL syntax
   highlighting, beside the existing verbatim handling.
 
 ### Fixed

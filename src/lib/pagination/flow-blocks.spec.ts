@@ -9,7 +9,7 @@ import { flowBlocksFromDoc, fontFamiliesIn, rowPositionOf, type BlockBox, type F
  *
  * Written for a defect: a top-level block reached the engine as bare spans,
  * so the layout stacked bare lines where the browser stacked boxes with margins
- * — and a heading arrived at body size on a body line. The engine then believed
+ * -- and a heading arrived at body size on a body line. The engine then believed
  * far more fitted on a page than did, and text ran off the paper.
  *
  * The numbers below are the ones measured off the real canvas: a body paragraph
@@ -164,7 +164,7 @@ describe('flowBlocksFromDoc', () => {
 
     /**
      * A row height is authored in POINTS (what `w:trHeight` states and the
-     * control offers) and the engine measures in px, so this seam converts —
+     * control offers) and the engine measures in px, so this seam converts --
      * and getting it wrong would break the canvas's pages in a different place
      * from the .docx's, which is the one thing a paged editor must not do
      *.
@@ -195,7 +195,7 @@ describe('flowBlocksFromDoc', () => {
 
     /**
      *  The engine falls back to deriving "this row repeats" from its cells
-     * being header cells — a guess that disagreed with the `.docx`, which
+     * being header cells -- a guess that disagreed with the `.docx`, which
      * repeated nothing at all until `w:tblHeader` was writable. This
      * seam is what stops it guessing, so the value has to arrive STATED, and
      * `false` has to arrive as `false` rather than as an absence the fallback

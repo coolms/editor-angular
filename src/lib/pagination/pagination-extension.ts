@@ -21,7 +21,7 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view';
  * A gap between two blocks and a gap part-way through a paragraph are the same
  * thing here: a block-level widget at a position. Between blocks it pushes the
  * next block down; inside a paragraph `display: block` ends the current line and
- * the rest of the text continues below the gap — which is what reflowing a
+ * the rest of the text continues below the gap -- which is what reflowing a
  * paragraph across a page boundary looks like.
  */
 

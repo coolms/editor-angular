@@ -18,14 +18,14 @@ export const SECTION_BREAK_HTML = `<hr ${SECTION_BREAK_ATTRIBUTE}>`;
 export const SECTION_BREAK_PATTERN = new RegExp(`<hr[^>]*${SECTION_BREAK_ATTRIBUTE}[^>]*>`);
 
 /**
- * A section break — where one page setup ends and the next begins.
+ * A section break -- where one page setup ends and the next begins.
  *
  * ## Why the editor needs one at all
  *
  * A `.ddoc` is a LIST of sections, each with its own paper, headers and
  * footers. The editor holds one flow of content. Showing only the first
  * section would leave the rest of the document invisible while still saving it
- * — an author would see a document shorter than the one they have — so the
+ * -- an author would see a document shorter than the one they have -- so the
  * sections are joined for editing with this atom between them and split apart
  * again on save.
  *
@@ -37,7 +37,7 @@ export const SECTION_BREAK_PATTERN = new RegExp(`<hr[^>]*${SECTION_BREAK_ATTRIBU
  * ## Deleting one merges two sections, and that is Word's behaviour too
  *
  * The section that ended here stops existing, and its headers and footers go
- * with it — `DdocEditorProjection` matches sections by position, so a document
+ * with it -- `DdocEditorProjection` matches sections by position, so a document
  * that comes back with fewer of them has lost the trailing ones deliberately.
  * That is what Word does when you delete a section break, and the label below
  * says what the mark is so nobody deletes one thinking it is a rule.
@@ -51,7 +51,7 @@ export const SectionBreakNode = Node.create({
 
     parseHTML() {
         // Priority over the page break's own `hr[data-page-break]` rule is not
-        // needed — the two attributes are different — but the generic
+        // needed -- the two attributes are different -- but the generic
         // horizontal rule would claim a bare `<hr>`, so this stays explicit.
         return [{ tag: `hr[${SECTION_BREAK_ATTRIBUTE}]`, priority: 100 }];
     },

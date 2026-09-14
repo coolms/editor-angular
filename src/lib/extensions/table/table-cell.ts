@@ -14,7 +14,7 @@ import { TableHeader } from '@tiptap/extension-table-header';
  * the sanitizer AND renders identically on the public page.
  *
  * The bubble menu's align buttons drive this through Tiptap's generic
- * `setCellAttribute('align', …)` command (see {@link ./table-commands}) — no
+ * `setCellAttribute('align', ...)` command (see {@link ./table-commands}) -- no
  * custom command needed; the attribute's render/parse pair does the class
  * mapping. `setCellAttribute` writes the attr to every cell in the current
  * cell-selection, so selecting a column then "align center" aligns the column.
@@ -50,7 +50,7 @@ function alignFromElement(el: HTMLElement): CellAlign | null {
 /**
  * The `align` attribute, shared by the cell + header extensions. `parseHTML`
  * reads the `text-*` class on load; `renderHTML` re-emits only it, so
- * `getHTML()` stores `<td class="text-center">` — sanitizer-clean + theme-styled.
+ * `getHTML()` stores `<td class="text-center">` -- sanitizer-clean + theme-styled.
  */
 const alignAttribute = () => ({
     align: {

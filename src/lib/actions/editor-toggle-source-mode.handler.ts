@@ -6,7 +6,7 @@ import type { EditorActionContext, EditorActionHandler } from '../editor.types';
  * and a textarea/CodeMirror source view, since that mutates component-
  * local DOM, not the Tiptap state).
  *
- * The bridge stays component-coupled here on purpose — source mode is
+ * The bridge stays component-coupled here on purpose -- source mode is
  * a chrome concern, not a Tiptap action.
  */
 export class EditorToggleSourceModeHandler implements EditorActionHandler {

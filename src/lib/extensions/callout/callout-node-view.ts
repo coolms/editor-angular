@@ -21,11 +21,11 @@ const SWITCHER_ARIA_FALLBACK = 'Callout type';
  *
  *   - an inline SVG icon + a localized label ("Note" / "Warning" / "Tip"),
  *     resolved through the host `translate` (EDITOR_TRANSLATE) with an English
- *     fallback — parity with the published page, which the PHP
+ *     fallback -- parity with the published page, which the PHP
  *     `CalloutTitleProcessor` titles from the same i18n keys; and
  *   - a top-right `<select>` type switcher that changes the callout's `type`
  *     attribute in place (no delete + re-insert). The `type` attr is the single
- *     source of truth — `update()` re-derives the class, icon, label, and select
+ *     source of truth -- `update()` re-derives the class, icon, label, and select
  *     value from it whenever it changes.
  *
  * Mirrors the `GridColumnNodeView` pattern: `dom` holds a non-content decoration
@@ -54,7 +54,7 @@ export class CalloutNodeView {
 
         this.dom = document.createElement('div');
 
-        // -- Title line (decoration — not part of the content hole) ----------
+        // -- Title line (decoration -- not part of the content hole) ----------
         this.titleEl = document.createElement('div');
         this.titleEl.className = 'callout__title';
         this.titleEl.contentEditable = 'false';

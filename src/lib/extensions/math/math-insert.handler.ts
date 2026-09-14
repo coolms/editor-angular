@@ -11,13 +11,13 @@ import type { MathAttrs } from './math-node';
 type MathDialogData = MathAttrs;
 
 /**
- * Tiny inline dialog for the math prompt — a LaTeX textarea + an inline/display
+ * Tiny inline dialog for the math prompt -- a LaTeX textarea + an inline/display
  * toggle. Lives next to the handler (tightly coupled, mirrors
  * EditorEmbedDialogComponent). Re-uses the global `cms-dialog-*` / `cms-input` /
  * `cms-label` / `cms-hint` classes; no per-component styles.
  *
- * The author types LaTeX WITHOUT the `$`/`$$` delimiters — "Display" picks
- * `$$…$$` (centred block) vs `$…$` (inline); on confirm the handler inserts a
+ * The author types LaTeX WITHOUT the `$`/`$$` delimiters -- "Display" picks
+ * `$$...$$` (centred block) vs `$...$` (inline); on confirm the handler inserts a
  * `math` node that stores the `.katex-src` span the public renderer understands.
  */
 @Component({

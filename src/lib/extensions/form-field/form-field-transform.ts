@@ -2,8 +2,8 @@
  * Bidirectional HTML <-> dtmpl transform for the FormFieldNode Tiptap atom.
  *
  * On save:  formFieldHtmlToDtmpl rewrites every
- *           `<span data-widget="formField" data-field-id=… …></span>` marker
- *           into its `{widget:formField:fieldId …}` source form.
+ *           `<span data-widget="formField" data-field-id=... ...></span>` marker
+ *           into its `{widget:formField:fieldId ...}` source form.
  * On load:  formFieldDtmplToHtml does the inverse, rebuilding marker spans
  *           so Tiptap's parseHTML can rehydrate FormFieldNode instances.
  *
@@ -70,8 +70,8 @@ const FIELD_ID_RE = /^[A-Za-z0-9_]+$/;
 
 /**
  * Convert editor HTML into stored dtmpl. Walks every marker
- * `<span data-widget="formField" …></span>` and emits the corresponding
- * `{widget:formField:fieldId …}` tag. Spans without a usable fieldId pass
+ * `<span data-widget="formField" ...></span>` and emits the corresponding
+ * `{widget:formField:fieldId ...}` tag. Spans without a usable fieldId pass
  * through unchanged so source-mode editing doesn't silently drop content
  * authored against a future schema.
  */
@@ -105,8 +105,8 @@ export function formFieldHtmlToDtmpl(html: string): string {
 }
 
 /**
- * Convert stored dtmpl into editor HTML. Each `{widget:formField:fieldId …}`
- * becomes a `<span data-widget="formField" data-field-id=… …></span>` marker
+ * Convert stored dtmpl into editor HTML. Each `{widget:formField:fieldId ...}`
+ * becomes a `<span data-widget="formField" data-field-id=... ...></span>` marker
  * the FormFieldNode parseHTML rule rehydrates into a Tiptap atom node. Tags
  * with a malformed fieldId (anything outside `[A-Za-z0-9_]+`) pass through
  * verbatim so authors can spot and fix them in source view.

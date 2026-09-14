@@ -5,8 +5,8 @@ import {
 /**
  * Bidirectional HTML <-> dtmpl transform for the DtmplEmbedNode Tiptap atom.
  *
- * On save:  embedHtmlToDtmpl rewrites every `<div data-widget="embed" …>…</div>`
- *           marker into its `{widget:embed:<kind> src=`URL` …}` source form
+ * On save:  embedHtmlToDtmpl rewrites every `<div data-widget="embed" ...>...</div>`
+ *           marker into its `{widget:embed:<kind> src=`URL` ...}` source form
  *           (kind = video | iframe | audio, carried as the token's `_id`). Audio
  *           omits `ratio` (the backend ignores it) so its round-trip stays exact.
  * On load:  embedDtmplToHtml does the inverse, rebuilding the marker div so
@@ -16,14 +16,14 @@ import {
  * attribute ordering inside the widget tag) so a save/reload cycle never mutates
  * user content.
  *
- * Param encoding — every value is BACKTICK-delimited (`src=`…` ratio=`…`
- * title=`…``), not double-quoted. The DTMPL tag lexer's only string delimiter is
+ * Param encoding -- every value is BACKTICK-delimited (`src=`...` ratio=`...`
+ * title=`...``), not double-quoted. The DTMPL tag lexer's only string delimiter is
  * the backtick (Lexer::scanTag); a double-quoted value throws "Unexpected
  * character" -> HTTP 500 at SSR render. Even `ratio` (a digit-led token like
- * `16x9`) must be backtick-quoted — a bare `16x9` lexes as the number `16`
- * followed by an unexpected `x` — which is why the proven render token is
+ * `16x9`) must be backtick-quoted -- a bare `16x9` lexes as the number `16`
+ * followed by an unexpected `x` -- which is why the proven render token is
  * `ratio=`4x3`` (EmbedWidgetRenderIntegrationTest), mirroring how the URL must
- * ride `src=` exactly like `{widget:link:url href=…}`.
+ * ride `src=` exactly like `{widget:link:url href=...}`.
  *
  * Storage limitation (matching the media/link/formField transforms): a `}` or a
  * lone trailing `\` inside a string value can't be represented; the insert
@@ -45,7 +45,7 @@ function matchAttr(html: string, name: string): string | null {
  * Escape a string for use inside a BACKTICK-delimited dtmpl param value. The
  * lexer's only in-string escape is `\``, so only literal backticks are escaped;
  * every other character (incl. `:` `/` `?` `=` `&` in URLs) is safe verbatim.
- * The stored value is RAW text — the theme partial HTML-escapes it on output via
+ * The stored value is RAW text -- the theme partial HTML-escapes it on output via
  * the `escape` filter, so we must NOT pre-encode here.
  */
 function escapeBacktick(s: string): string {
@@ -94,7 +94,7 @@ function parseParams(raw: string): Record<string, string> {
 
 /**
  * Convert editor HTML into stored dtmpl. Rewrites every marker
- * `<div data-widget="embed" …>…</div>` into a `{widget:embed:video …}` tag.
+ * `<div data-widget="embed" ...>...</div>` into a `{widget:embed:video ...}` tag.
  * A marker without a usable `data-url` passes through unchanged so source-mode
  * editing doesn't silently drop content.
  */
@@ -110,7 +110,7 @@ export function embedHtmlToDtmpl(html: string): string {
         // All params backtick-delimited (the lexer's only string form); values
         // are RAW text the theme partial escapes once on output.
         const params: string[] = [`src=\`${escapeBacktick(decodeHtmlEntities(url))}\``];
-        // Audio carries no aspect ratio (the backend ignores it) — omit so the
+        // Audio carries no aspect ratio (the backend ignores it) -- omit so the
         // round-trip is lossless for audio tokens.
         if (kindUsesRatio(kind)) params.push(`ratio=\`${ratio}\``);
         if (title !== '') params.push(`title=\`${escapeBacktick(title)}\``);
@@ -121,7 +121,7 @@ export function embedHtmlToDtmpl(html: string): string {
 
 /**
  * Convert stored dtmpl into editor HTML by replacing each
- * `{widget:embed:video …}` with a marker `<div data-widget="embed">` placeholder
+ * `{widget:embed:video ...}` with a marker `<div data-widget="embed">` placeholder
  * that DtmplEmbedNode's parseHTML rule rehydrates into a node. A tag without a
  * `src` passes through verbatim so authors can spot + fix it in source view.
  *

@@ -33,7 +33,7 @@ const wholeNumber = (element: HTMLElement, attribute: string): number | null => 
 /**
  *  The attribute KEY has to be closed over, not taken as an argument.
  * Tiptap calls an attribute's `renderHTML` with the whole attribute bag and
- * nothing else — a second parameter is simply `undefined`, so `attrs[key]`
+ * nothing else -- a second parameter is simply `undefined`, so `attrs[key]`
  * reads nothing and the attribute silently never renders. Measured: three of
  * these four came back missing while `borderColor`, which names its key
  * directly, survived.
@@ -57,7 +57,7 @@ const numberAttribute = (key: string, attribute: string) => ({
  * ProseMirror STRIPS attributes no node declares. `DocumentHtmlWriter` writes a
  * table's own width, border weight, border colour and both cell-margin axes
  * onto the `<table>`; without the declarations below the editor drops all five
- * on load, and the save sends back a table that states nothing — so
+ * on load, and the save sends back a table that states nothing -- so
  * `TableMapper` falls back to its authored-HTML defaults and **a borderless
  * imported table grows borders on the first save**, at a width nobody chose.
  *

@@ -12,8 +12,8 @@ import { PAGE_BREAK_NODE_NAME } from '../extensions/page-break/page-break-node';
  *
  * Every span carries the ProseMirror position of its first character, and the
  * engine does arithmetic on those without interpreting them. ProseMirror's
- * position rules — a text node counts its UTF-16 length, a leaf counts one, a
- * container counts two plus its content — are not re-derived anywhere; they are
+ * position rules -- a text node counts its UTF-16 length, a leaf counts one, a
+ * container counts two plus its content -- are not re-derived anywhere; they are
  * read off the real document, which is the only copy that can be right.
  *
  * That is also why inline content the engine never sees (an image, a field
@@ -52,20 +52,20 @@ const TABLE_NODE = 'table';
 const TABLE_ROW_NODE = 'tableRow';
 const HEADER_CELL_NODE = 'tableHeader';
 
-/** Tiptap's list nodes. A list is a CONTAINER — its text is two levels down. */
+/** Tiptap's list nodes. A list is a CONTAINER -- its text is two levels down. */
 const LIST_NODES = new Set(['bulletList', 'orderedList']);
 const LIST_ITEM_NODE = 'listItem';
 
 /**
  * Containers whose height comes from the BROWSER rather than from the layout.
  *
- * Each is a box with its own padding, borders and margins — a CSS box model
+ * Each is a box with its own padding, borders and margins -- a CSS box model
  * the engine would have to reimplement to guess at. See `measureHeightAt`.
  */
 const OPAQUE_NODES = new Set(['callout', 'gridLayout']);
 
 /**
- * CSS px per typographic point — 96/72, the ratio the whole canvas is built on.
+ * CSS px per typographic point -- 96/72, the ratio the whole canvas is built on.
  *
  * A row height is authored and stored in POINTS, because that is the unit
  * `w:trHeight` states and the unit the control offers; the engine measures in
@@ -92,7 +92,7 @@ export interface BlockBox {
      */
     readonly lineHeightPx: number | null;
     readonly fontSizePx: number;
-    /** `font-weight` at 600 or more — the canvas paints h3 at 600. */
+    /** `font-weight` at 600 or more -- the canvas paints h3 at 600. */
     readonly bold: boolean;
     /** `margin-top`, which the engine collapses against the block above. */
     readonly spaceBeforePx: number;
@@ -143,7 +143,7 @@ export interface FlowOptions {
     /**
      * The bottom margin on a paragraph INSIDE a cell, measured the same way.
      *
-     * Ten pixels a row the engine would otherwise not know about — a page
+     * Ten pixels a row the engine would otherwise not know about -- a page
      * every hundred rows.
      *
      *  This said "body paragraphs in this editor have none". They have
@@ -169,7 +169,7 @@ export interface FlowOptions {
      *
      * A callout is a bordered, padded box; a grid layout is three nested boxes
      * with their own padding and collapsing margins. Reproducing that in the
-     * layout means reimplementing the CSS box model one container at a time —
+     * layout means reimplementing the CSS box model one container at a time --
      * and getting it slightly wrong is invisible until the paper and the text
      * disagree several pages down.
      *
@@ -194,7 +194,7 @@ export interface FlowOptions {
      * heading `.8em 0 .4em`, and NONE of it reached the engine: a block was
      * handed over as bare spans, so the layout stacked 17.9px lines where the
      * browser stacked 28.9px paragraphs. The error is not a rounding drift, it
-     * COMPOUNDS — measured on a landscape A4 page, the engine believed 61% more
+     * COMPOUNDS -- measured on a landscape A4 page, the engine believed 61% more
      * fitted than did, and six paragraphs ran off the paper before it agreed a
      * page had ended.
      *
@@ -202,7 +202,7 @@ export interface FlowOptions {
      * either: an `h1` is 24px on a 28.8px line and the engine drew it as body
      * text on a 17.9px one.
      *
-     * The engine's own spacing model was never at fault — it collapses
+     * The engine's own spacing model was never at fault -- it collapses
      * `spaceBefore` against `spaceAfter` exactly as CSS does, measured against
      * LibreOffice. It was simply never told the numbers. So they are read from
      * the browser that already computed them, for the same reason
@@ -243,7 +243,7 @@ export function flowBlocksFromDoc(doc: ProseMirrorNode, options: FlowOptions): F
  * One node, as the flow items it holds.
  *
  * ONE dispatch, called at every depth. Three times now a container has been
- * found reading as a single empty block — Word tables, editor tables, lists —
+ * found reading as a single empty block -- Word tables, editor tables, lists --
  * because the code that read it only looked one level down. A callout holding a
  * list holds it two levels down, and the only way that keeps working is for the
  * thing that reads a callout's children to be the same thing that reads the
@@ -488,13 +488,13 @@ function readList(
  * that tall, that breaks as a unit. Nothing else in the layout needs to know it
  * is special.
  *
- * A container that cannot be measured — one the view has not drawn yet — falls
+ * A container that cannot be measured -- one the view has not drawn yet -- falls
  * back to reading its blocks, which is wrong by the box's own padding but is
  * never zero.
  */
 function opaque(node: ProseMirrorNode, offset: number, options: FlowOptions): FlowBlock {
     const heightPx = options.measureHeightAt(offset);
-    // The height above is the border box — `getBoundingClientRect()` stops at
+    // The height above is the border box -- `getBoundingClientRect()` stops at
     // the border, so a callout's own margins are as invisible to the layout as
     // a paragraph's were.
     const box = options.measureBoxAt(offset);
@@ -515,7 +515,7 @@ function opaque(node: ProseMirrorNode, offset: number, options: FlowOptions): Fl
  *
  * ## Column widths
  *
- * ProseMirror stores them per CELL, in a `colwidth` array — one entry per grid
+ * ProseMirror stores them per CELL, in a `colwidth` array -- one entry per grid
  * column the cell spans, and null when the column has never been resized. The
  * columns that carry no width share out whatever the sized ones leave, which is
  * what the browser's `table-layout: fixed` does with the same data. Measuring
@@ -539,7 +539,7 @@ function readTable(node: ProseMirrorNode, offset: number, options: FlowOptions):
 
         rowNode.forEach((cellNode, cellOffset) => {
             // `colwidth` holds one entry per spanned column and a NULL for any
-            // that has never been resized — so a spanning cell can declare one
+            // that has never been resized -- so a spanning cell can declare one
             // of its columns and leave the other to share out.
             const attrs = cellNode.attrs as { colspan?: number; colwidth?: (number | null)[] | null };
             const span = Math.max(1, attrs.colspan ?? 1);
@@ -575,7 +575,7 @@ function readTable(node: ProseMirrorNode, offset: number, options: FlowOptions):
 
         // A row height the author set, in points, as the engine's px. Without
         // this the canvas would break its pages where an UNSET row would fall
-        // and the .docx where the stated one does — the two disagreeing about
+        // and the .docx where the stated one does -- the two disagreeing about
         // the same table, which is the whole thing a paged editor exists to
         // prevent.
         const attrs = rowNode.attrs as { height?: number | null; repeatHeader?: boolean };

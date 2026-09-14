@@ -6,11 +6,11 @@ import { CodeTabsNodeView } from './code-tabs-node-view';
  * tabbed code block. Saved shape:
  *
  *     <div class="code-tabs">
- *       <pre><code class="language-js">…</code></pre>
- *       <pre><code class="language-php">…</code></pre>
+ *       <pre><code class="language-js">...</code></pre>
+ *       <pre><code class="language-php">...</code></pre>
  *     </div>
  *
- * Plain Bootstrap-free HTML (no `{widget:…}` tag) — like gridLayout, it rides
+ * Plain Bootstrap-free HTML (no `{widget:...}` tag) -- like gridLayout, it rides
  * the content path's widget-axis-only ContentSanitizer untouched. The public
  * theme enhances it into real tabs; without JS the variants stack and stay
  * readable.

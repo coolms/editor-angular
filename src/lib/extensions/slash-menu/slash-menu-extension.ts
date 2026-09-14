@@ -26,7 +26,7 @@ interface SlashTriggerState {
     readonly range:     { from: number; to: number } | null;
     /** Text typed after the slash. */
     readonly query:     string;
-    /** User pressed Escape on this exact trigger — stay closed until it changes. */
+    /** User pressed Escape on this exact trigger -- stay closed until it changes. */
     readonly dismissed: boolean;
 }
 
@@ -67,7 +67,7 @@ class SlashMenuController {
 
     private readonly groupsSig: WritableSignal<ReadonlyArray<SlashCommandGroup>> = signal([]);
     private readonly activeSig: WritableSignal<number> = signal(0);
-    /** Filtered items in display order — the flat list keyboard nav indexes into. */
+    /** Filtered items in display order -- the flat list keyboard nav indexes into. */
     private flat: ReadonlyArray<SlashCommandItem> = [];
 
     constructor(
@@ -85,7 +85,7 @@ class SlashMenuController {
         }
         const filtered = filterSlashItems(this.config.items(), state.query);
         if (filtered.length === 0) {
-            // No match for the current query — hide rather than show an empty
+            // No match for the current query -- hide rather than show an empty
             // box, so `/` followed by gibberish (or a literal path) lets Enter
             // and Space fall through to normal editing.
             this.close();
@@ -207,7 +207,7 @@ class SlashMenuController {
 }
 
 /**
- * `slashMenu` extension — the `/`-triggered command palette. Not
+ * `slashMenu` extension -- the `/`-triggered command palette. Not
  * declared by any single contributor: the CoolmsEditorComponent constructs it
  * once per mount with closures that expose the active profile's slashable
  * entries and route a pick through the same action bridge the toolbar uses, so

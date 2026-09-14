@@ -48,11 +48,11 @@ export class OpenFormFieldPickerHandler implements EditorActionHandler {
 
     /**
      * Three sources, in priority order:
-     *   1. params.attrs — passed by the editor host when the NodeView's chip
+     *   1. params.attrs -- passed by the editor host when the NodeView's chip
      *                     was clicked (carries the exact node attrs).
-     *   2. NodeSelection on a formField — when the toolbar fires while a
+     *   2. NodeSelection on a formField -- when the toolbar fires while a
      *                     formField node is selected.
-     *   3. {} — fresh insert.
+     *   3. {} -- fresh insert.
      */
     private resolveInitialAttrs(
         params: Readonly<Record<string, unknown>>,

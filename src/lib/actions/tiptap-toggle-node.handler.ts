@@ -7,7 +7,7 @@ import type { EditorActionContext, EditorActionHandler } from '../editor.types';
  * nodes without a per-node handler.
  *
  * Tiptap's chain API exposes `toggleBulletList`, `toggleOrderedList`,
- * `toggleBlockquote` etc. — we look them up dynamically so manifest-driven
+ * `toggleBlockquote` etc. -- we look them up dynamically so manifest-driven
  * additions don't require a code change here.
  */
 export class TiptapToggleNodeHandler implements EditorActionHandler {

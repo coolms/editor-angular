@@ -7,10 +7,10 @@ import { runTableCommand } from './table-commands';
  * via {@link runTableCommand}.
  *
  * The table bubble menu is the primary caller (its buttons call
- * `runTableCommand` directly — same single source of truth), but registering
+ * `runTableCommand` directly -- same single source of truth), but registering
  * this as a first-class action means a manifest toolbar node or any other
  * dispatcher can drive table edits the same declarative way the other
- * built-ins do (`tiptap.toggleMark`, `table.insert`, …).
+ * built-ins do (`tiptap.toggleMark`, `table.insert`, ...).
  */
 export class TableCommandHandler implements EditorActionHandler {
     execute(params: Readonly<Record<string, unknown>>, ctx: EditorActionContext): void {

@@ -18,7 +18,7 @@ const HANDLE_HIT_AREA_PX = 8;
  * Mirrors the MediaNodeView pattern: live width preview via inline
  * style during drag, single transaction commit on mouseup so undo treats the
  * resize as one operation. The handle is hidden when no next sibling exists
- * (last column has nothing to rebalance against — full-width single-column
+ * (last column has nothing to rebalance against -- full-width single-column
  * grids therefore have no resize affordance).
  *
  * Width invariant: dragging never changes the sum of (this.width +
@@ -73,7 +73,7 @@ export class GridColumnNodeView {
         if (node.type !== this.node.type) return false;
         this.node = node;
         this.applyClass();
-        // A drag in progress owns inline styling — don't overwrite mid-drag.
+        // A drag in progress owns inline styling -- don't overwrite mid-drag.
         if (!this.drag) {
             this.dom.style.removeProperty('flex');
         }
@@ -90,7 +90,7 @@ export class GridColumnNodeView {
 
     /** Inline-style mutations during drag must not trigger ProseMirror reparse. */
     ignoreMutation(mutation: ViewMutationRecord): boolean {
-        // Selection-record branch (no attributeName) — let ProseMirror handle.
+        // Selection-record branch (no attributeName) -- let ProseMirror handle.
         if (mutation.type !== 'attributes') return false;
         if (mutation.attributeName === 'style') return true;
         if (mutation.attributeName === 'class') {
@@ -187,7 +187,7 @@ export class GridColumnNodeView {
         const newNext = pairTotal - newWidth;
         drag.currentWidth = newWidth;
         drag.currentNextWidth = newNext;
-        // Live preview: restyle the DOM only — ProseMirror sees no doc change
+        // Live preview: restyle the DOM only -- ProseMirror sees no doc change
         // until mouseup commits the transaction below. The temporary class
         // overrides Bootstrap's col-N width via the CSS in this extension's
         // stylesheet (--cms-grid-preview-width takes precedence).

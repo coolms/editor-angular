@@ -65,7 +65,7 @@ export class EditorOpenLinkDialogHandler implements EditorActionHandler {
 
         const { from, to } = ctx.editor.state.selection;
         if (from === to) {
-            // No selection — insert the URL as visible text and link it.
+            // No selection -- insert the URL as visible text and link it.
             ctx.editor.chain().focus()
                 .insertContent(url)
                 .setTextSelection({ from, to: from + url.length })

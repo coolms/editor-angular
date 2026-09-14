@@ -11,7 +11,7 @@ import { loadPaginationEngine, resetPaginationEngine } from './engine';
  * until it lands and is its only caller -- but a spec calls the function
  * directly.
  *
- * ⚠️ This is NOT what makes the file pass, and saying so would be the more
+ * !! This is NOT what makes the file pass, and saying so would be the more
  * comfortable lie. Removing it leaves all 1219 specs green, measured: karma
  * bundles the suite, and `document-fonts.spec.ts` loads the engine as a side
  * effect of `loadFontManifest()` before anything here runs. It is here to make
@@ -175,7 +175,7 @@ describe('lineBoxesFrom', () => {
     });
 
     /**
-     * ⚠️ The two states of the OPTIONAL peer, which nothing else here can see.
+     * !! The two states of the OPTIONAL peer, which nothing else here can see.
      *
      * `@coolms/document-engine` is fetched rather than imported, so
      * `lineBoxesFrom` reads `isFlowTable` from a module that may not have

@@ -4,7 +4,7 @@
  * Monorepo-internal first (per design doc Section 5): consumed via tsconfig
  * path mapping from the consuming application. When the bridge
  * stabilises, we add a `package.json` here and publish to npm without code
- * changes — the public surface stays the same.
+ * changes -- the public surface stays the same.
  */
 export { CoolmsEditorComponent } from './lib/editor.component';
 export type { PageGeometry, PageMargins } from './lib/editor.component';

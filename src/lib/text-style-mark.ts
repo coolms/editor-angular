@@ -5,8 +5,8 @@ import { Mark, mergeAttributes } from '@tiptap/core';
  *
  * ## Why one local mark instead of Tiptap's official extensions
  *
- * The equivalent off the shelf is three packages — `extension-text-style`,
- * `extension-color`, `extension-font-family` — and they still would not cover
+ * The equivalent off the shelf is three packages -- `extension-text-style`,
+ * `extension-color`, `extension-font-family` -- and they still would not cover
  * SIZE, for which Tiptap ships nothing at all. So a custom mark was needed
  * either way; making it carry all three keeps one thing to reason about instead
  * of four, and adds no dependency to align with the Tiptap major on every
@@ -14,7 +14,7 @@ import { Mark, mergeAttributes } from '@tiptap/core';
  *
  * ## Why it is always on, never profile-gated
  *
- * An unregistered mark is not inert — ProseMirror STRIPS what it cannot model.
+ * An unregistered mark is not inert -- ProseMirror STRIPS what it cannot model.
  * A document with fonts opened under a profile that omitted this would come
  * back with the spans silently removed and save that way, which is data loss
  * disguised as a narrower toolbar. The toolbar CONTROLS are gated instead: a
@@ -23,7 +23,7 @@ import { Mark, mergeAttributes } from '@tiptap/core';
  *
  * ## The rendered shape is the contract
  *
- * `<span style="font-family: …; font-size: …pt; color: …">` — which is exactly
+ * `<span style="font-family: ...; font-size: ...pt; color: ...">` -- which is exactly
  * what `TextMapper::inlineStyle()` reads on the way into a .docx. The two are
  * one feature seen from two ends: change the markup here and the .docx stops
  * carrying the font, with nothing failing in between.
@@ -50,7 +50,7 @@ declare module '@tiptap/core' {
 export const CoolmsTextStyle = Mark.create({
     name: 'coolmsTextStyle',
 
-    // Fonts do not survive a paragraph break as a "current style" — each run
+    // Fonts do not survive a paragraph break as a "current style" -- each run
     // carries its own, exactly as a .docx run does.
     keepOnSplit: false,
 
@@ -60,7 +60,7 @@ export const CoolmsTextStyle = Mark.create({
                 default: null,
                 parseHTML: (el: HTMLElement) => el.style.fontFamily?.replace(/["']/g, '') || null,
                 // Rendered together below, so each attribute contributes
-                // nothing on its own — three separate `style` keys would be
+                // nothing on its own -- three separate `style` keys would be
                 // merged by concatenation and produce a malformed attribute.
                 renderHTML: () => ({}),
             },
@@ -104,8 +104,8 @@ export const CoolmsTextStyle = Mark.create({
                 const s = el.style;
 
                 //  `backgroundColor` belongs in this list, and was missing
-                //. The mark MODELS a background — `renderHTML` writes
-                // one — so a span carrying only a highlight matched nothing,
+                //. The mark MODELS a background -- `renderHTML` writes
+                // one -- so a span carrying only a highlight matched nothing,
                 // and ProseMirror strips what nothing claims: a run highlighted
                 // and not otherwise styled lost its highlight on load and saved
                 // without it. Every property this mark can write, it must also
@@ -137,7 +137,7 @@ export const CoolmsTextStyle = Mark.create({
     addCommands() {
         return {
             // MERGES with whatever the selection already carries, so setting a
-            // size does not clear the family — the toolbar sets one property at
+            // size does not clear the family -- the toolbar sets one property at
             // a time and each would otherwise wipe the others.
             setCoolmsTextStyle: (attrs) => ({ chain, editor }) => {
                 const current = editor.getAttributes(this.name) as Partial<TextStyleAttributes>;

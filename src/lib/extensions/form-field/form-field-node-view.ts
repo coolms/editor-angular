@@ -9,7 +9,7 @@ import { resolveFieldType } from './form-field-types';
  * a click handler that dispatches `formField.upsert` so the picker reopens
  * with the current attrs pre-populated.
  *
- * Atom + inline means contentDOM is null — ProseMirror will not render any
+ * Atom + inline means contentDOM is null -- ProseMirror will not render any
  * children inside this view, the NodeView owns the visible DOM entirely.
  * Selection is handled the same way MediaNodeView handles it: a class flip
  * on selectNode/deselectNode lets CSS highlight the chip without touching

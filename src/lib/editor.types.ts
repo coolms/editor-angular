@@ -19,7 +19,7 @@ export interface EditorToolbarNodeManifest {
     readonly shortcut?:    string | null;
     /**
      * Whether this entry belongs in the `/`-triggered slash-insert palette
- *. Derived server-side from `group` — block-structure and
+ *. Derived server-side from `group` -- block-structure and
      * insert-widget actions are slashable; inline format marks (bold/italic)
      * and meta actions are not. Serialized by the backend's ObjectNormalizer
  * from `EditorToolbarNode::isSlashable()`. Optional on the
@@ -29,7 +29,7 @@ export interface EditorToolbarNodeManifest {
     readonly slashable?:   boolean;
     /**
      * Extra search aliases for the slash palette (`['h1', 'title']` for
-     * Heading 1) — the FE fuzzy-matches these alongside `label`. Opt-in per
+     * Heading 1) -- the FE fuzzy-matches these alongside `label`. Opt-in per
      * contributor; defaults to `[]` server-side, optional here for the same
      * back-compat reason as `slashable`.
      */
@@ -51,7 +51,7 @@ export interface EditorProfileManifest {
 
 /**
  * Source-of-profiles for the bridge. The bridge never reads NgXS or
- * any consumer-app state directly — instead consumers provide an
+ * any consumer-app state directly -- instead consumers provide an
  * implementation through the EDITOR_MANIFEST_PROVIDER token.
  *
  * Sub-prompt E swapped the contract from `contributors(editorId)` to
@@ -67,7 +67,7 @@ export const EDITOR_MANIFEST_PROVIDER = new InjectionToken<EditorManifestProvide
 
 /**
  * Minimal context passed to every action handler. The bridge builds one
- * per dispatch — the editor instance + the profile name let handlers run
+ * per dispatch -- the editor instance + the profile name let handlers run
  * Tiptap chains, while `injector` lets module-supplied handlers (Media
  * insert, future Taxonomy link) reach DI services without owning a
  * component reference.
@@ -76,7 +76,7 @@ export const EDITOR_MANIFEST_PROVIDER = new InjectionToken<EditorManifestProvide
  *   allowedWidgets  the namespaces this profile permits on save.
  *                   Module handlers (media insert, future link picker)
  *                   can defensively early-return when their namespace
- *                   isn't in the list — a logic safety net even if the
+ *                   isn't in the list -- a logic safety net even if the
  *                   profile filter already removed the contributor button.
  *
  * Component-supplied helpers (`toggleSourceMode`, `getContent`,
@@ -93,7 +93,7 @@ export interface EditorActionContext {
     readonly getContent:       () => string;
     readonly setContent:       (html: string) => void;
     /**
-     * The DOM element that triggered the action — the toolbar button when
+     * The DOM element that triggered the action -- the toolbar button when
      * the action came from a toolbar click, the chip element when a
      * NodeView dispatched it, or null for programmatic invocations. Used
      * by handlers that anchor an Overlay popup (grid picker, table picker,
@@ -113,7 +113,7 @@ export interface EditorActionHandler {
 }
 
 /**
- * Storage adapter — lets consumers map the editor's HTML to/from a custom
+ * Storage adapter -- lets consumers map the editor's HTML to/from a custom
  * storage format (page-editor passes a dtmpl adapter; comment editor uses
  * the identity default). Sub-prompt B3 wires this for the page editor;
  * sub-prompt E adds the optional `stripDisallowedWidgets` hook.

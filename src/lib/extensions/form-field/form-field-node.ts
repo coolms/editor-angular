@@ -5,13 +5,13 @@ import { FORM_FIELD_TYPES } from './form-field-types';
 const VALID_TYPE_IDS = new Set<string>(FORM_FIELD_TYPES.map((t) => t.id));
 
 /**
- * Inline atom Tiptap node mirroring a `{widget:formField:fieldId …}` dtmpl
+ * Inline atom Tiptap node mirroring a `{widget:formField:fieldId ...}` dtmpl
  * tag. Atom because the picker is the sole config UI (no inline editing of
  * label / type / validation), inline so the field can sit mid-paragraph
- * alongside text — the natural placement when authoring documents that
+ * alongside text -- the natural placement when authoring documents that
  * mix prose with fillable fields.
  *
- * Storage form is a `<span data-widget="formField" data-field-id=… …>`
+ * Storage form is a `<span data-widget="formField" data-field-id=... ...>`
  * marker. The parseHTML / renderHTML round-trip is byte-stable for the
  * standard attribute set; the `validation` and `visibility` JSON payloads
  * are base64-encoded so their `{` / `}` braces don't collide with the
@@ -142,7 +142,7 @@ export const FormFieldNode = Node.create({
         if (datasource !== '') composed['data-datasource'] = datasource;
         if (visibility !== '') composed['data-visibility'] = visibility;
 
-        // Empty content list — atom node has no children. The visible chip
+        // Empty content list -- atom node has no children. The visible chip
         // is composed by the NodeView.
         return ['span', mergeAttributes(HTMLAttributes, composed)];
     },

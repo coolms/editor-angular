@@ -6,7 +6,7 @@ import { Mark, mergeAttributes } from '@tiptap/core';
  * Written inline rather than pulling `@tiptap/extension-superscript` /
  * `-subscript` (not published in the v3 line we use, and absent from the
  * consolidated `@tiptap/extensions` package). They are trivial `<sup>`/`<sub>`
- * marks — schema only; toggling is driven by the generic `tiptap.toggleMark`
+ * marks -- schema only; toggling is driven by the generic `tiptap.toggleMark`
  * action handler, so no custom commands are needed.
  *
  * Each excludes the other so the same run can't be both super- and subscript

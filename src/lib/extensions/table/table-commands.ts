@@ -75,7 +75,7 @@ export function runTableCommand(editor: Editor, command: string): boolean {
     }
 }
 
-/** The node name a row height lives on — see {@link ../table/table-row}. */
+/** The node name a row height lives on -- see {@link ../table/table-row}. */
 const TABLE_ROW = 'tableRow';
 
 /**
@@ -115,7 +115,7 @@ export function currentRowRepeatsHeader(editor: Editor): boolean {
  *
  * On the ROW, like the height and for the same reason: `w:tblHeader` is one
  * fact about the whole row, and `setCellAttribute` would write it to each cell
- * of the selection instead — a place the model has nowhere to put it.
+ * of the selection instead -- a place the model has nowhere to put it.
  */
 export function setRowRepeatHeader(editor: Editor, repeat: boolean): boolean {
     const { state, view } = editor;
@@ -142,7 +142,7 @@ export function setRowRepeatHeader(editor: Editor, repeat: boolean): boolean {
  * Set or clear the caret's row height, in points.
  *
  * Not a `setCellAttribute`: that writes to every cell of the selection, and a
- * height belongs to the ROW — one number for the whole of it, which is also how
+ * height belongs to the ROW -- one number for the whole of it, which is also how
  * `w:trHeight` is stated. `setNodeMarkup` on the row node is the equivalent one
  * level up.
  */
@@ -159,7 +159,7 @@ export function setRowHeight(editor: Editor, points: number | null): boolean {
         view.dispatch(state.tr.setNodeMarkup($from.before(depth), undefined, {
             ...node.attrs,
             // Null CLEARS, which is the only way back to "as tall as the
-            // tallest cell" — there is no separate button for unset.
+            // tallest cell" -- there is no separate button for unset.
             height: null !== points && points > 0 ? points : null,
         }));
 
@@ -183,9 +183,9 @@ export interface TableMenuGroup {
 }
 
 /**
- * The bubble-menu layout: rows · columns · cells · alignment · table, each a
+ * The bubble-menu layout: rows - columns - cells - alignment - table, each a
  * separated group. Labels double as tooltip + aria-label (the toolbar's i18n
- * layer isn't wired for these yet — English fallback, matching the editor's
+ * layer isn't wired for these yet -- English fallback, matching the editor's
  * BUILTIN_LABEL_FALLBACKS convention).
  */
 export const TABLE_MENU_GROUPS: ReadonlyArray<TableMenuGroup> = [

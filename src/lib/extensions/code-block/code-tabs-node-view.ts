@@ -15,7 +15,7 @@ function languageLabel(node: ProseMirrorNode, index: number): string {
  * tab strip (one tab per child code block, labelled by its language) above the
  * editable panels; clicking a tab shows that child and hides the rest.
  *
- * The active index is NodeView-local (view state, not document data) — the
+ * The active index is NodeView-local (view state, not document data) -- the
  * stored HTML is just `<div class="code-tabs">` wrapping N `<pre><code>` blocks,
  * which degrades to a readable stack anywhere the tab JS doesn't run (matches
  * the public theme's progressive-enhancement contract).
