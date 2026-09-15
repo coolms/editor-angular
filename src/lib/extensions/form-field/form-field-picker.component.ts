@@ -182,7 +182,7 @@ export type FormFieldPickerResult = FormFieldAttrs;
                                       placeholder="ru=Russia
 us=United States
 de=Germany"></textarea>
-                            <p class="ffp-row__hint">For richer datasources (API, repository, taxonomy), embed JSON or use the form-config YAML once F.5 ships.</p>
+                            <p class="ffp-row__hint">For richer datasources (API, repository, taxonomy), embed JSON; a form-config YAML datasource is planned.</p>
                         </div>
                     }
                     @case ('visibility') {

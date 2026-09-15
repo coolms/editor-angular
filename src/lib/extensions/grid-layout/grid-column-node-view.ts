@@ -119,7 +119,7 @@ export class GridColumnNodeView {
      * Resolve the position of the immediate next sibling column inside the
      * same gridRow. Returns null when this is the last column or when the
      * position can't be resolved (NodeView still mounting). Accepts both
-     * `gridRow` (F.1.1+ schema) and `gridLayout` (F.1 legacy where columns
+     * `gridRow` (the row-wrapped schema) and `gridLayout` (the legacy flat schema, where columns
      * sat directly under gridLayout) so legacy-shaped docs that slip past
      * the migration regex still get a working resize handle.
      */
