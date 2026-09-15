@@ -4,8 +4,8 @@
  * aliases onto. Centralised so the picker grid, the Tiptap node default
  * attribute, and the icon mapping all draw from one source.
  *
- * When the Form module exposes a FieldType registry over HTTP (deferred to
- * F.5+), this module-local list becomes a default fallback consulted only
+ * When the Form module exposes a FieldType registry over HTTP (not yet
+ * built), this module-local list becomes a default fallback consulted only
  * when the API hasn't been called yet.
  */
 
