@@ -63,6 +63,9 @@
     "rich-text",
     "wysiwyg"
   ],
+  "bugs": {
+    "url": "https://github.com/coolms/editor-angular/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coolms/editor-angular.git"
