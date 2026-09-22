@@ -13,6 +13,14 @@ predate this file would be a worse record than not having them.
 
 ### Changed
 
+- The selected family: the tints the editor mixed by hand from the mark
+  (`color-mix` at 8, 14, 18 and 35 per cent -- the pressed toolbar button,
+  the selected math node and form field, the grid picker's chosen cells,
+  the picker's type card, the slash menu's current item) read
+  `--cms-selected-light`, with `--cms-selected-text` on them; the table's
+  selected-cell overlay, which must let the cell's content through, paints
+  the mark itself at `opacity: .15`. The host theme refuses a hand-mixed
+  tint of the mark from here on.
 - Every selection mark reads `--cms-selected`, the host theme's token for
   "this one is selected", instead of `--cms-accent`: the pressed toolbar
   button's border, a selected node's outline and label (page break, section

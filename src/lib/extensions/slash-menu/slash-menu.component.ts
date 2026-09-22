@@ -99,7 +99,7 @@ interface RenderedGroup {
             text-align: left;
             line-height: 1.3;
         }
-        .sm__item--active { background: color-mix(in srgb, var(--cms-selected) 14%, transparent); color: var(--cms-accent-text); }
+        .sm__item--active { background: var(--cms-selected-light); color: var(--cms-selected-text); }
         .sm__icon {
             display: inline-flex;
             align-items: center;
@@ -112,7 +112,7 @@ interface RenderedGroup {
             font-size: .9rem;
             color: var(--cms-text-secondary);
         }
-        .sm__item--active .sm__icon { border-color: color-mix(in srgb, var(--cms-selected) 50%, transparent); color: var(--cms-accent-text); }
+        .sm__item--active .sm__icon { border-color: var(--cms-selected); color: var(--cms-selected-text); }
         .sm__label { flex: 1 1 auto; }
     `],
 })

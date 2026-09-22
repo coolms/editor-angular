@@ -312,8 +312,8 @@ de=Germany"></textarea>
         .ffp-type-card:hover { background: var(--cms-surface-muted); border-color: var(--cms-btn-border); }
         .ffp-type-card--active {
             border-color: var(--cms-selected);
-            background: color-mix(in srgb, var(--cms-selected) 8%, transparent);
-            color: var(--cms-text);
+            background: var(--cms-selected-light);
+            color: var(--cms-selected-text);
         }
         .ffp-type-card__icon { font-size: 1.4rem; color: var(--cms-text-secondary); }
         .ffp-type-card--active .ffp-type-card__icon { color: var(--cms-selected); }

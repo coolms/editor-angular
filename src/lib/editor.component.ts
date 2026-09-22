@@ -499,8 +499,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
         }
         .cms-editor__btn:disabled { opacity: .45; cursor: not-allowed; }
         .cms-editor__btn--active {
-            background: var(--cms-accent-light);
-            color: var(--cms-accent-text);
+            background: var(--cms-selected-light);
+            color: var(--cms-selected-text);
             border-color: var(--cms-selected);
         }
         .cms-editor__mount,
@@ -1169,8 +1169,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             }
             .cms-math:hover { background: rgba(13, 110, 253, .12); }
             .cms-math.ProseMirror-selectednode {
-                background: color-mix(in srgb, var(--cms-selected) 18%, transparent);
-                outline: 1px solid color-mix(in srgb, var(--cms-selected) 50%, transparent);
+                background: var(--cms-selected-light);
+                outline: 1px solid var(--cms-selected);
             }
             .cms-math--display { display: block; text-align: center; margin: .5em 0; }
             .cms-math--empty, .cms-math--error {
@@ -1286,7 +1286,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             .cms-form-field:hover { background: color-mix(in srgb, var(--cms-accent) 25%, transparent); }
             .cms-form-field--selected,
             .cms-form-field.ProseMirror-selectednode {
-                background: color-mix(in srgb, var(--cms-selected) 35%, transparent);
+                background: var(--cms-selected-light);
                 border-style: solid;
             }
             .cms-form-field__icon { font-size: .9em; color: #b07014; }
@@ -1351,7 +1351,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: color-mix(in srgb, var(--cms-selected) 15%, transparent);
+                background: var(--cms-selected);
+                opacity: .15;
                 pointer-events: none;
                 z-index: 2;
             }
