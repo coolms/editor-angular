@@ -11,6 +11,17 @@ predate this file would be a worse record than not having them.
 
 ## Unreleased
 
+### Changed
+
+- Every selection mark reads `--cms-selected`, the host theme's token for
+  "this one is selected", instead of `--cms-accent`: the pressed toolbar
+  button's border, a selected node's outline and label (page break, section
+  break, form field, math, table cell), the form-field picker's tab underline
+  and picked type card, the grid picker's chosen cells and the slash menu's
+  current item. The math node's selection was a literal Bootstrap blue and
+  reads the token now. The theme aliases the token to the accent today; a
+  rule that named the accent could not be re-themed apart from the buttons.
+
 ### Added
 
 - Declares `bugs` so a page imported from this package, and the catalogue,

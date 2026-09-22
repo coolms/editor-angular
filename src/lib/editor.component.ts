@@ -501,7 +501,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
         .cms-editor__btn--active {
             background: var(--cms-accent-light);
             color: var(--cms-accent-text);
-            border-color: var(--cms-accent);
+            border-color: var(--cms-selected);
         }
         .cms-editor__mount,
         .cms-editor__source {
@@ -891,10 +891,10 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             top: auto;
             bottom: 6px;
             background: transparent;
-            color: var(--cms-accent);
+            color: var(--cms-selected);
         }
         .cms-editor--paged .cms-page-break.ProseMirror-selectednode {
-            outline: 2px solid var(--cms-accent);
+            outline: 2px solid var(--cms-selected);
             outline-offset: -2px;
         }
  /* Drag-to-reorder handle. Lives in the mount's left padding
@@ -1078,8 +1078,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             /* Atoms are selected whole; without this the only feedback for
              * "this is what Delete will remove" is ProseMirror's default
              * outline, which the dashed border swallows visually. */
-            .cms-page-break.ProseMirror-selectednode { border-top-color: var(--cms-accent); }
-            .cms-page-break.ProseMirror-selectednode .cms-page-break__label { color: var(--cms-accent); }
+            .cms-page-break.ProseMirror-selectednode { border-top-color: var(--cms-selected); }
+            .cms-page-break.ProseMirror-selectednode .cms-page-break__label { color: var(--cms-selected); }
 
             /* A SECTION break, which is a different thing from a page break and
              * has to look like one: a page break starts a new page under the
@@ -1103,8 +1103,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 text-transform: uppercase;
                 color: var(--cms-text-muted);
             }
-            .cms-section-break.ProseMirror-selectednode { border-top-color: var(--cms-accent); }
-            .cms-section-break.ProseMirror-selectednode .cms-section-break__label { color: var(--cms-accent); }
+            .cms-section-break.ProseMirror-selectednode { border-top-color: var(--cms-selected); }
+            .cms-section-break.ProseMirror-selectednode .cms-section-break__label { color: var(--cms-selected); }
 
             /* Callouts (note · warning · tip): tinted box + coloured left rule
              * per kind so the admonition reads as a block while editing —
@@ -1169,8 +1169,8 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             }
             .cms-math:hover { background: rgba(13, 110, 253, .12); }
             .cms-math.ProseMirror-selectednode {
-                background: rgba(13, 110, 253, .18);
-                outline: 1px solid rgba(13, 110, 253, .5);
+                background: color-mix(in srgb, var(--cms-selected) 18%, transparent);
+                outline: 1px solid color-mix(in srgb, var(--cms-selected) 50%, transparent);
             }
             .cms-math--display { display: block; text-align: center; margin: .5em 0; }
             .cms-math--empty, .cms-math--error {
@@ -1286,7 +1286,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
             .cms-form-field:hover { background: color-mix(in srgb, var(--cms-accent) 25%, transparent); }
             .cms-form-field--selected,
             .cms-form-field.ProseMirror-selectednode {
-                background: color-mix(in srgb, var(--cms-accent) 35%, transparent);
+                background: color-mix(in srgb, var(--cms-selected) 35%, transparent);
                 border-style: solid;
             }
             .cms-form-field__icon { font-size: .9em; color: #b07014; }
@@ -1351,7 +1351,7 @@ export function pageMarginsOf(geometry: PageGeometry): PageMargins {
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: color-mix(in srgb, var(--cms-accent) 15%, transparent);
+                background: color-mix(in srgb, var(--cms-selected) 15%, transparent);
                 pointer-events: none;
                 z-index: 2;
             }

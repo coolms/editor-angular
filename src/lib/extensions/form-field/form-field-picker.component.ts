@@ -277,7 +277,7 @@ de=Germany"></textarea>
             white-space: nowrap;
         }
         .ffp-tab:hover { color: var(--cms-text); }
-        .ffp-tab--active { color: var(--cms-text); border-bottom-color: var(--cms-accent); font-weight: 600; }
+        .ffp-tab--active { color: var(--cms-text); border-bottom-color: var(--cms-selected); font-weight: 600; }
         .ffp-body { padding: 18px 22px; overflow-y: auto; flex: 1; }
         .ffp-form { display: flex; flex-direction: column; gap: 14px; }
         .ffp-help { color: var(--cms-text-secondary); font-size: .85rem; margin: 0 0 4px; }
@@ -311,12 +311,12 @@ de=Germany"></textarea>
         }
         .ffp-type-card:hover { background: var(--cms-surface-muted); border-color: var(--cms-btn-border); }
         .ffp-type-card--active {
-            border-color: var(--cms-accent);
-            background: color-mix(in srgb, var(--cms-accent) 8%, transparent);
+            border-color: var(--cms-selected);
+            background: color-mix(in srgb, var(--cms-selected) 8%, transparent);
             color: var(--cms-text);
         }
         .ffp-type-card__icon { font-size: 1.4rem; color: var(--cms-text-secondary); }
-        .ffp-type-card--active .ffp-type-card__icon { color: var(--cms-accent); }
+        .ffp-type-card--active .ffp-type-card__icon { color: var(--cms-selected); }
         .ffp-type-card__label { font-weight: 500; }
         .ffp-validator { padding: 8px 10px; border: 1px solid var(--cms-border-light); border-radius: var(--cms-radius, 6px); }
         .ffp-validator__args { margin-top: 8px; padding-left: 24px; display: flex; flex-direction: column; gap: 6px; }
