@@ -84,7 +84,7 @@ interface PickerData {
             cursor: pointer;
         }
         .gp-cell--active {
-            background: color-mix(in srgb, var(--cms-selected) 35%, transparent);
+            background: var(--cms-selected-light);
             border-color: var(--cms-selected);
         }
         .gp-label {
