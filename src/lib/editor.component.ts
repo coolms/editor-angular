@@ -1588,11 +1588,11 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
     /** Contributed groups and the editor's own clusters, in one order. */
     readonly toolbarSlots = computed<ReadonlyArray<ToolbarSlot>>(() => {
-        // Gated on paged(): this IS the Word-look document editor, which is
+        // Gated on offersFonts(): the Word-look document editor, which is
         // where a font belongs. An inline or comment profile is not paged and
         // gets no font pickers, while the MARK stays registered everywhere so
         // their documents never lose formatting they already have.
-        const font = this.paged() && !this.sourceMode();
+        const font = this.offersFonts();
         const slots: ToolbarSlot[] = [];
 
         for (const group of this.groupedNodes()) {
@@ -1659,6 +1659,16 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     } | null = null;
 
     constructor() {
+        // The font list, asked for when the editor first offers fonts -- not
+        // at mount. A host may hand over its paper after the first render
+        // (the dtmpl dialog reads it from the server), and this follows it.
+        effect(() => {
+            if (this.offersFonts() && !this.familiesRequested) {
+                this.familiesRequested = true;
+                untracked(() => this.requestOfferedFamilies());
+            }
+        });
+
         // Re-mount whenever profile, manifest contributors, the host-supplied
         // mountKey, or the content's empty-vs-non-empty state change. We
         // deliberately don't track the content body itself so keystrokes
@@ -1738,7 +1748,6 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.mounted = true;
         void this.mount();
-        this.requestOfferedFamilies();
 
         // The pane changes width for reasons this component never hears about
         // -- the split preview opening, fullscreen, the browser window.
@@ -1765,6 +1774,21 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
     /** True when the host handed us paper -- the "Word look" canvas. */
     readonly paged = computed<boolean>(() => null !== this.pageGeometry());
+
+    /**
+     * Does this editor offer fonts? The ONE place it is decided: the toolbar's
+     * font slot and the request for the list it fills are both read from here,
+     * so they cannot drift apart.
+     *
+     * The list is the API's font registry, behind the API's authorization. A
+     * mount that offers no font -- every inline, comment and page profile --
+     * never asks for it: a caller the registry refuses would collect a 403 on
+     * every page load for a select they are never shown.
+     */
+    readonly offersFonts = computed<boolean>(() => this.paged() && !this.sourceMode());
+
+    /** Set the first time {@link offersFonts} holds; the list is asked for once. */
+    private familiesRequested = false;
 
     /** Watches the workspace so the sheet re-fits when the pane resizes. */
     private fitObserver?: ResizeObserver;
