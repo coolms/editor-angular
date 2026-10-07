@@ -14,6 +14,7 @@
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
     "@coolms/core-angular": "^2.0.0-alpha.1",
+    "@coolms/ddoc": "0.1.0-alpha.1",
     "@coolms/document-engine": "^0.1.0-alpha.1",
     "rxjs": "^7.8.0"
   },

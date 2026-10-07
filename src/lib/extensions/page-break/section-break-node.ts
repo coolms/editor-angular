@@ -1,21 +1,14 @@
+import { SECTION_BREAK_ATTRIBUTE, SECTION_BREAK_HTML, SECTION_BREAK_PATTERN } from '@coolms/ddoc';
 import { Node, mergeAttributes } from '@tiptap/core';
 
-/** The attribute that means "a new section starts after this". */
-export const SECTION_BREAK_ATTRIBUTE = 'data-section-break';
+/*
+ * The section-break markup -- the attribute, what a joined document puts between two sections, and the pattern it
+ * splits on -- is @coolms/ddoc's (2026-10-07): one copy for every client of the `.ddoc` format, tested where it is
+ * published. Re-exported, so an import from @coolms/editor-angular keeps working.
+ */
+export { SECTION_BREAK_ATTRIBUTE, SECTION_BREAK_HTML, SECTION_BREAK_PATTERN };
 
 export const SECTION_BREAK_NODE_NAME = 'sectionBreak';
-
-/** What a joined document puts between two sections, and splits on again. */
-export const SECTION_BREAK_HTML = `<hr ${SECTION_BREAK_ATTRIBUTE}>`;
-
-/**
- * Matches the break however the serializer chose to write its empty value.
- *
- *  Deliberately NOT global. `String.split()` ignores the `g` flag but a
- * shared global regex carries `lastIndex` between calls, and every other use of
- * one here would start from wherever the previous call left off.
- */
-export const SECTION_BREAK_PATTERN = new RegExp(`<hr[^>]*${SECTION_BREAK_ATTRIBUTE}[^>]*>`);
 
 /**
  * A section break -- where one page setup ends and the next begins.
