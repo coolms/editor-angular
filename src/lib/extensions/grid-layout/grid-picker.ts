@@ -6,34 +6,22 @@ import {
     ConnectedPosition, Overlay, OverlayConfig, OverlayRef,
 } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
+import type { Dimensions, DimensionsRequest } from '@coolms/editor-client';
 import { take } from 'rxjs';
-
-/** Cap matches the prompt: 12 x 12. Bootstrap grid maxes at col-12; tables
- *  at this size are already unwieldy so the same cap fits both intents. */
-export const GRID_PICKER_MAX = 12;
-
-export interface GridPickerDimensions {
-    readonly rows: number;
-    readonly cols: number;
-}
-
-export interface GridPickerOptions {
-    /** Suffix used in the live label ("X x Y grid" / "X x Y table"). */
-    readonly noun: 'grid' | 'table';
-    /** Element the popup attaches to. Falls back to viewport-centered if null. */
-    readonly anchor: HTMLElement | null;
-}
 
 const PICKER_TOKEN = Symbol('GRID_PICKER_DATA') as unknown as { __brand: 'GridPickerToken' };
 const PICKER_DATA = (PICKER_TOKEN as unknown);
 
 interface PickerData {
     readonly noun: 'grid' | 'table';
-    readonly resolve: (value: GridPickerDimensions | null) => void;
+    readonly maxRows: number;
+    readonly maxCols: number;
+    readonly resolve: (value: Dimensions | null) => void;
 }
 
 /**
- * Compact 12 x 12 popup for picking a (rows, cols) pair. Mirrors the
+ * Compact popup for picking a (rows, cols) pair, as large as the request's
+ * bounds (12 x 12 for the built-in handlers). Mirrors the
  * Excel / Word "insert table" affordance: hover from the top-left
  * highlights an extending rectangle, click commits, click outside or
  * Escape cancels. Reused by both `gridLayout.insert` and `table.insert`
@@ -100,8 +88,8 @@ interface PickerData {
 export class GridPickerComponent {
     private readonly data = inject<PickerData>(PICKER_DATA as never);
 
-    readonly rowIdx = Array.from({ length: GRID_PICKER_MAX }, (_, i) => i);
-    readonly colIdx = Array.from({ length: GRID_PICKER_MAX }, (_, i) => i);
+    readonly rowIdx = Array.from({ length: this.data.maxRows }, (_, i) => i);
+    readonly colIdx = Array.from({ length: this.data.maxCols }, (_, i) => i);
 
     readonly hover = signal<{ r: number; c: number } | null>(null);
 
@@ -134,14 +122,16 @@ export class GridPickerComponent {
 }
 
 /**
- * Open the grid-size popup anchored to `options.anchor` (typically the
- * toolbar button that triggered the action). Returns a promise that
- * resolves to the user's pick, or `null` when they dismiss the popup.
+ * The Angular answer to the UI port's `requestDimensions`
+ * ({@see AngularEditorUiPort}): open the size popup at `request.anchor` --
+ * the rectangle of what triggered the action, in viewport coordinates -- or
+ * centred when there is none. Resolves to the pick, or `null` on dismiss.
  *
  * Implementation notes:
- *   - CDK Overlay with FlexibleConnectedPositionStrategy so the popup
- *     hugs the anchor's bottom-start, falling back to top-start when
- *     there's no room below.
+ *   - CDK Overlay with FlexibleConnectedPositionStrategy connected to the
+ *     rectangle, so the popup hugs its bottom-start, falling back to
+ *     top-start when there's no room below. A rectangle is a point in time:
+ *     unlike the element it replaced, it does not follow a scroll.
  *   - `hasBackdrop: true` with a transparent class means an outside
  *     click fires `backdropClick` and we treat that as cancel.
  *   - Picker resolution flows through `PICKER_DATA` injection; the
@@ -151,16 +141,16 @@ export class GridPickerComponent {
 export async function openGridPicker(
     overlay: Overlay,
     parentInjector: Injector,
-    options: GridPickerOptions,
-): Promise<GridPickerDimensions | null> {
-    const anchor = options.anchor;
+    request: DimensionsRequest,
+): Promise<Dimensions | null> {
+    const anchor = request.anchor;
     const positions: ConnectedPosition[] = [
         { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
         { originX: 'start', originY: 'top',    overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
     ];
     const positionStrategy = anchor
         ? overlay.position()
-            .flexibleConnectedTo(anchor)
+            .flexibleConnectedTo({ x: anchor.x, y: anchor.y, width: anchor.width, height: anchor.height })
             .withPositions(positions)
             .withPush(true)
         : overlay.position().global().centerHorizontally().centerVertically();
@@ -174,8 +164,8 @@ export async function openGridPicker(
 
     const ref: OverlayRef = overlay.create(config);
 
-    return new Promise<GridPickerDimensions | null>((resolve) => {
-        const detach = (value: GridPickerDimensions | null): void => {
+    return new Promise<Dimensions | null>((resolve) => {
+        const detach = (value: Dimensions | null): void => {
             if (!ref.hasAttached()) return;
             ref.detach();
             ref.dispose();
@@ -187,7 +177,9 @@ export async function openGridPicker(
         });
 
         const data: PickerData = {
-            noun: options.noun,
+            noun: request.noun,
+            maxRows: request.maxRows,
+            maxCols: request.maxCols,
             resolve: detach,
         };
         const childInjector = Injector.create({

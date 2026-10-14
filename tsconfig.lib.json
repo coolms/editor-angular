@@ -32,7 +32,11 @@
             // outside `rootDir` (TS6059) -- and would compile a second copy of
             // the engine into this bundle. Build it first:
             //   build the document engine first, in its own checkout
-            "@coolms/document-engine": ["../document-engine/dist/index.d.ts"]
+            "@coolms/document-engine": ["../document-engine/dist/index.d.ts"],
+            // The editor module's framework-free half -- schema, node views,
+            // handlers, UI port -- as built output, for the same reason. Build
+            // it first: `npm run build` in packages/editor/ui/client.
+            "@coolms/editor-client": ["../editor/ui/client/dist/index.d.ts"]
         }
     },
     "angularCompilerOptions": {

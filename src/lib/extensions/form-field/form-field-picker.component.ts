@@ -3,12 +3,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { FormFieldAttrs } from './form-field-node';
 import {
-    BUILTIN_VALIDATORS, FORM_FIELD_TYPES, FormFieldType, FormFieldValidator,
+    BUILTIN_VALIDATORS, FormFieldType, FormFieldValidator,
     FormFieldVisibility, resolveFieldType, slugifyFieldId, VISIBILITY_OPERATORS,
     VisibilityOperator,
-} from './form-field-types';
+    type FormFieldAttrs, type FormFieldRequest,
+} from '@coolms/editor-client';
 
 /** Tabs in declaration order. The DataSource tab is conditional on type. */
 type PickerTab = 'type' | 'properties' | 'validation' | 'datasource' | 'visibility';
@@ -22,14 +22,13 @@ const TAB_LABELS: Readonly<Record<PickerTab, string>> = {
 };
 
 /**
- * Data the action handler hands to the dialog on open. `attrs` carries the
- * current node attributes when editing an existing formField; missing or
- * empty `fieldId` triggers insert mode (the picker auto-derives fieldId
- * from the label until the user explicitly overrides it).
+ * Data the dialog opens with: the UI port's request. `current` carries the
+ * node attributes when editing an existing formField; missing or empty
+ * `fieldId` triggers insert mode (the picker auto-derives fieldId from the
+ * label until the user explicitly overrides it). `types` are the field types
+ * the schema offers, which the Type tab lists.
  */
-export interface FormFieldPickerData {
-    readonly attrs: Partial<FormFieldAttrs>;
-}
+export type FormFieldPickerData = FormFieldRequest;
 
 /** Result returned to the caller. `null` from `DialogRef.closed` = cancel. */
 export type FormFieldPickerResult = FormFieldAttrs;
@@ -344,7 +343,12 @@ export class FormFieldPickerComponent {
     private readonly data: FormFieldPickerData = inject(DIALOG_DATA);
     private readonly ref:  DialogRef<FormFieldPickerResult | null> = inject(DialogRef);
 
-    readonly typeOptions = FORM_FIELD_TYPES;
+    /** The request's types, each with the icon this UI draws for it. */
+    readonly typeOptions = this.data.types.map((t) => ({
+        id:    t.id as FormFieldType,
+        label: t.label,
+        icon:  resolveFieldType(t.id).icon,
+    }));
     readonly validatorCatalogue = BUILTIN_VALIDATORS;
     readonly operators = VISIBILITY_OPERATORS;
 
@@ -370,7 +374,7 @@ export class FormFieldPickerComponent {
     readonly fieldIdManuallySet = signal<boolean>(false);
 
     readonly isEditing = computed(() => {
-        const fid = (this.data.attrs.fieldId ?? '').toString().trim();
+        const fid = (this.data.current.fieldId ?? '').toString().trim();
         return fid !== '';
     });
 
@@ -390,7 +394,7 @@ export class FormFieldPickerComponent {
 
     constructor() {
         // Seed picker state from incoming attrs (edit mode) or defaults (insert).
-        const attrs = this.data.attrs;
+        const attrs = this.data.current;
         this.type.set((attrs.type as FormFieldType | undefined) ?? 'text');
         this.label.set((attrs.label ?? ''));
         this.fieldId.set((attrs.fieldId ?? ''));
