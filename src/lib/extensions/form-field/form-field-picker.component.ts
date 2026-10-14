@@ -4,8 +4,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import {
-    BUILTIN_VALIDATORS, FormFieldType, FormFieldValidator,
-    FormFieldVisibility, resolveFieldType, slugifyFieldId, VISIBILITY_OPERATORS,
+    FormFieldType, FormFieldValidator,
+    FormFieldVisibility, resolveFieldType, slugifyFieldId,
     VisibilityOperator,
     type FormFieldAttrs, type FormFieldRequest,
 } from '@coolms/editor-client';
@@ -349,8 +349,9 @@ export class FormFieldPickerComponent {
         label: t.label,
         icon:  resolveFieldType(t.id).icon,
     }));
-    readonly validatorCatalogue = BUILTIN_VALIDATORS;
-    readonly operators = VISIBILITY_OPERATORS;
+    /** The request's catalogues: the picker offers what the schema offers and keeps no copy. */
+    readonly validatorCatalogue = this.data.validators;
+    readonly operators = this.data.visibilityOperators as ReadonlyArray<VisibilityOperator>;
 
     // -- Form state ----------------------------------------------------------
     readonly type         = signal<FormFieldType>('text');
