@@ -8,7 +8,7 @@ import {
     setRowHeight,
     setRowRepeatHeader,
     type TableMenuButton,
-} from './table-commands';
+} from '@coolms/editor-client';
 
 /** Data handed to the bubble menu when {@link TableBubbleMenuController} mounts it. */
 export interface TableBubbleMenuData {

@@ -1,35 +1,8 @@
 import type { Injector } from '@angular/core';
-import type { EditorToolbarNodeManifest } from '../../editor.types';
+import type { EditorToolbarNodeManifest, SlashCommandItem } from '@coolms/editor-client';
 
-/**
- * One entry in the `/`-command palette. Built from a slashable
- * `EditorToolbarNodeManifest` / -- the palette is
- * 100% manifest-driven, so `node` is carried through verbatim and dispatched
- * back through the same `EditorActionRegistry` the toolbar buttons use.
- *
- *   label     already resolved to a human string (via EDITOR_TRANSLATE or the
- *             built-in fallback dictionary) so the popup renders plain text.
- *   keywords  extra fuzzy-search aliases declared by the contributor.
- *   node      the original manifest entry -- `actionType` + `actionParams`
- *             feed the action bridge unchanged.
- */
-export interface SlashCommandItem {
-    readonly id:       string;
-    readonly group:    string;
-    readonly label:    string;
-    readonly icon:     string;
-    readonly keywords: ReadonlyArray<string>;
-    readonly node:     EditorToolbarNodeManifest;
-}
-
-/** A group of palette items sharing a `group` bucket, with a display heading. */
-export interface SlashCommandGroup {
-    /** Raw manifest group key ('block' | 'insert' | ...). */
-    readonly key:     string;
-    /** Humanised heading shown above the group ('Blocks', 'Insert'). */
-    readonly heading: string;
-    readonly items:   ReadonlyArray<SlashCommandItem>;
-}
+/** The palette's items are framework-free; the popup that shows them is Angular's. */
+export type { SlashCommandGroup, SlashCommandItem } from '@coolms/editor-client';
 
 /**
  * Host wiring for the slash extension. The CoolmsEditorComponent supplies

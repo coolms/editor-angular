@@ -13,6 +13,16 @@ predate this file would be a worse record than not having them.
 
 ### Changed
 
+- The schema, the node views, the action handlers and the built-in
+  catalogue come from `@coolms/editor-client`, a new peer; this package keeps
+  the Angular host: the editor component, the registries, the slash-menu
+  popup, the table bubble menu and the dialogs. Public names are unchanged:
+  the types are re-exported from the client.
+- The dialogs answer the client's UI port (`AngularEditorUiPort`). The link
+  dialog opens with the link under the selection filled in when one is being
+  edited; the embed dialog lists the kinds and ratios the request carries; the
+  form-field picker lists the types and the validation and visibility
+  catalogues the request carries.
 - The selected family: the tints the editor mixed by hand from the mark
   (`color-mix` at 8, 14, 18 and 35 per cent -- the pressed toolbar button,
   the selected math node and form field, the grid picker's chosen cells,
@@ -36,6 +46,11 @@ predate this file would be a worse record than not having them.
   know where a correction is filed. The registry filled the gap from GitHub when
   the manifest was silent; the declared field is the one that holds on any
   registry.
+
+### Removed
+
+- The `@coolms/ddoc` peer: nothing in this package imports it any more;
+  `@coolms/editor-client` depends on it.
 
 ## 2.0.0-alpha.2 -- 2026-09-03
 
