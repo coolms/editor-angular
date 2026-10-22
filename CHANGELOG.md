@@ -13,6 +13,12 @@ predate this file would be a worse record than not having them.
 
 ### Changed
 
+- **`engines.node` names exactly the Node lines CI runs.** It moves from
+  `^22.22.3 || ^24.15.0 || >=26` to `^22.22.3 || ^24.15.0 || ^26.0.0`: Node 27
+  and later are not declared until CI runs them. Within each line the floor is
+  the highest one any package in the lockfile declares. CI checks both, from
+  the matrix and the lockfile. The published code does not change.
+
 - The selected family: the tints the editor mixed by hand from the mark
   (`color-mix` at 8, 14, 18 and 35 per cent -- the pressed toolbar button,
   the selected math node and form field, the grid picker's chosen cells,
