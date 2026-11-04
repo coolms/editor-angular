@@ -9,35 +9,29 @@ import {
     ContentAdapter, EDITOR_MANIFEST_PROVIDER, EDITOR_TRANSLATE,
     EditorActionContext, EditorProfileManifest, EditorToolbarNodeManifest,
 } from './editor.types';
-import { FORM_FIELD_EDIT_EVENT, FormFieldEditEventDetail } from './extensions/form-field/form-field-node-view';
-import { createDragHandle } from './extensions/drag-handle/drag-handle-extension';
 import Underline from '@tiptap/extension-underline';
-
-import { CoolmsTextStyle, TextStyleAttributes } from './text-style-mark';
-import { DocumentImageNode } from './extensions/image/document-image-node';
-import { FootnoteReferenceNode } from './extensions/footnote/footnote-reference-node';
-import { SectionBreakNode } from './extensions/page-break/section-break-node';
-import { CmsTextAlignExtension } from './extensions/align/text-align-extension';
+// The schema, the node views and the pagination are framework-free and live in
+// the editor module's ui/client; this component is the Angular host around them.
+import {
+    CmsTextAlignExtension, CoolmsTextStyle, DocumentImageNode, FORM_FIELD_EDIT_EVENT,
+    FootnoteReferenceNode, SectionBreakNode, ZOOM_MAX, ZOOM_MIN, buildSlashItems,
+    createDragHandle, createPagination, createPasteCleanup, faceIsLoaded, fitZoomFor,
+    flowBlocksFromDoc, fontFamiliesIn, gapHeightHost, lineBoxKey, lineBoxesFrom,
+    loadDocumentFonts, loadFontManifest, loadPaginationEngine, paginationEngine,
+    paginationKey, repeatedHeadersOf, rowPositionOf,
+    type BlockBox, type FormFieldEditEventDetail, type PageGap, type RepeatedHeader,
+    type TextStyleAttributes,
+} from '@coolms/editor-client';
 // From core, not from the kit: the kit imports this package's editor for
 // its richtext field, so a kit import here would close a cycle and neither
 // could be a package.
 import { CmsLoaderComponent } from '@coolms/core-angular';
-import { createPasteCleanup } from './extensions/paste-cleanup/paste-cleanup-extension';
-import { buildSlashItems } from './extensions/slash-menu/slash-command-filter';
 import { createSlashMenu } from './extensions/slash-menu/slash-menu-extension';
 import type { SlashCommandItem } from './extensions/slash-menu/slash-menu-types';
 import { EditorActionRegistry } from './registry/editor-action-registry';
-import { ZOOM_MAX, ZOOM_MIN, fitZoomFor } from './fit-zoom';
 import { EditorExtensionRegistry } from './registry/editor-extension-registry';
+import { AngularEditorUiPort, anchorRectOf } from './ui-port/angular-editor-ui-port';
 import type { BorderStyle, FontCatalogue } from '@coolms/document-engine';
-import { faceIsLoaded, loadDocumentFonts, loadFontManifest } from './pagination/document-fonts';
-import { flowBlocksFromDoc, fontFamiliesIn, rowPositionOf, type BlockBox } from './pagination/flow-blocks';
-import {
-    createPagination, gapHeightHost, lineBoxesFrom, lineBoxKey, paginationKey,
-    type PageGap,
-} from './pagination/pagination-extension';
-import { repeatedHeadersOf, type RepeatedHeader } from './pagination/repeated-headers';
-import { loadPaginationEngine, paginationEngine } from './pagination/engine';
 
 interface ToolbarGroup {
     readonly name:  string;
@@ -1555,6 +1549,8 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
     /** The TOP margin the gaps are aligned against -- where page N's text starts. */
     private pageMarginTopPx = 0;
     private readonly injector     = inject(Injector);
+    /** What every action asks of the person, answered by this package's dialogs. */
+    private readonly uiPort       = new AngularEditorUiPort(this.injector);
     private readonly translate    = inject(EDITOR_TRANSLATE, { optional: true });
 
     /** Toggles the textarea source view. */
@@ -2845,10 +2841,11 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
             profile:          this.profile(),
             allowedWidgets:   this.allowedWidgets(),
             injector:         this.injector,
+            ui:               this.uiPort,
             toggleSourceMode: () => this.toggleSourceMode(),
             getContent:       () => this.content(),
             setContent:       (html) => this.content.set(html),
-            anchor,
+            anchor:           anchor ? anchorRectOf(anchor) : null,
         };
         void this.actions.dispatch(node.actionType, node.actionParams, ctx);
     }
@@ -3021,6 +3018,7 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
                 profile:          this.profile(),
                 allowedWidgets:   this.allowedWidgets(),
                 injector:         this.injector,
+                ui:               this.uiPort,
                 toggleSourceMode: () => this.toggleSourceMode(),
                 getContent:       () => this.content(),
                 setContent:       (html) => this.content.set(html),

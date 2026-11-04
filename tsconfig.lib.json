@@ -33,6 +33,9 @@
             // the engine into this bundle. Build it first:
             //   build the document engine first, in its own checkout
             "@coolms/document-engine": ["../document-engine/dist/index.d.ts"]
+            // @coolms/editor-client is not mapped: it resolves from
+            // node_modules, the published version the lockfile pins, in a
+            // checkout as in CI.
         }
     },
     "angularCompilerOptions": {

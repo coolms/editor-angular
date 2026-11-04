@@ -7,7 +7,7 @@ import { Injector, signal, type WritableSignal } from '@angular/core';
 import { Extension, type Editor } from '@tiptap/core';
 import { Plugin, PluginKey, type EditorState, type Transaction } from '@tiptap/pm/state';
 import type { EditorView } from '@tiptap/pm/view';
-import { filterSlashItems, groupSlashItems } from './slash-command-filter';
+import { filterSlashItems, groupSlashItems } from '@coolms/editor-client';
 import { SLASH_MENU_DATA, SlashMenuComponent, type SlashMenuData } from './slash-menu.component';
 import type { SlashCommandGroup, SlashCommandItem, SlashMenuConfig } from './slash-menu-types';
 
