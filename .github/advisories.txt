@@ -10,4 +10,3 @@
 # it ships, and what npm offers to clear it.
 
 katex          GHSA-238p-pmpm-9mq7  low       2027-01-05  In what the package's consumers install (a direct dependency); cleared by katex 0.19.0, a major upgrade.
-source-map-js  GHSA-68fv-2mgg-jv7q  high      2026-11-06  Build and test tooling only, not in the published package (through ng-packagr); a lockfile update within the declared ranges clears it.
