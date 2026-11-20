@@ -9,5 +9,4 @@
 # reasons below were measured on 2026-10-07 from this lockfile: which direct dependencies bring the package in, whether
 # it ships, and what npm offers to clear it.
 
-katex          GHSA-238p-pmpm-9mq7  low       2027-01-05  In what the package's consumers install (a direct dependency); cleared by katex 0.19.0, a major upgrade.
 minimatch                  GHSA-g3hv-75wg-m249  moderate  2026-11-30  Build and test tooling only, not in the published package (through eslint); no fixed version within eslint's range. Reviewed with the other glob and minimatch entries.

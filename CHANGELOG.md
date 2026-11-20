@@ -13,6 +13,7 @@ predate this file would be a worse record than not having them.
 
 ### Changed
 
+- katex 0.18.11: GHSA-238p-pmpm-9mq7 (low, prototype pollution bypassing trust) is cleared. Formulas render as before: katex 0.18 renames its classes (`base` to `katex-base`, `strut` to `katex-strut`), and the stylesheet loaded is always the same version's.
 - **`engines.node` names exactly the Node lines CI runs.** It moves from
   `^22.22.3 || ^24.15.0 || >=26` to `^22.22.3 || ^24.15.0 || ^26.0.0`: Node 27
   and later are not declared until CI runs them. Within each line the floor is
