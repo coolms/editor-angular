@@ -50,7 +50,7 @@
     "@tiptap/extension-underline": "^3.20.4",
     "@tiptap/pm": "^3.20.4",
     "highlight.js": "^11.11.1",
-    "katex": "^0.17.0",
+    "katex": "^0.18.11",
     "lowlight": "^3.3.0"
   },
   "engines": {
