@@ -13,13 +13,6 @@ predate this file would be a worse record than not having them.
 
 ### Changed
 
-- katex 0.18.11: GHSA-238p-pmpm-9mq7 (low, prototype pollution bypassing trust) is cleared. Formulas render as before: katex 0.18 renames its classes (`base` to `katex-base`, `strut` to `katex-strut`), and the stylesheet loaded is always the same version's.
-- **`engines.node` names exactly the Node lines CI runs.** It moves from
-  `^22.22.3 || ^24.15.0 || >=26` to `^22.22.3 || ^24.15.0 || ^26.0.0`: Node 27
-  and later are not declared until CI runs them. Within each line the floor is
-  the highest one any package in the lockfile declares. CI checks both, from
-  the matrix and the lockfile. The published code does not change.
-
 - The selected family: the tints the editor mixed by hand from the mark
   (`color-mix` at 8, 14, 18 and 35 per cent -- the pressed toolbar button,
   the selected math node and form field, the grid picker's chosen cells,
@@ -43,6 +36,27 @@ predate this file would be a worse record than not having them.
   know where a correction is filed. The registry filled the gap from GitHub when
   the manifest was silent; the declared field is the one that holds on any
   registry.
+
+## 2.0.0-alpha.3 (2026-11-20)
+
+2.0.0-alpha.2's code with the changes below, and nothing else.
+
+### Changed
+
+- katex ^0.18.11 (was ^0.17.0): GHSA-238p-pmpm-9mq7 (low; prototype pollution that bypasses `trust`) is cleared.
+  Formulas render as before: katex 0.18 renames five classes (`base`, `strut`, `sizing`, `root`, `stretchy` gain a
+  `katex-` prefix), and the markup is otherwise the same. Stored content carries only the LaTeX source, so nothing
+  stored changes. An application that loads `katex.min.css` itself must load the 0.18 stylesheet with this version.
+- `engines.node` names exactly the Node lines CI runs: `^22.22.3 || ^24.15.0 || >=26` becomes
+  `^22.22.3 || ^24.15.0 || ^26.0.0`, so Node 27 and later are not declared until CI runs them. The published code does
+  not change.
+- Code comments name the grid layout's schemas and the document adapters by what they are, not by internal
+  milestone ids.
+
+### Removed
+
+- The form-field picker's data source tab no longer shows a hint about richer data sources. The tab's help line
+  states the format it takes: one choice per line, `value=Label`.
 
 ## 2.0.0-alpha.2 -- 2026-09-03
 
