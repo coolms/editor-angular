@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 
 /**
- * The attribute that MEANS "break the page here" (#1770).
+ * The attribute that MEANS "break the page here".
  *
  * Must stay byte-identical to `PageBreakMapper::MARKER_ATTRIBUTE` on the PHP
  * side — that mapper is what turns this into a real DOCX page break, and the
@@ -14,7 +14,7 @@ export const PAGE_BREAK_ATTRIBUTE = 'data-page-break';
 
 /**
  * The node's schema name. Exported because the paged canvas counts sheets by
- * walking the document for it (#1771) — a second copy of the literal would be
+ * walking the document for it — a second copy of the literal would be
  * a page counter that silently stops counting the day the node is renamed.
  */
 export const PAGE_BREAK_NODE_NAME = 'pageBreak';

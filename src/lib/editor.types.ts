@@ -19,11 +19,11 @@ export interface EditorToolbarNodeManifest {
     readonly shortcut?:    string | null;
     /**
      * Whether this entry belongs in the `/`-triggered slash-insert palette
-     * (Track B #9). Derived server-side from `group` — block-structure and
+ *. Derived server-side from `group` — block-structure and
      * insert-widget actions are slashable; inline format marks (bold/italic)
      * and meta actions are not. Serialized by the backend's ObjectNormalizer
-     * from `EditorToolbarNode::isSlashable()` (ledger #805). Optional on the
-     * wire-type so a pre-#805 manifest still type-checks; the slash extension
+ * from `EditorToolbarNode::isSlashable()`. Optional on the
+ * wire-type so a older manifest still type-checks; the slash extension
      * treats a missing value as `false`.
      */
     readonly slashable?:   boolean;
@@ -118,9 +118,9 @@ export interface EditorActionHandler {
  * the identity default). Sub-prompt B3 wires this for the page editor;
  * sub-prompt E adds the optional `stripDisallowedWidgets` hook.
  *
- *   toEditor                  Stored format → editor HTML. May be async
+ *   toEditor                  Stored format -> editor HTML. May be async
  *                             (e.g. dtmpl preview-URL resolution).
- *   toStorage                 Editor HTML → stored format.
+ *   toStorage                 Editor HTML -> stored format.
  *   stripDisallowedWidgets    Optional defense-in-depth: invoked by the
  *                             bridge during the toEditor chain, given the
  *                             active profile's allowedWidgets list.

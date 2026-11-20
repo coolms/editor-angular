@@ -3,10 +3,10 @@ import type { PlacedRow } from '@coolms/document-engine';
 import { repeatedHeadersOf } from './repeated-headers';
 
 /**
- * Spec for the repeated-header seam (#2298).
+ * Spec for the repeated-header seam.
  *
  * The engine repeats a `w:tblHeader` row at the top of every page a table
- * continues onto, and has since #2294. The canvas did not draw it: ProseMirror
+ * continues onto, and has. The canvas did not draw it: ProseMirror
  * renders the table once, so the room the engine kept at the top of each
  * continuation page stayed EMPTY, and the author saw a blank strip where the
  * `.docx` and the PDF both show the header again.
@@ -37,7 +37,7 @@ describe('repeatedHeadersOf', () => {
     });
 
     /**
-     * ⚠️ Word repeats EVERY leading header row, not just the first, and the
+     *  Word repeats EVERY leading header row, not just the first, and the
      * engine follows it. Drawing one where the engine placed two would leave
      * the second one's room empty and the copy a row short of the file.
      */
@@ -77,9 +77,9 @@ describe('repeatedHeadersOf', () => {
     });
 
     /**
-     * ⚠️ Only the rows the ENGINE marked. Deriving "the leading header rows"
+     *  Only the rows the ENGINE marked. Deriving "the leading header rows"
      * again here would be a second opinion about a question the engine has
-     * already answered -- and the two disagreeing is exactly the defect #2294
+ * already answered -- and the two disagreeing is exactly the a defect
      * fixed, where the canvas repeated a row the `.docx` never did.
      */
     it('takes the engine\'s answer rather than deriving one', () => {

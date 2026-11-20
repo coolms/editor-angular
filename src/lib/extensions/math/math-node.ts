@@ -5,7 +5,7 @@ import { MathNodeView } from './math-node-view';
 export interface MathAttrs {
     /** Raw LaTeX (no `$`/`$$` delimiters) — stored as the span's text content. */
     latex: string;
-    /** `true` → KaTeX display mode (centred block); `false` → inline. */
+    /** `true` -> KaTeX display mode (centred block); `false` -> inline. */
     display: boolean;
 }
 
@@ -23,7 +23,7 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Inline math atom — Track B #7 (KaTeX).
+ * Inline math atom — (KaTeX).
  *
  * Stored HTML shape is **byte-identical to what the server-side `MathProcessor`
  * emits** for hand-typed `$…$` / `$$…$$`:

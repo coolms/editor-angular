@@ -2,9 +2,30 @@ import {
     gapHeightHost, lineBoxesFrom, pageGapElement, repeatedHeaderElement, type PageGap,
 } from './pagination-extension';
 import type { FlowItem, PlacedLine, PlacedRow } from '@coolms/document-engine';
+import { loadPaginationEngine, resetPaginationEngine } from './engine';
 
 /**
- * Spec for what a page gap is DRAWN as (#2299).
+ * `lineBoxesFrom` reads `isFlowTable` from the optional peer, which is fetched
+ * rather than imported, so it has a precondition: the module must have
+ * arrived. In the editor that is guaranteed -- `repaginate()` returns early
+ * until it lands and is its only caller -- but a spec calls the function
+ * directly.
+ *
+ * ⚠️ This is NOT what makes the file pass, and saying so would be the more
+ * comfortable lie. Removing it leaves all 1219 specs green, measured: karma
+ * bundles the suite, and `document-fonts.spec.ts` loads the engine as a side
+ * effect of `loadFontManifest()` before anything here runs. It is here to make
+ * the dependency explicit and independent of spec order, not to satisfy it.
+ *
+ * What actually distinguishes a working guard from a missing one is the pair
+ * of cases at the end of `lineBoxesFrom`, which reset the module first.
+ */
+beforeAll(async () => {
+    await loadPaginationEngine();
+});
+
+/**
+ * Spec for what a page gap is DRAWN as.
  *
  * A gap between blocks is a block. A gap that opens a page inside a TABLE
  * cannot be: a block between two rows is discarded by the HTML parser, and a
@@ -38,7 +59,7 @@ describe('pageGapElement', () => {
     });
 
     /**
-     * ⚠️ The correction pass writes a measured delta back into the gap's
+     *  The correction pass writes a measured delta back into the gap's
      * height. A row is as tall as its CELLS, so a height written on the row
      * itself is a request the browser is free to ignore -- and the pages after
      * it would then never converge.
@@ -63,7 +84,7 @@ describe('repeatedHeaderElement', () => {
         + '<th colwidth="300"><p>Amount</p></th></tr>';
 
     /**
-     * ⚠️ A row is only allowed in table content, and the element it is
+     *  A row is only allowed in table content, and the element it is
      * parsed into decides whether it survives. Measured 2026-08-24:
      * `div.innerHTML` answers `<p>Item</p>` -- the row and its cells gone --
      * while a `<template>` parses table fragments as themselves. Build it in
@@ -97,7 +118,7 @@ describe('repeatedHeaderElement', () => {
 /**
  * The line box the ENGINE computed, turned into something a decoration can draw.
  *
- * ⚠️ Why this is worth a spec of its own: the numbers are right in the engine
+ *  Why this is worth a spec of its own: the numbers are right in the engine
  * and the CSS is right on the page, and BETWEEN them sit two conversions that
  * are each easy to get silently wrong -- an index into the top-level flow items,
  * and a position that is one less than the one the flow carries.
@@ -117,7 +138,7 @@ describe('lineBoxesFrom', () => {
     });
 
     /**
-     * ⚠️ CSS has ONE line-height per block, so a paragraph whose lines differ
+     *  CSS has ONE line-height per block, so a paragraph whose lines differ
      * is drawn on its TALLEST -- the only choice that cannot make text overlap.
      */
     it('takes the tallest line of a block, across pages', () => {
@@ -130,7 +151,7 @@ describe('lineBoxesFrom', () => {
     });
 
     /**
-     * ⚠️ A table is ONE flow item and its cells' paragraphs are not among the
+     *  A table is ONE flow item and its cells' paragraphs are not among the
      * top-level ones, so nothing here can speak for them. Emitting a box for
      * the table itself would state a line height for a grid.
      */
@@ -152,12 +173,50 @@ describe('lineBoxesFrom', () => {
     it('skips a height of zero', () => {
         expect(lineBoxesFrom([block(1)], [{ lines: [line(0, 0)] }])).toEqual([]);
     });
+
+    /**
+     * ⚠️ The two states of the OPTIONAL peer, which nothing else here can see.
+     *
+     * `@coolms/document-engine` is fetched rather than imported, so
+     * `lineBoxesFrom` reads `isFlowTable` from a module that may not have
+     * arrived. Every case above runs with it loaded -- and would run with it
+     * loaded even if this file did nothing to arrange that, because karma
+     * bundles the specs together and `document-fonts.spec.ts` loads the engine
+     * as a side effect of `loadFontManifest()`.
+     *
+     * That was measured, not assumed: removing this file's `beforeAll` left
+     * all 1219 specs passing. So the suite could not tell the guard working
+     * from the guard being absent, and these two cases are what make the
+     * difference visible. The first fails if the guard is removed; the second
+     * fails if it never lets go.
+     */
+    describe('and the engine it needs', () => {
+        afterAll(async () => {
+            // Leave it loaded. The memo is module-global and every other spec
+            // in this bundle assumes it has arrived.
+            await loadPaginationEngine();
+        });
+
+        it('yields nothing while the peer has not arrived', () => {
+            resetPaginationEngine();
+
+            expect(lineBoxesFrom([block(1)], [{ lines: [line(0, 18.09)] }])).toEqual([]);
+        });
+
+        it('yields boxes once it has', async () => {
+            resetPaginationEngine();
+            await loadPaginationEngine();
+
+            expect(lineBoxesFrom([block(1)], [{ lines: [line(0, 18.09)] }]))
+                .toEqual([{ pos: 0, heightPx: 18.09 }]);
+        });
+    });
 });
 
 /**
  * The paragraphs inside table CELLS.
  *
- * ⚠️ Their line boxes live on `PlacedCell.lines`, indexed relative to the cell,
+ *  Their line boxes live on `PlacedCell.lines`, indexed relative to the cell,
  * so reaching them means mapping a placed cell back to the source cell that
  * produced it -- and that mapping is by INDEX. Every case here is about whether
  * the index can be trusted, because assigning one paragraph's height to another
@@ -206,7 +265,7 @@ describe('lineBoxesFrom, inside a table', () => {
     });
 
     /**
-     * ⚠️ The guard the whole mapping rests on. A `w:vMerge` continuation puts a
+     *  The guard the whole mapping rests on. A `w:vMerge` continuation puts a
      * cell in the placed row that no source cell answers to, and from there
      * every index is one out -- the SECOND cell's line height would land on the
      * FIRST cell's paragraph. Skipping the row loses a box; trusting the index

@@ -1,4 +1,6 @@
-import { FONT_MANIFEST_ASSET, FontCatalogue, type FontManifest } from '@coolms/document-engine';
+import type { FontCatalogue, FontManifest } from '@coolms/document-engine';
+
+import { loadPaginationEngine } from './engine';
 
 /**
  * The vendored fonts, in the browser.
@@ -28,7 +30,7 @@ const DESCRIPTORS: Readonly<Record<string, FontFaceDescriptors | undefined>> = {
 /**
  * Every face fetched so far, and the families they belong to.
  *
- * ⚠️ ACCUMULATED rather than replaced. The catalogue used to be built once
+ *  ACCUMULATED rather than replaced. The catalogue used to be built once
  * for one family and memoised, so a document naming a second face could never
  * get it -- the engine measured every character with the base one and the
  * canvas paginated a document nobody was looking at.
@@ -57,7 +59,7 @@ const REGISTRY_URL = '/api/v1/document/fonts/manifest';
 /**
  * How this file reaches the API, when it can.
  *
- * ⚠️ An indirection rather than a `fetch` call, and the reason is
+ *  An indirection rather than a `fetch` call, and the reason is
  * authentication. The admin's HTTP stack stamps every `/api/v1` request through
  * interceptors -- the bearer token, the section header -- and a bare `fetch`
  * from inside a package carries none of it and gets a 401. So the APPLICATION
@@ -72,7 +74,7 @@ export interface DocumentFontTransport {
 /**
  * Give this file a way to reach the API, or take it away again.
  *
- * ⚠️ Clears the memoised manifest. Without that, an editor that mounted
+ *  Clears the memoised manifest. Without that, an editor that mounted
  * before the application wired its transport would hold the shipped asset for
  * the life of the page and never see an installed family.
  */
@@ -97,7 +99,7 @@ export function refreshDocumentFonts(): void {
 /**
  * Is this family's regular face IN HAND right now?
  *
- * ⚠️ Not the same question as {@link FontCatalogue.knows}. That resolves a
+ *  Not the same question as {@link FontCatalogue.knows}. That resolves a
  * name through the manifest whether or not the bytes were ever fetched, and the
  * reader below then THROWS -- deliberately, so a missing face is never silently
  * swapped for one with different metrics. On the canvas that exception lands in
@@ -145,7 +147,7 @@ export async function loadFontManifest(): Promise<FontManifest> {
  * The merged registry if the application gave us a way to ask for it, and the
  * SHIPPED asset otherwise.
  *
- * ⚠️ The fallback is not belt and braces. This package is used outside the
+ *  The fallback is not belt and braces. This package is used outside the
  * admin -- and inside it before the transport is wired -- and a font list that
  * throws would take the paper down with it. The vendored families are the ones
  * the renderer holds anyway, so falling back loses installed fonts and nothing
@@ -159,6 +161,8 @@ async function readRegistry(): Promise<FontManifest> {
             // Deliberately swallowed: see above. The asset answers next.
         }
     }
+
+    const { FONT_MANIFEST_ASSET } = await loadPaginationEngine();
 
     return fetchJson<FontManifest>(FONT_MANIFEST_ASSET);
 }
@@ -198,6 +202,7 @@ export function familyOf(manifest: FontManifest, name: string): string | null {
  * here, and the catalogue then substitutes it the way it already documents.
  */
 export async function loadDocumentFonts(families?: readonly string[]): Promise<FontCatalogue> {
+    const engine = await loadPaginationEngine();
     const manifest = await loadFontManifest();
     const wanted = vendored(manifest, families ?? [manifest.defaults.family]);
 
@@ -225,7 +230,7 @@ export async function loadDocumentFonts(families?: readonly string[]): Promise<F
 
     // Rebuilt each time rather than cached: it is a thin object over the bytes,
     // and a stale one would not know about a family that has just arrived.
-    return FontCatalogue.load(manifest, (file) => {
+    return engine.FontCatalogue.load(manifest, (file) => {
         const bytes = bytesByFile.get(file);
         if (undefined === bytes) {
             // Loud rather than silent: an unloaded face would otherwise be
@@ -259,7 +264,7 @@ function vendored(manifest: FontManifest, families: readonly string[]): string[]
 /**
  * Every name this face should answer to.
  *
- * ⚠️ The manifest's SUBSTITUTES, not just the real family name. A document
+ *  The manifest's SUBSTITUTES, not just the real family name. A document
  * writes the name Word wrote -- `Calibri`, `Courier New`, `Cambria` -- and the
  * engine resolves it through this same list before it measures. Registering
  * only `Carlito` left the CSS side of that name unresolved, so the browser
@@ -290,7 +295,7 @@ export function paintedAs(family: string, entry: { readonly substitutes: readonl
  * which is what stops a machine with its own copy from quietly painting
  * different metrics.
  *
- * ⚠️ One `FontFace` per name over the SAME bytes, because the browser has
+ *  One `FontFace` per name over the SAME bytes, because the browser has
  * no aliasing of its own. The shorter-looking alternative -- rewriting the
  * document's `font-family` to the vendored name -- would change what the mark
  * RENDERS, and `TextMapper::inlineStyle()` reads that markup on the way into a

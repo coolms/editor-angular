@@ -72,8 +72,8 @@ interface RenderedGroup {
             padding: 6px;
             background: var(--cms-surface);
             border: 1px solid var(--cms-border);
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+            border-radius: var(--cms-radius-md, 8px);
+            box-shadow: var(--cms-shadow-lg, 0 8px 24px rgba(0,0,0,.12));
             user-select: none;
             font-size: .875rem;
         }
@@ -93,13 +93,13 @@ interface RenderedGroup {
             padding: 6px 8px;
             background: transparent;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--cms-radius, 6px);
             color: var(--cms-text-body);
             cursor: pointer;
             text-align: left;
             line-height: 1.3;
         }
-        .sm__item--active { background: color-mix(in srgb, var(--cms-accent) 14%, transparent); color: #b07014; }
+        .sm__item--active { background: color-mix(in srgb, var(--cms-accent) 14%, transparent); color: var(--cms-accent-text); }
         .sm__icon {
             display: inline-flex;
             align-items: center;
@@ -112,7 +112,7 @@ interface RenderedGroup {
             font-size: .9rem;
             color: var(--cms-text-secondary);
         }
-        .sm__item--active .sm__icon { border-color: color-mix(in srgb, var(--cms-accent) 50%, transparent); color: #b07014; }
+        .sm__item--active .sm__icon { border-color: color-mix(in srgb, var(--cms-accent) 50%, transparent); color: var(--cms-accent-text); }
         .sm__label { flex: 1 1 auto; }
     `],
 })

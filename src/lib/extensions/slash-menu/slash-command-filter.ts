@@ -10,7 +10,7 @@ import type { SlashCommandGroup, SlashCommandItem } from './slash-menu-types';
  * The palette is built straight from the editor manifest — there is no
  * hardcoded command list anywhere. `buildSlashItems` keeps only the entries
  * the backend marked `slashable` (block-structure + insert-widget groups;
- * ledger #805) and resolves their labels for display.
+ * and resolves their labels for display.
  */
 
 /** Display headings for the known manifest groups; falls back to a capitalised key. */
@@ -50,7 +50,7 @@ export function buildSlashItems(
  * better match, or `null` when it doesn't match at all. Ranking, best first:
  *   exact field            > prefix on the label
  *   prefix on a keyword/id  > substring anywhere
- *   subsequence (loose fuzzy, e.g. "bq" → "blockquote")
+ *   subsequence (loose fuzzy, e.g. "bq" -> "blockquote")
  *
  * The label is weighted above keywords/id so the most human-meaningful match
  * wins ties. An empty query matches everything (score 0) — the palette shows
@@ -60,7 +60,7 @@ export function scoreSlashItem(item: SlashCommandItem, query: string): number | 
     const q = query.toLowerCase().trim();
     if (q === '') return 0;
 
-    // The id's last namespace segment ('block:h1' → 'h1') is a useful alias.
+    // The id's last namespace segment ('block:h1' -> 'h1') is a useful alias.
     const idAlias = item.id.toLowerCase().split(':').pop() ?? '';
     const label = item.label.toLowerCase();
     const aliases = [idAlias, ...item.keywords.map((k) => k.toLowerCase())];

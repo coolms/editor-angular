@@ -3,13 +3,13 @@ import { pageMarginsOf, type PageGeometry } from './editor.component';
 /**
  * The frame the paged canvas writes on.
  *
- * Until #2293 it was a fixed 20mm whatever the document said, so a `.ddoc` with
+ * Until it was a fixed 20mm whatever the document said, so a `.ddoc` with
  * one-inch margins — the default a new document is minted with — paginated on
  * screen against a writing width 9mm wider than the one its `.docx` gives it.
  * Nothing on a single page; a line by the end of a long one, and the difference
  * grows with every page because each one starts from the previous page's error.
  *
- * ⚠️ The fallback is what these assertions are really about. It has to exist
+ *  The fallback is what these assertions are really about. It has to exist
  * (page content and document templates state no margins, and their pagination
  * must not move) and it has to happen in ONE place, or the browser lays the
  * text out to one frame while the engine measures another.
@@ -36,7 +36,7 @@ describe('the paged canvas frame', () => {
     });
 
     /**
-     * ⚠️ The sides are NOT interchangeable. Word's Moderate preset is an inch
+     *  The sides are NOT interchangeable. Word's Moderate preset is an inch
      * top and bottom and three quarters left and right, and a frame that
      * mirrored the wrong pair would give the author a writing width the file
      * does not have — the exact failure a fixed frame already was.

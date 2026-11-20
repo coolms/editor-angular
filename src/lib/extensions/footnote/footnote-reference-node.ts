@@ -41,7 +41,7 @@ export function footnoteIdsInDocument(doc: ProseMirrorNode): number[] {
  * The next id free by construction: one more than the highest the document
  * already points at.
  *
- * ⚠️ Not "count + 1". Deleting the second of three references would make that
+ *  Not "count + 1". Deleting the second of three references would make that
  * hand out 3 again, and the new marker would land on a note that is still
  * there — the seam keeps a body whose reference has gone.
  */
@@ -61,7 +61,7 @@ export function nextFootnoteId(doc: ProseMirrorNode): number {
  * behind pointing at nothing. The same reasoning that keeps `CoolmsTextStyle`
  * always on: an unregistered thing is not inert.
  *
- * ⚠️ **It must out-rank the superscript MARK.** `SuperscriptMark` claims a bare
+ *  **It must out-rank the superscript MARK.** `SuperscriptMark` claims a bare
  * `<sup>`, so without the priority below a reference would parse as ordinary
  * superscript text: the digit stays, the attribute goes, and the document looks
  * right while the footnote is dead. That is worse than losing it outright,
@@ -71,7 +71,7 @@ export function nextFootnoteId(doc: ProseMirrorNode): number {
  *
  * The id is a KEY. Every reader — Word, LibreOffice, us — prints a footnote's
  * POSITION, so a document whose ids are not in document order says 7 where the
- * page says 1. Measured in #2295, where it was worse than cosmetic: LibreOffice
+ * page says 1. Measured, where it was worse than cosmetic: LibreOffice
  * pairs the two `.docx` parts by position, and the writer now renumbers on the
  * way out for that reason.
  *
@@ -95,7 +95,7 @@ export const FootnoteReferenceNode = Node.create({
                 parseHTML: (element: HTMLElement): number | null => {
                     const raw = Number.parseInt(element.getAttribute(FOOTNOTE_ATTRIBUTE) ?? '', 10);
 
-                    // ⚠️ 1 or more. OOXML reserves -1 and 0 for the two
+                    //  1 or more. OOXML reserves -1 and 0 for the two
                     // separator notes every package carrying footnotes must
                     // have, so a reference to either points at a horizontal
                     // rule instead of a note.

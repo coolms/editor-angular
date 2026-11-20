@@ -1,7 +1,7 @@
 import { cleanPastedHtml, looksLikeOfficeOrDocs } from './paste-cleanup';
 
 /**
- * Spec for the Word / Google-Docs paste cleanup (Track B #9).
+ * Spec for the Word / Google-Docs paste cleanup.
  *
  * The `cleanPastedHtml` cases need a DOM (`DOMParser`) and so pin real browser
  * behaviour; `looksLikeOfficeOrDocs` is a pure string check.

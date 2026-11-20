@@ -1,0 +1,11 @@
+# Advisories known in this repository's committed lockfile and not yet cleared.
+# The advisories job (coolms/.github, npm-advisories.yml) fails on an advisory that is not here, on a line here whose
+# advisory is no longer reported (so the list only shrinks), and on a line past its review date.
+#
+#   <package> <advisory id> <severity> <review by> <why it stays>
+#
+# Every line is reviewed again by its date: at most 30 days out for critical and high, 90 for the rest. A review writes
+# a new date and the reason as it stands then; an update that clears the advisory takes the line off instead. The
+# reasons below were measured on 2026-10-07 from this lockfile: which direct dependencies bring the package in, whether
+# it ships, and what npm offers to clear it.
+

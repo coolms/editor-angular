@@ -53,7 +53,7 @@ describe('footnote ids in a document', () => {
     });
 
     /**
-     * ⚠️ One more than the HIGHEST, not one more than the count. Deleting the
+     *  One more than the HIGHEST, not one more than the count. Deleting the
      * second of three markers would make a count-based rule hand out 3 again,
      * and the new marker would land on a note that is still there — the seam
      * keeps a body whose reference has gone.
@@ -78,7 +78,7 @@ describe('footnote ids in a document', () => {
     });
 
     /**
-     * ⚠️ And the same for a node built PROGRAMMATICALLY, which is the only way
+     *  And the same for a node built PROGRAMMATICALLY, which is the only way
      * the reader's own guard can be reached — and the reason it is not dead
      * code. `parseHTML` already refuses a reserved id, so a test that went
      * through markup could not tell whether this reader checks at all: found by

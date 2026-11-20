@@ -16,7 +16,7 @@ describe('fitZoomFor', () => {
     });
 
     it('MAGNIFIES a page the pane has room for', () => {
-        // ⚠️ The fix. Capped at 1 this returned 1, and the page stayed at actual
+        //  The fix. Capped at 1 this returned 1, and the page stayed at actual
         // size in a pane 80% wider than it -- with the control reading "Fit".
         expect(fitZoomFor(1900, LETTER_LANDSCAPE)).toBeCloseTo(1.799, 3);
     });

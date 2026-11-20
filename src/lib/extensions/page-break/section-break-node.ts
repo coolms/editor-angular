@@ -11,7 +11,7 @@ export const SECTION_BREAK_HTML = `<hr ${SECTION_BREAK_ATTRIBUTE}>`;
 /**
  * Matches the break however the serializer chose to write its empty value.
  *
- * ⚠️ Deliberately NOT global. `String.split()` ignores the `g` flag but a
+ *  Deliberately NOT global. `String.split()` ignores the `g` flag but a
  * shared global regex carries `lastIndex` between calls, and every other use of
  * one here would start from wherever the previous call left off.
  */
@@ -29,7 +29,7 @@ export const SECTION_BREAK_PATTERN = new RegExp(`<hr[^>]*${SECTION_BREAK_ATTRIBU
  * sections are joined for editing with this atom between them and split apart
  * again on save.
  *
- * ⚠️ Not the same thing as a PAGE break, and the distinction is the reason
+ *  Not the same thing as a PAGE break, and the distinction is the reason
  * this is a separate node rather than an attribute on that one. A page break
  * starts a new page in the SAME section, under the same paper and the same
  * headers. A section break is where those can change.

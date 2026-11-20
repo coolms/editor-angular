@@ -10,7 +10,7 @@ import { FOOTNOTE_REFERENCE_NODE_NAME, nextFootnoteId } from './footnote-referen
  * holds, not in the editor. What it can see is every reference already in the
  * document, and one more than the highest of those is free by construction.
  *
- * ⚠️ That leaves one case worth naming: a note whose reference an author
+ *  That leaves one case worth naming: a note whose reference an author
  * deleted keeps its BODY — the editing seam drops nothing for being
  * unreferenced — so an id above every remaining reference can be handed out
  * again, and the new marker then points at that old text. It is visible rather

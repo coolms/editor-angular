@@ -7,7 +7,7 @@ import { flowBlocksFromDoc, fontFamiliesIn, rowPositionOf, type BlockBox, type F
 /**
  * Spec for the editor document -> engine flow mapping.
  *
- * Written for defect #2074: a top-level block reached the engine as bare spans,
+ * Written for a defect: a top-level block reached the engine as bare spans,
  * so the layout stacked bare lines where the browser stacked boxes with margins
  * — and a heading arrived at body size on a body line. The engine then believed
  * far more fitted on a page than did, and text ran off the paper.
@@ -99,7 +99,7 @@ describe('flowBlocksFromDoc', () => {
 
         const block = blockAt(flowBlocksFromDoc(doc, options([BODY])), 0);
 
-        // Before #2074 this was undefined, and 10.9969px per paragraph went
+ // Before that fix this was undefined, and 10.9969px per paragraph went
         // missing from every page the engine filled.
         expect(block.style?.spaceAfterPx).toBe(10.9969);
         expect(block.style?.spaceBeforePx).toBe(0);
@@ -110,12 +110,12 @@ describe('flowBlocksFromDoc', () => {
 
         const block = blockAt(flowBlocksFromDoc(doc, options([H1])), 0);
 
-        // ⚠️ The line height is the browser's own number -- the CSS union of
+        //  The line height is the browser's own number -- the CSS union of
         // the strut and each run's inline box -- and handing it over makes the
         // engine honour it through the `auto` branch and throw away the rule
-        // that was measured against LibreOffice at 11 of 11 (#2312, #2319).
+        // that was measured against LibreOffice at 11 of 11.
         //
-        // The SIZE is the half of #2074 no face metric can supply, so it still
+ // The SIZE is the half of no face metric can supply, so it still
         // travels.
         expect(block.style?.lineHeightPx).toBeUndefined();
         expect(block.style?.fontSizePx).toBe(24);
@@ -167,7 +167,7 @@ describe('flowBlocksFromDoc', () => {
      * control offers) and the engine measures in px, so this seam converts —
      * and getting it wrong would break the canvas's pages in a different place
      * from the .docx's, which is the one thing a paged editor must not do
-     * (#2086).
+     *.
      */
     it('carries a row height through to the engine, points as px', () => {
         const doc = schema.node('doc', null, [
@@ -194,9 +194,9 @@ describe('flowBlocksFromDoc', () => {
     });
 
     /**
-     * ⚠️ The engine falls back to deriving "this row repeats" from its cells
+     *  The engine falls back to deriving "this row repeats" from its cells
      * being header cells — a guess that disagreed with the `.docx`, which
-     * repeated nothing at all until `w:tblHeader` was writable (#2294). This
+     * repeated nothing at all until `w:tblHeader` was writable. This
      * seam is what stops it guessing, so the value has to arrive STATED, and
      * `false` has to arrive as `false` rather than as an absence the fallback
      * would then answer for.
@@ -223,7 +223,7 @@ describe('flowBlocksFromDoc', () => {
     });
 
     /**
-     * ⚠️ A run's own face and size, which the toolbar offers and the engine
+     *  A run's own face and size, which the toolbar offers and the engine
      * was never told. MEASURED 2026-08-24 on eight paragraphs set in Courier
      * New: the canvas drew ONE A4 sheet and the text ran 343px -- nineteen
      * lines -- past the bottom of it, because every character had been measured
@@ -239,7 +239,7 @@ describe('flowBlocksFromDoc', () => {
         const span = blockAt(flowBlocksFromDoc(doc, options([BODY])), 0).spans[0];
 
         expect(span?.fontFamily).toBe('Courier New');
-        // ⚠️ The mark keeps POINTS and the engine measures in px.
+        //  The mark keeps POINTS and the engine measures in px.
         expect(span?.fontSizePx).toBeCloseTo(24, 5);
     });
 
@@ -254,7 +254,7 @@ describe('flowBlocksFromDoc', () => {
     });
 
     /**
-     * ⚠️ The catalogue holds only what it was ASKED for, and an unheld family
+     *  The catalogue holds only what it was ASKED for, and an unheld family
      * resolves to the base one -- a silent change to the page count. So the
      * families are collected before the layout runs, not discovered by a wrong
      * answer.
@@ -276,7 +276,7 @@ describe('flowBlocksFromDoc', () => {
      *
      * `rowPositionOf` is where a page gap that opens inside a table goes -- as
      * a spacer ROW -- and what `view.nodeDOM()` answers the row's own `<tr>`
-     * for, which is how a repeated header gets cloned (#2298, #2299).
+     * for, which is how a repeated header gets cloned.
      */
     describe('row handles', () => {
         const cell = (text: string): ProseMirrorNode =>
@@ -298,7 +298,7 @@ describe('flowBlocksFromDoc', () => {
         });
 
         /**
-         * ⚠️ Counted the way `flowBlocksFromDoc` counts: a page break produces
+         *  Counted the way `flowBlocksFromDoc` counts: a page break produces
          * no flow item, so the document's child index runs AHEAD of the block
          * index after the first one. A walk that used the child index would
          * point the gaps at the wrong table the moment an author broke a page.
@@ -334,7 +334,7 @@ describe('flowBlocksFromDoc', () => {
     });
 
     /**
-     * ⚠️ A table's rules are ROOM, and the engine has its own seam for them:
+     *  A table's rules are ROOM, and the engine has its own seam for them:
      * it keeps a rule's width between the rows it separates, which is what
      * `border-collapse: collapse` draws -- N + 1 of them down a table of N
      * rows. The measurement used to be folded into the cell PADDING instead,
@@ -388,7 +388,7 @@ describe('flowBlocksFromDoc', () => {
     });
 
     /**
-     * ⚠️ A heading holds on to what it heads, or it prints alone at the foot of
+     *  A heading holds on to what it heads, or it prints alone at the foot of
      * a page. The engine has modelled `keepWithNext` since it could read one
      * out of a `.docx` and nothing on this side ever set it -- so the canvas
      * stranded a heading exactly as the file did. `StylesPart::headingStyle()`

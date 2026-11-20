@@ -9,7 +9,7 @@ action and extension registry, paged layout, and DTMPL-aware widget transforms.
 npm install @coolms/editor-angular @coolms/core-angular
 ```
 
-Angular 22, RxJS 7 and `@angular/cdk` are peers. Tiptap and its extensions are
+Angular, NGXS, RxJS and `@angular/cdk` are peers; the supported ranges are declared in `package.json`, which is what an install actually checks. Tiptap and its extensions are
 ordinary dependencies rather than peers: they are this package's implementation,
 and a consumer should not have to name two dozen of them to render an editor.
 
@@ -30,9 +30,9 @@ package knowing about media libraries, link pickers or DTMPL.
 ## Where it sits
 
     @coolms/core-angular      session, manifest, theme, the loader mark
-        └── @coolms/editor-angular
-                └── @coolms/ui-angular       (its richtext form field mounts this)
-                        └── the application
+        └-- @coolms/editor-angular
+                └-- @coolms/ui-angular       (its richtext form field mounts this)
+                        └-- the application
 
 The editor is BELOW the UI kit, which is worth stating because it was briefly
 above it: the editor showed the platform loader by importing it from the kit,
@@ -44,9 +44,11 @@ that needs it.
 
 ```bash
 npm --prefix ../core-angular run build
-npm --prefix ../document-engine run build   # only if paged layout is in play
 npm run build
 ```
+
+Build the document engine first as well if paged layout is in play — it is an
+optional peer, and only the pagination code imports it.
 
 Peers are consumed as BUILT output, never as sources: compiling a peer's sources
 into this bundle would ship a second copy of it to any application that installs
@@ -54,9 +56,8 @@ both.
 
 ## Status
 
-Not published, and no repository yet — `tools/publish-guard.sh` reports "no
-tracked files" for it, which is the guard refusing to certify what it cannot
-read rather than a clean result.
+A pre-release: the shape is still moving and it carries no
+compatibility promise.
 
 ## Licence
 

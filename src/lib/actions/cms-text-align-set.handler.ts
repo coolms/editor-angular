@@ -6,7 +6,7 @@ const ALIGNMENTS = ['left', 'center', 'right', 'justify'];
  * Handles `cmsTextAlign.set` — one handler for all four alignment buttons,
  * which differ only by the `align` action parameter.
  *
- * ⚠️ `focus()` first, always. A toolbar click moves focus to the button, and a
+ *  `focus()` first, always. A toolbar click moves focus to the button, and a
  * command applied without restoring the selection lands nowhere — the classic
  * "the button does nothing" bug in a rich-text toolbar.
  *

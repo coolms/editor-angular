@@ -8,7 +8,7 @@ import {
 /**
  * The names a document's fonts answer to.
  *
- * ⚠️ Stated here rather than read from the shipped manifest. The mapping is
+ *  Stated here rather than read from the shipped manifest. The mapping is
  * the thing under test; reading the real file would make this pass for a
  * manifest that had lost every substitute it has.
  */
@@ -62,7 +62,7 @@ describe('document fonts', () => {
 
     describe('the families the toolbar offers', () => {
         it('offers only names that resolve to something we vendor', () => {
-            // ⚠️ The join between the select and the measurement. `familyOf`
+            //  The join between the select and the measurement. `familyOf`
             // returning null is exactly the state that made Georgia, Verdana
             // and Tahoma unmeasurable: the flow mapper never names the family,
             // so the ENGINE measures the base face while CSS paints the
@@ -73,7 +73,7 @@ describe('document fonts', () => {
         });
 
         it('offers a name whose face is painted under that same name', () => {
-            // The other half of #2311: resolving is not enough, the FontFace
+ // The other half of: resolving is not enough, the FontFace
             // has to answer to the offered name or the browser paints a system
             // font over correctly measured boxes.
             for (const name of offeredFontFamilies(MANIFEST)) {
@@ -134,7 +134,7 @@ describe('document fonts', () => {
         }
 
         it('reads the MERGED registry through the transport the application supplied', async () => {
-            // ⚠️ The whole point: an installed family is a row in a table that
+            //  The whole point: an installed family is a row in a table that
             // did not exist when the bundle was built, so the shipped asset
             // cannot mention it and the toolbar would never offer it.
             useDocumentFontTransport(transportReturning(INSTALLED));
@@ -146,7 +146,7 @@ describe('document fonts', () => {
         });
 
         it('falls back to the shipped asset when the registry cannot be reached', async () => {
-            // ⚠️ Not belt and braces. This package is used outside the admin,
+            //  Not belt and braces. This package is used outside the admin,
             // and inside it before the transport is wired; a font list that
             // threw would take the paper down with it. The vendored families
             // are the ones the renderer holds anyway.
@@ -176,7 +176,7 @@ describe('document fonts', () => {
 
     describe('the names a face is painted under', () => {
         it('answers to every name the manifest substitutes, not just its own', () => {
-            // ⚠️ The point of the whole file. A document writes `Calibri`; if
+            //  The point of the whole file. A document writes `Calibri`; if
             // only `Carlito` is registered, the browser paints whatever the
             // machine has under that name while the engine measures Carlito.
             // MEASURED on Windows: a `Cambria` run drew a line box 17.90px

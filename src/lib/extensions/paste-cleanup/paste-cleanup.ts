@@ -1,5 +1,5 @@
 /**
- * Word / Google-Docs paste cleanup (Track B #9). A pure HTML→HTML transform
+ * Word / Google-Docs paste cleanup. A pure HTML->HTML transform
  * wired into the editor via `props.transformPastedHTML` (see
  * `paste-cleanup-extension.ts`).
  *
@@ -14,7 +14,7 @@
  *   - drops cruft tags (`<style>`, `<xml>`, `<o:p>`, `<w:…>`, conditional
  *     comments) and all comment nodes;
  *   - converts Google-Docs style-encoded emphasis (`<span style="font-weight:
- *     700">` → `<strong>`, italic → `<em>`, underline → `<u>`, line-through →
+ *     700">` -> `<strong>`, italic -> `<em>`, underline -> `<u>`, line-through ->
  *     `<s>`) BEFORE stripping styles, so bold/italic survive;
  *   - unwraps the leftover `<span>` / `<font>` wrappers;
  *   - strips presentational attributes (`style`, `class`, `lang`, …), keeping

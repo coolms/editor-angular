@@ -16,7 +16,7 @@ import Image from '@tiptap/extension-image';
  * address: `DocumentHtmlWriter` hands it over as a `data:` URI, and without
  * this node the picture disappears the first time the author saves.
  *
- * ## ⚠️ Loaded only where a document is being edited
+ * ##  Loaded only where a document is being edited
  *
  * Gated behind the editor's `preserveDocumentFormatting` input rather than
  * always on. On the page path an `<img>` that survived the editor would still

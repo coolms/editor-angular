@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import type { EditorActionContext, EditorActionHandler } from '../editor.types';
 
 /**
- * Singleton registry mapping `actionType` strings → handler implementations.
+ * Singleton registry mapping `actionType` strings -> handler implementations.
  *
  * Built-in handlers (Tiptap chains, source toggle, link dialog) are seeded
  * by `provideCoolmsEditor()`'s APP_INITIALIZER. Module-supplied handlers

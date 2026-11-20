@@ -207,7 +207,7 @@ class SlashMenuController {
 }
 
 /**
- * `slashMenu` extension — the `/`-triggered command palette (Track B #9). Not
+ * `slashMenu` extension — the `/`-triggered command palette. Not
  * declared by any single contributor: the CoolmsEditorComponent constructs it
  * once per mount with closures that expose the active profile's slashable
  * entries and route a pick through the same action bridge the toolbar uses, so

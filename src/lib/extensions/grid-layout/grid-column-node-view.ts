@@ -15,7 +15,7 @@ const HANDLE_HIT_AREA_PX = 8;
  * positioned hit area; mousedown initiates a width-rebalance drag against
  * the next sibling column.
  *
- * Mirrors the MediaNodeView pattern (ADR-055): live width preview via inline
+ * Mirrors the MediaNodeView pattern: live width preview via inline
  * style during drag, single transaction commit on mouseup so undo treats the
  * resize as one operation. The handle is hidden when no next sibling exists
  * (last column has nothing to rebalance against — full-width single-column
@@ -119,7 +119,7 @@ export class GridColumnNodeView {
      * Resolve the position of the immediate next sibling column inside the
      * same gridRow. Returns null when this is the last column or when the
      * position can't be resolved (NodeView still mounting). Accepts both
-     * `gridRow` (F.1.1+ schema) and `gridLayout` (F.1 legacy where columns
+     * `gridRow` (the row-wrapped schema) and `gridLayout` (the legacy flat schema, where columns
      * sat directly under gridLayout) so legacy-shaped docs that slip past
      * the migration regex still get a working resize handle.
      */

@@ -3,7 +3,7 @@ import type { EditorToolbarNodeManifest } from '../../editor.types';
 
 /**
  * One entry in the `/`-command palette. Built from a slashable
- * `EditorToolbarNodeManifest` (Track B #9 / ledger #805) — the palette is
+ * `EditorToolbarNodeManifest` / — the palette is
  * 100% manifest-driven, so `node` is carried through verbatim and dispatched
  * back through the same `EditorActionRegistry` the toolbar buttons use.
  *

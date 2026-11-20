@@ -18,8 +18,8 @@ export function normalizeRatio(raw: string | null | undefined): EmbedRatio {
 /**
  * Embed kinds, carried as the token's `_id` segment (`{widget:embed:<kind> …}`).
  * Mirrors the backend EmbedWidgetRenderer dispatch:
- *   - video  — YouTube / Vimeo → responsive iframe.
- *   - iframe — maps + code playgrounds → responsive iframe.
+ *   - video  — YouTube / Vimeo -> responsive iframe.
+ *   - iframe — maps + code playgrounds -> responsive iframe.
  *   - audio  — Spotify / SoundCloud player, or a direct audio file.
  */
 export const EMBED_KINDS = ['video', 'iframe', 'audio'] as const;

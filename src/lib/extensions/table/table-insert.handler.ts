@@ -18,7 +18,7 @@ type EditorWithTable = Editor & {
  *
  * Tables are tabular-data primitives, distinct from gridLayout which is a
  * layout primitive. Keep them separate at authoring time so future export
- * adapters (DOCX in F.6, email later) can decide how to map each one to the
+ * adapters (DOCX, email later) can decide how to map each one to the
  * target's available constructs.
  */
 export class TableInsertHandler implements EditorActionHandler {
