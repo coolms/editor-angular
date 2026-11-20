@@ -44,6 +44,13 @@ predate this file would be a worse record than not having them.
   the manifest was silent; the declared field is the one that holds on any
   registry.
 
+### Removed
+
+- The form-field picker's data source tab no longer shows a hint about richer
+  data sources: nothing reads a JSON or YAML data source, so it promised what
+  does not work. The tab's help line states the format it takes: one choice per
+  line, `value=Label`.
+
 ## 2.0.0-alpha.2 -- 2026-09-03
 
 **A pre-release, carrying no compatibility promise.** Published under the
