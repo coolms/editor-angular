@@ -14,6 +14,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Formulas render as before: katex 0.18 renames five classes (`base`, `strut`, `sizing`, `root`, `stretchy` gain a
   `katex-` prefix), and the markup is otherwise the same. Stored content carries only the LaTeX source, so nothing
   stored changes. An application that loads `katex.min.css` itself must load the 0.18 stylesheet with this version.
+- `engines.node` names exactly the Node lines CI runs: `^22.22.3 || ^24.15.0 || >=26` becomes
+  `^22.22.3 || ^24.15.0 || ^26.0.0`, so Node 27 and later are not declared until CI runs them. The published code does
+  not change.
 - Code comments name the grid layout's schemas and the document adapters by what they are, not by internal
   milestone ids.
 
