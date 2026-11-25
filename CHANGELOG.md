@@ -13,6 +13,7 @@ predate this file would be a worse record than not having them.
 
 ### Changed
 
+- katex `^0.19.1` (was `^0.18.11`, a deprecated release).
 - The selected family: the tints the editor mixed by hand from the mark
   (`color-mix` at 8, 14, 18 and 35 per cent -- the pressed toolbar button,
   the selected math node and form field, the grid picker's chosen cells,
