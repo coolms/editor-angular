@@ -12,9 +12,21 @@ predate this file would be a worse record than not having them.
 ## Unreleased
 
 - Pasted plain text keeps its structure: a single line break stays a line break, and a blank line starts a new paragraph (before, every line became its own paragraph and blank lines were lost). Inside a code block the text goes in as it is.
+
+## 2.0.0-alpha.4 (2026-11-26)
+
+Everything on the development line since 2.0.0-alpha.2, with 2.0.0-alpha.3's changes: alpha.3 was cut beside it and carried
+only what its own entry names. An application must have `@coolms/ddoc` 0.1.0-alpha.1 now, and a theme that gives
+`--cms-selected`, `--cms-selected-light` and `--cms-selected-text`.
+
 ### Changed
 
-- katex `^0.19.1` (was `^0.18.11`, a deprecated release).
+- katex `^0.19.1` (was `^0.18.11`, a deprecated release). Formulas render as before: ten, inline and display, give the
+  same markup in both. An application that loads `katex.min.css` itself must load the 0.19 stylesheet with this version.
+- `@coolms/ddoc` is a peer dependency, exactly 0.1.0-alpha.1: the section-break markup (`SECTION_BREAK_ATTRIBUTE`,
+  `SECTION_BREAK_HTML`, `SECTION_BREAK_PATTERN`) comes from it. They are exported from here as before, the same values.
+- The editor asks the server for its list of fonts only when it offers fonts (paged, and not in source mode), once. Every
+  mounted editor asked before, and a person who may not read the list got a refusal for a control they are not shown.
 - The selected family: the tints the editor mixed by hand from the mark
   (`color-mix` at 8, 14, 18 and 35 per cent -- the pressed toolbar button,
   the selected math node and form field, the grid picker's chosen cells,
@@ -34,6 +46,7 @@ predate this file would be a worse record than not having them.
 
 ### Added
 
+- `CHANGELOG.md` is in the package.
 - Declares `bugs` so a page imported from this package, and the catalogue,
   know where a correction is filed. The registry filled the gap from GitHub when
   the manifest was silent; the declared field is the one that holds on any
