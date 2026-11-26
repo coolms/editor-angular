@@ -3,6 +3,7 @@ import Bold from '@tiptap/extension-bold';
 import Code from '@tiptap/extension-code';
 import Italic from '@tiptap/extension-italic';
 import Strike from '@tiptap/extension-strike';
+import Underline from '@tiptap/extension-underline';
 import Heading from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
@@ -125,6 +126,9 @@ export function provideCoolmsEditor(): Provider[] {
                 extensions.register('bold',        () => Bold);
                 extensions.register('italic',      () => Italic);
                 extensions.register('strike',      () => Strike);
+                // Also loaded unconditionally by editor.component when a
+                // document is being edited; the editor keeps one unit per name.
+                extensions.register('underline',   () => Underline);
                 extensions.register('superscript', () => SuperscriptMark);
                 extensions.register('subscript',   () => SubscriptMark);
                 // Inline code mark (`<code>`) -- stock Tiptap unit; its
