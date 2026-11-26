@@ -29,6 +29,7 @@ import type { SlashCommandItem } from './extensions/slash-menu/slash-menu-types'
 import { EditorActionRegistry } from './registry/editor-action-registry';
 import { ZOOM_MAX, ZOOM_MIN, fitZoomFor } from './fit-zoom';
 import { EditorExtensionRegistry } from './registry/editor-extension-registry';
+import { uniqueByName } from './registry/unique-by-name';
 import type { BorderStyle, FontCatalogue } from '@coolms/document-engine';
 import { faceIsLoaded, loadDocumentFonts, loadFontManifest } from './pagination/document-fonts';
 import { flowBlocksFromDoc, fontFamiliesIn, rowPositionOf, type BlockBox } from './pagination/flow-blocks';
@@ -2976,7 +2977,10 @@ export class CoolmsEditorComponent implements AfterViewInit, OnDestroy {
 
         this.tiptap = new Editor({
             element:    host,
-            extensions: [...tiptapUnits, ...uxUnits],
+            // Profile units first, then the always-on ones, one unit per name
+            // with the first of a name kept: a unit the profile configured is
+            // never replaced by an always-on default of the same name.
+            extensions: uniqueByName([...tiptapUnits, ...uxUnits]),
             content:    initialContent,
             onUpdate:   ({ editor }: { editor: Editor }) => {
                 const html = editor.getHTML();

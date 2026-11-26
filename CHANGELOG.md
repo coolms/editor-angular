@@ -11,6 +11,8 @@ predate this file would be a worse record than not having them.
 
 ## Unreleased
 
+- A profile can name `underline`: the registry resolves it to the underline mark, so a toolbar button for it (and Ctrl+U) works in any editor, not only one editing a document.
+- The editor loads one unit per extension name. When a profile's unit and an always-on one share a name (`underline` or `cmsTextAlign` on a document surface), the profile's is kept and the other is not loaded; before, both loaded and TipTap warned about a duplicate name.
 - Pasted plain text keeps its structure: a single line break stays a line break, and a blank line starts a new paragraph (before, every line became its own paragraph and blank lines were lost). Inside a code block the text goes in as it is.
 
 ## 2.0.0-alpha.4 (2026-11-26)

@@ -1,4 +1,5 @@
-import { Editor } from '@tiptap/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import { Editor, type Extension, type Mark, type Node } from '@tiptap/core';
 import Blockquote from '@tiptap/extension-blockquote';
 import Bold from '@tiptap/extension-bold';
 import BulletList from '@tiptap/extension-bullet-list';
@@ -28,6 +29,10 @@ import { FootnoteReferenceNode } from './extensions/footnote/footnote-reference-
 import { PageBreakNode } from './extensions/page-break/page-break-node';
 import { SubscriptMark, SuperscriptMark } from './extensions/script-marks';
 import { CoolmsTextStyle } from './text-style-mark';
+import { CoolmsEditorComponent } from './editor.component';
+import { EDITOR_MANIFEST_PROVIDER, type EditorToolbarNodeManifest } from './editor.types';
+import { provideCoolmsEditor } from './providers/provide-coolms-editor';
+import { EditorExtensionRegistry } from './registry/editor-extension-registry';
 
 /**
  * The editor's SCHEMA is the third place a document can lose its formatting.
@@ -367,5 +372,134 @@ describe('the document vocabulary through the editor schema', () => {
         const out = roundTrip('<p><img src="/media/logo.png" width="40" height="30"></p>');
 
         expect(out).toContain('src="/media/logo.png"');
+    });
+});
+
+/**
+ * Underline as a profile unit. A profile may name 'underline' (a mail editor's
+ * button), and the document surface loads the same mark unconditionally, so
+ * one editor can be handed the unit from both sides; it must load it once.
+ */
+describe('underline named by a profile', () => {
+    type Unit = Extension | Node | Mark;
+
+    const UNDERLINE: EditorToolbarNodeManifest = {
+        id:           'format:underline',
+        group:        'format',
+        priority:     30,
+        icon:         'type-underline',
+        label:        'editor.format.underline',
+        actionType:   'tiptap.toggleMark',
+        actionParams: { name: 'underline' },
+        extensions:   ['underline'],
+        stateKeys:    ['underline'],
+        shortcut:     'Ctrl+U',
+    };
+
+    let warnings: string[];
+    let originalResizeObserver: typeof ResizeObserver;
+
+    beforeEach(() => {
+        warnings = [];
+        spyOn(console, 'warn').and.callFake((...args: unknown[]) => {
+            warnings.push(args.map(String).join(' '));
+        });
+        originalResizeObserver = window.ResizeObserver;
+        window.ResizeObserver = class {
+            observe(): void { /* nothing to fit in a spec */ }
+            unobserve(): void { /* nothing observed */ }
+            disconnect(): void { /* nothing observed */ }
+        } as unknown as typeof ResizeObserver;
+        TestBed.configureTestingModule({
+            providers: [
+                provideCoolmsEditor(),
+                {
+                    provide: EDITOR_MANIFEST_PROVIDER,
+                    useValue: { getProfile: () => ({ contributors: [UNDERLINE], allowedWidgets: [] }) },
+                },
+            ],
+        });
+    });
+
+    afterEach(() => {
+        window.ResizeObserver = originalResizeObserver;
+    });
+
+    const tiptapOf = (fixture: ComponentFixture<CoolmsEditorComponent>): Editor | undefined =>
+        (fixture.componentInstance as unknown as { tiptap: Editor | undefined }).tiptap;
+
+    async function mount(preserve: boolean): Promise<{ fixture: ComponentFixture<CoolmsEditorComponent>; editor: Editor }> {
+        const fixture = TestBed.createComponent(CoolmsEditorComponent);
+        fixture.componentRef.setInput('profile', 'mail');
+        fixture.componentRef.setInput('preserveDocumentFormatting', preserve);
+        fixture.componentInstance.content.set('<p>Hello</p>');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        for (let i = 0; i < 50 && tiptapOf(fixture) === undefined; i++) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
+        const editor = tiptapOf(fixture);
+        expect(editor).withContext('the subject: a mounted editor').toBeDefined();
+
+        return { fixture, editor: editor! };
+    }
+
+    const underlines = (editor: Editor): number =>
+        editor.extensionManager.extensions.filter(unit => unit.name === 'underline').length;
+
+    const duplicateWarnings = (): string[] => warnings.filter(w => w.includes('Duplicate extension'));
+
+    it('resolves from the registry', () => {
+        const units = TestBed.inject(EditorExtensionRegistry).resolve(['underline']);
+
+        expect(units.map(unit => unit.name)).toEqual(['underline']);
+        expect(warnings).withContext('no unknown-name warning').toEqual([]);
+    });
+
+    it('loads once when the document switch loads it too', async () => {
+        const { fixture, editor } = await mount(true);
+
+        expect(underlines(editor)).toBe(1);
+        expect(duplicateWarnings()).withContext('TipTap saw one unit per name').toEqual([]);
+        fixture.destroy();
+    });
+
+    it('keeps the profile\'s unit, not the always-on one of the same name', async () => {
+        const registry = TestBed.inject(EditorExtensionRegistry);
+        const resolve = registry.resolve.bind(registry);
+        spyOn(registry, 'resolve').and.callFake((names: ReadonlyArray<string>): ReadonlyArray<Unit> =>
+            resolve(names).map(unit => unit.name === 'underline'
+                ? (unit as Mark).configure({ HTMLAttributes: { 'data-from': 'profile' } })
+                : unit));
+        const { fixture, editor } = await mount(true);
+        editor.commands.setTextSelection({ from: 1, to: 6 });
+
+        fixture.componentInstance.dispatch(UNDERLINE);
+
+        expect(editor.getHTML()).toContain('<u data-from="profile">Hello</u>');
+        fixture.destroy();
+    });
+
+    it('underlines on the toolbar action, with no document switch', async () => {
+        const { fixture, editor } = await mount(false);
+        expect(editor.getHTML()).withContext('before').not.toContain('<u>');
+        editor.commands.setTextSelection({ from: 1, to: 6 });
+
+        fixture.componentInstance.dispatch(UNDERLINE);
+
+        expect(editor.getHTML()).toContain('<u>Hello</u>');
+        fixture.destroy();
+    });
+
+    it('underlines on Ctrl+U, with no document switch', async () => {
+        const { fixture, editor } = await mount(false);
+        editor.commands.setTextSelection({ from: 1, to: 6 });
+
+        const event = new KeyboardEvent('keydown', { key: 'u', code: 'KeyU', ctrlKey: true });
+        const handled = editor.view.someProp('handleKeyDown', handler => handler(editor.view, event));
+
+        expect(handled).withContext('a key handler took it').toBeTrue();
+        expect(editor.getHTML()).toContain('<u>Hello</u>');
+        fixture.destroy();
     });
 });
