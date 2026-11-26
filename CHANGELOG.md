@@ -11,6 +11,8 @@ predate this file would be a worse record than not having them.
 
 ## Unreleased
 
+- Pasted plain text keeps its structure: a single line break stays a line break, and a blank line starts a new paragraph (before, every line became its own paragraph and blank lines were lost). Inside a code block the text goes in as it is.
+
 ## 2.0.0-alpha.4 (2026-11-26)
 
 Everything on the development line since 2.0.0-alpha.2, with 2.0.0-alpha.3's changes: alpha.3 was cut beside it and carried
