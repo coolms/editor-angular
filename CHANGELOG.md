@@ -11,6 +11,7 @@ predate this file would be a worse record than not having them.
 
 ## Unreleased
 
+- Pasted plain text keeps its structure: a single line break stays a line break, and a blank line starts a new paragraph (before, every line became its own paragraph and blank lines were lost). Inside a code block the text goes in as it is.
 ### Changed
 
 - katex `^0.19.1` (was `^0.18.11`, a deprecated release).
